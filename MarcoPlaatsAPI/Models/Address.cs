@@ -1,3 +1,5 @@
+using MongoDB.Bson;
+
 namespace MarcoPlaatsAPI
 {
     class Address

@@ -1,6 +1,5 @@
 namespace MarcoPlaatsAPI
 {
-    using System;
     using Nancy;
 
     public abstract class RestfulController : NancyModule
@@ -9,11 +8,11 @@ namespace MarcoPlaatsAPI
         {
             prefix = "/" + prefix + "/";
 
-            Get(prefix, _ => this.Index());
-            Get(prefix + "{id}", _ => this.Show(_.id));
-            Post(prefix, _ => this.Create());
-            Put(prefix + "{id}", _ => this.Update(_.id));
-            Delete(prefix + "{id}", _ => this.Delete(_.id));
+            this.Get(prefix, _ => this.Index());
+            this.Get(prefix + "{id}", _ => this.Show(_.id));
+            this.Post(prefix, _ => this.Create());
+            this.Put(prefix + "{id}", _ => this.Update(_.id));
+            this.Delete(prefix + "{id}", _ => this.Delete(_.id));
         }
 
         public abstract string Index();

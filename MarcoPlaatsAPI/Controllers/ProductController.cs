@@ -10,7 +10,6 @@ namespace MarcoPlaatsAPI
 
         }
 
-
         public override string Index()
         {
             return "index";

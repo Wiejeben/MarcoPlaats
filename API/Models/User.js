@@ -1,10 +1,12 @@
+// require MongoDB
 var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
 
+// require schema
+var schemas = require('./schemas');
+
 // Connection URL
 var url = 'mongodb://localhost:27017/MarcoPlaats';
-
-
 
 var User = function (data) {
     this.data = data;
@@ -12,9 +14,27 @@ var User = function (data) {
 
 User.prototype.data = {};
 
-User.prototype.changeName = function (name) {  
+User.prototype.changeName = function (name) { 
     this.data.name = name;
 };
+
+User.prototype.get = function (name) {
+    return this.data[name];
+}
+
+User.prototype.set = function (name, value) {
+    return this.data[name] = value;
+}
+
+// User.prototype.sanitize = function (data){
+//     data = data || {};
+//     schema = schemas.user;
+//     return 
+// }
+
+
+
+
 
 User.Insert = function(body) {
     MongoClient.connect(url, function(err, db) {
@@ -25,6 +45,7 @@ User.Insert = function(body) {
     });
     return "Created";
 }
+
 
 var insertUser = function(user, db, callback) {
     // Get the documents collection
@@ -38,16 +59,28 @@ var insertUser = function(user, db, callback) {
   });
 }
 
+
+User.findById = function (id, callback) {
+    MongoClient.connect(url, function(err, db) {
+        assert.equal(null, err);
+        findUser(id ,db, function() {
+            db.close();
+        });
+    });
+};
+
 var findUser = function(id, db, callback) {
   // Get the documents collection
   var collection = db.collection('Users');
   // Find some documents
-  collection.find({'FirstName': id}).toArray(function(err, docs) {
+  collection.find({'FirstName': id}).toArray(function(err, users) {
     assert.equal(err, null);
     console.log("Found the following records");
-    console.log(docs);
-    callback(docs);
+    console.log(users);
+    callback(users);
   });      
+  
+  return users;
 }
 
 var findDocuments = function(db, callback) {
@@ -61,15 +94,6 @@ var findDocuments = function(db, callback) {
     callback(docs);
   });
 }
-
-User.findById = function (id, callback) {
-    MongoClient.connect(url, function(err, db) {
-        assert.equal(null, err);
-        findUser(id ,db, function() {
-            db.close();
-        });
-    });
-};
 
 
 module.exports = User;

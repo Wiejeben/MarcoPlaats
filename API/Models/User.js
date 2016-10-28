@@ -17,43 +17,59 @@ User.prototype.changeName = function (name) {
 };
 
 User.Insert = function(body) {
-    
     MongoClient.connect(url, function(err, db) {
         assert.equal(null, err);
-        insertDocuments(db, function() {
+        insertUser(body, db, function() {
             db.close();
         });
     });
     return "Created";
 }
 
-var insertDocuments = function(db, callback) {
+var insertUser = function(user, db, callback) {
     // Get the documents collection
     var collection = db.collection('Users');
+
     // Insert some documents
-    collection.insertMany([
-        {a : 1}, {a : 2}, {a : 3}
-    ], function(err, result) {
-        assert.equal(err, null);
-        assert.equal(3, result.result.n);
-        assert.equal(3, result.ops.length);
-        console.log("Inserted 3 documents into the collection");
-        callback(result);
-    });
+    collection.insertOne(user, function(err, result) {
+    assert.equal(err, null);
+    console.log("Inserted a document into the restaurants collection.");
+    callback();
+  });
+}
+
+var findUser = function(id, db, callback) {
+  // Get the documents collection
+  var collection = db.collection('Users');
+  // Find some documents
+  collection.find({'FirstName': id}).toArray(function(err, docs) {
+    assert.equal(err, null);
+    console.log("Found the following records");
+    console.log(docs);
+    callback(docs);
+  });      
+}
+
+var findDocuments = function(db, callback) {
+  // Get the documents collection
+  var collection = db.collection('Users');
+  // Find some documents
+  collection.find({}).toArray(function(err, docs) {
+    assert.equal(err, null);
+    console.log("Found the following records");
+    console.log(docs)
+    callback(docs);
+  });
 }
 
 User.findById = function (id, callback) {
-    return new User({
-        _id: id,
-        FirstName: "Daan",
-        LastName: "Grashoff",
-        Email: "0913610@hr.nl",
-        Password: "123qwe",
-    });  
-    // db.get('Users', {id: id}).run(function (err, data) {
-    //     if (err) return callback(err);
-    //     callback(null, new User(data));
-    // });
+    MongoClient.connect(url, function(err, db) {
+        assert.equal(null, err);
+        findUser(id ,db, function() {
+            db.close();
+        });
+    });
 };
+
 
 module.exports = User;

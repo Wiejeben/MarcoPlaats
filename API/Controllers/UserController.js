@@ -7,7 +7,6 @@ exports.Index = function(req, res, next){
 }
 
 exports.Create = function(req, res, next){
-    console.log(req.body);
     res.send(User.Insert(req.body));
 }
 

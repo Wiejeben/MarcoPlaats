@@ -1,4 +1,4 @@
-require('bootstrap-slider');
+require('./vendor/bootstrap-slider');
 
 if($('#sl2').length){
     $('#sl2').slider();

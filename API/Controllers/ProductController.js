@@ -12,9 +12,9 @@ exports.Create = function(req, res, next){
 exports.Show = function(req, res, next) {
 
 
-    var product1 = new Product({
-        _id:1,
-        Name:"Fiets",
+    var product = new Product({
+        _id: 1,
+        Name: "Fiets",
         Description:"Dit is een hele mooie fiets",
         Price:700.10,
         Amount:50,
@@ -27,7 +27,7 @@ exports.Show = function(req, res, next) {
         Deleted:false
     });
 
-    res.send(product1);
+    res.send(product);
 }
 
 exports.Update = function(req, res, next) {

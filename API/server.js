@@ -10,12 +10,9 @@ var server = restify.createServer({
 
 server.use(restify.fullResponse()).use(restify.bodyParser());
 
-
 var controllers = AutoLoader('Controllers');
 
 RestRouter(server, 'products', controllers.ProductController);
-
-
 
 server.get('/', function (req, res, next){
     res.send('Hello World!');

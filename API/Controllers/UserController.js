@@ -7,20 +7,12 @@ exports.Index = function(req, res, next){
 }
 
 exports.Create = function(req, res, next){
-    res.send("create");
+    console.log(req.body);
+    res.send(User.Insert(req.body));
 }
 
 exports.Show = function(req, res, next) {
-    var user = new User({
-        _id: 1,
-        FirstName: "Daan",
-        LastName: "Grashoff",
-        Email: "0913610@hr.nl",
-        Password: "123qwe",
-    });
-    
-
-    res.send(user);
+    res.send(User.findById(req.params.id));
 }
 
 exports.Update = function(req, res, next) {

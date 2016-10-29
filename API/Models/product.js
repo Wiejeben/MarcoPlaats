@@ -1,3 +1,5 @@
+var Context = require('./../Helpers/Context.js');
+
 var Product = function (data) {
     this.data = data;
 };
@@ -8,11 +10,17 @@ Product.prototype.changeName = function (name) {
     this.data.name = name;
 };
 
-Product.findById = function (id, callback) {  
-    db.get('Products', {id: id}).run(function (err, data) {
-        if (err) return callback(err);
-        callback(null, new Product(data));
-    });
+Product.GetAll = function(callback) {
+    Context.GetAll('Products', callback)
+}
+
+Product.Insert = function(body, callback) {
+    Context.Insert('Products', body, callback);
+}
+
+Product.FindById = function (id, callback) {  
+    Context.FindById('Products', id, callback)
 };
+
 
 module.exports = Product;

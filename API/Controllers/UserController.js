@@ -3,15 +3,22 @@ var Product = require('./../Models/Product');
 var Image = require('./../Models/Image');
 
 exports.Index = function (req, res, next) {
-    res.send("Return all users");
+    User.GetAll(function(collection){
+        res.send(collection)
+    });
 }
 
 exports.Create = function (req, res, next) {
-    res.send(User.Insert(req.body));
+    User.Insert(req.body, function(){
+        res.send('Created a user');
+    })
 }
 
 exports.Show = function (req, res, next) {
-    res.send(User.findById(req.params.id));
+    User.FindById(req.params.id, function(user) {
+        res.send(user);
+    });
+    
 }
 
 exports.Update = function (req, res, next) {

@@ -8,12 +8,14 @@ var server = restify.createServer({
     version: '1.0.0'
 });
 
-server.use(restify.fullResponse()).use(restify.bodyParser());
+server.use(restify.fullResponse())
+      .use(restify.bodyParser());
 
 var controllers = AutoLoader('Controllers');
 
 RestRouter(server, 'products', controllers.ProductController);
 RestRouter(server, 'users', controllers.UserController);
+
 
 server.get('/', function (req, res, next){
     res.send('Hello World!');

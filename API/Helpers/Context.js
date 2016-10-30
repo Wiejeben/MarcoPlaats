@@ -13,14 +13,14 @@ var Context = function (collection) {
 Context.GetAll = function(_collection, callback) {
     MongoClient.connect(url, function(err, db){
         // Get the collection
-        var collection = db.collection(_collection)
+        var collection = db.collection(_collection);
         // find all
         collection.find({}).toArray(function(err, col) {
             callback(col);
         });
         db.close();
     });
-}
+};
 
 Context.Insert = function(_collection, body, callback) {
     MongoClient.connect(url, function(err, db) {
@@ -29,7 +29,7 @@ Context.Insert = function(_collection, body, callback) {
             callback();
         });
     });
-}
+};
 
 Context.FindById = function(_collection, id, callback) {
     MongoClient.connect(url, function(err, db) {
@@ -44,7 +44,7 @@ Context.FindById = function(_collection, id, callback) {
         }
 
     });
-}
+};
 
 
 

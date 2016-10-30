@@ -3,19 +3,19 @@ var Product = require('./../Models/Product');
 var Image = require('./../Models/Image');
 
 exports.Index = function (req, res, next) {
-    User.GetAll(function(collection){
+    User.GetAll(this.locals.db, function(collection){
         res.send(collection)
     });
 };
 
 exports.Create = function (req, res, next) {
-    User.Insert(req.body, function(){
+    User.Insert(this.locals.db, req.body, function(){
         res.send('Created a user');
     })
 };
 
 exports.Show = function (req, res, next) {
-    User.FindById(req.params.id, function(user) {
+    User.FindById(this.locals.db, req.params.id, function(user) {
         res.send(user);
     });
 };

@@ -10,16 +10,16 @@ Product.prototype.changeName = function (name) {
     this.data.name = name;
 };
 
-Product.GetAll = function(callback) {
-    Context.GetAll('Products', callback)
+Product.GetAll = function(db, callback) {
+    Context.GetAll(db, 'Products', callback)
 }
 
-Product.Insert = function(body, callback) {
-    Context.Insert('Products', body, callback);
+Product.Insert = function(db, body, callback) {
+    Context.Insert(db, 'Products', body, callback);
 }
 
-Product.FindById = function (id, callback) {  
-    Context.FindById('Products', id, callback)
+Product.FindById = function (db, id, callback) {  
+    Context.FindById(db, 'Products', id, callback)
 };
 
 

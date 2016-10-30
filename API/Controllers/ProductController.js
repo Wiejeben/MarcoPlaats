@@ -2,21 +2,20 @@ var Product = require('./../Models/Product');
 var Image = require('./../Models/Image');
 
 exports.Index = function(req, res, next){
-    Product.GetAll(function(products){
-        res.send(new Product(products));
+    Product.GetAll(this.locals.db, function(products){
+        res.send({data:products});
     });
-    // res.send("Return all");
 };
 
 exports.Create = function(req, res, next){
-    Product.Insert(req.body, function(){
+    Product.Insert(this.locals.db, req.body, function(){
         res.send("Product is added");
     })
 };
 
 exports.Show = function(req, res, next) {
-    Product.FindById(req.params.id, function(product){
-        res.send(new Product(product));
+    Product.FindById(this.locals.db, req.params.id, function(product){
+        res.send({data:product});
     })
 };
 

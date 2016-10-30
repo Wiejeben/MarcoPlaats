@@ -8,16 +8,16 @@ var User = function (data) {
 
 User.prototype.data = {};
 
-User.Insert = function(body, callback) {
-    Context.Insert('Users', body, callback);
+User.Insert = function(db, body, callback) {
+    Context.Insert(db, 'Users', body, callback);
 }
 
-User.GetAll = function(callback) {
-    Context.GetAll('Users', callback);
+User.GetAll = function(db, callback) {
+    Context.GetAll(db, 'Users', callback);
 }
 
-User.FindById = function (id, callback) {
-    Context.FindById('Users', id, callback);
+User.FindById = function (db, id, callback) {
+    Context.FindById(db, 'Users', id, callback);
 };
 
 

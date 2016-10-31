@@ -1,6 +1,6 @@
 <template>
     <div class="features_items"><!--features_items-->
-        <h2 class="title text-center">Producten</h2>
+        <h2 class="title text-center">Producten {{ category.name }}</h2>
 
         <div class="col-sm-4" v-for="product in products">
             <div class="product-image-wrapper">
@@ -25,12 +25,18 @@
 
 <script>
     export default {
+        created() {
+            eventHub.$on('filter-category', this.switchCategory);
+        },
+
         mounted() {
             console.log('Products ready.')
         },
 
         data() {
             return {
+                category: { name: 'Alles' },
+
                 products: [
                     { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product7.jpg' },
                     { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product8.jpg' },
@@ -39,6 +45,12 @@
                     { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product11.jpg' },
                     { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product12.jpg' }
                 ]
+            }
+        },
+
+        methods: {
+            switchCategory(category) {
+                this.category = category;
             }
         }
     }

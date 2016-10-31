@@ -1,221 +1,14 @@
 <template>
     <div class="features_items"><!--features_items-->
         <h2 class="title text-center">Producten</h2>
-        <div class="col-sm-4">
-            <div class="product-image-wrapper">
-                <div class="single-products">
 
-                    <div class="productinfo text-center">
-                        <img src="images/shop/product12.jpg" alt="" />
-                        <h2>€ 56</h2>
-                        <p>Easy Polo Black Edition</p>
-                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
-                    </div>
-
-                </div>
-                <div class="choose">
-                    <ul class="nav nav-pills nav-justified">
-                        <li><a href=""><i class="fa fa-heart"></i>Op verlanglijstje</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4" v-for="product in products">
             <div class="product-image-wrapper">
                 <div class="single-products">
                     <div class="productinfo text-center">
-                        <img src="images/shop/product11.jpg" alt="" />
-                        <h2>€ 56</h2>
-                        <p>Easy Polo Black Edition</p>
-                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
-                    </div>
-
-                </div>
-                <div class="choose">
-                    <ul class="nav nav-pills nav-justified">
-                        <li><a href=""><i class="fa fa-heart"></i>Op verlanglijstje</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="product-image-wrapper">
-                <div class="single-products">
-                    <div class="productinfo text-center">
-                        <img src="images/shop/product10.jpg" alt="" />
-                        <h2>€ 56</h2>
-                        <p>Easy Polo Black Edition</p>
-                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
-                    </div>
-
-                </div>
-                <div class="choose">
-                    <ul class="nav nav-pills nav-justified">
-                        <li><a href=""><i class="fa fa-heart"></i>Op verlanglijstje</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="product-image-wrapper">
-                <div class="single-products">
-                    <div class="productinfo text-center">
-                        <img src="images/shop/product9.jpg" alt="" />
-                        <h2>€ 56</h2>
-                        <p>Easy Polo Black Edition</p>
-                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
-                    </div>
-
-                    <img src="images/home/new.png" class="new" alt="" />
-                </div>
-                <div class="choose">
-                    <ul class="nav nav-pills nav-justified">
-                        <li><a href=""><i class="fa fa-heart"></i>Op verlanglijstje</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="product-image-wrapper">
-                <div class="single-products">
-                    <div class="productinfo text-center">
-                        <img src="images/shop/product8.jpg" alt="" />
-                        <h2>€ 56</h2>
-                        <p>Easy Polo Black Edition</p>
-                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
-                    </div>
-
-                    <img src="images/home/sale.png" class="new" alt="" />
-                </div>
-                <div class="choose">
-                    <ul class="nav nav-pills nav-justified">
-                        <li><a href=""><i class="fa fa-heart"></i>Op verlanglijstje</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="product-image-wrapper">
-                <div class="single-products">
-                    <div class="productinfo text-center">
-                        <img src="images/shop/product7.jpg" alt="" />
-                        <h2>€ 56</h2>
-                        <p>Easy Polo Black Edition</p>
-                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
-                    </div>
-
-                </div>
-                <div class="choose">
-                    <ul class="nav nav-pills nav-justified">
-                        <li><a href=""><i class="fa fa-heart"></i>Op verlanglijstje</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-4">
-            <div class="product-image-wrapper">
-                <div class="single-products">
-                    <div class="productinfo text-center">
-                        <img src="images/home/product6.jpg" alt="" />
-                        <h2>€ 56</h2>
-                        <p>Easy Polo Black Edition</p>
-                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
-                    </div>
-
-                </div>
-                <div class="choose">
-                    <ul class="nav nav-pills nav-justified">
-                        <li><a href=""><i class="fa fa-heart"></i>Op verlanglijstje</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-4">
-            <div class="product-image-wrapper">
-                <div class="single-products">
-                    <div class="productinfo text-center">
-                        <img src="images/home/product5.jpg" alt="" />
-                        <h2>€ 56</h2>
-                        <p>Easy Polo Black Edition</p>
-                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
-                    </div>
-
-                </div>
-                <div class="choose">
-                    <ul class="nav nav-pills nav-justified">
-                        <li><a href=""><i class="fa fa-heart"></i>Op verlanglijstje</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-4">
-            <div class="product-image-wrapper">
-                <div class="single-products">
-                    <div class="productinfo text-center">
-                        <img src="images/home/product4.jpg" alt="" />
-                        <h2>€ 56</h2>
-                        <p>Easy Polo Black Edition</p>
-                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
-                    </div>
-
-                </div>
-                <div class="choose">
-                    <ul class="nav nav-pills nav-justified">
-                        <li><a href=""><i class="fa fa-heart"></i>Op verlanglijstje</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-4">
-            <div class="product-image-wrapper">
-                <div class="single-products">
-                    <div class="productinfo text-center">
-                        <img src="images/home/product3.jpg" alt="" />
-                        <h2>€ 56</h2>
-                        <p>Easy Polo Black Edition</p>
-                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
-                    </div>
-
-                </div>
-                <div class="choose">
-                    <ul class="nav nav-pills nav-justified">
-                        <li><a href=""><i class="fa fa-heart"></i>Op verlanglijstje</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-sm-4">
-            <div class="product-image-wrapper">
-                <div class="single-products">
-                    <div class="productinfo text-center">
-                        <img src="images/home/product2.jpg" alt="" />
-                        <h2>€ 56</h2>
-                        <p>Easy Polo Black Edition</p>
-                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
-                    </div>
-
-                </div>
-                <div class="choose">
-                    <ul class="nav nav-pills nav-justified">
-                        <li><a href=""><i class="fa fa-heart"></i>Op verlanglijstje</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-4">
-            <div class="product-image-wrapper">
-                <div class="single-products">
-                    <div class="productinfo text-center">
-                        <img src="images/home/product1.jpg" alt="" />
-                        <h2>€ 56</h2>
-                        <p>Easy Polo Black Edition</p>
+                        <img :src="product.image" :alt="product.name" />
+                        <h2>€ {{ product.price }}</h2>
+                        <p>{{ product.name }}</p>
                         <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
                     </div>
 
@@ -234,6 +27,19 @@
     export default {
         mounted() {
             console.log('Products ready.')
+        },
+
+        data() {
+            return {
+                products: [
+                    { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product7.jpg' },
+                    { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product8.jpg' },
+                    { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product9.jpg' },
+                    { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product10.jpg' },
+                    { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product11.jpg' },
+                    { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product12.jpg' }
+                ]
+            }
         }
     }
 </script>

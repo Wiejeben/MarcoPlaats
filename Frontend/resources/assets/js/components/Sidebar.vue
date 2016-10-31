@@ -2,39 +2,9 @@
     <div class="left-sidebar">
         <h2>Categorieën</h2>
         <div class="panel-group category-products" id="accordian"><!--category-productsr-->
-            <div class="panel panel-default">
+            <div class="panel panel-default" v-for="category in categories">
                 <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">Kids</a></h4>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">Fashion</a></h4>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">Households</a></h4>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">Interiors</a></h4>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">Clothing</a></h4>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">Bags</a></h4>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">Shoes</a></h4>
+                    <h4 class="panel-title"><a href="#">{{ category.name }}</a></h4>
                 </div>
             </div>
         </div><!--/category-productsr-->
@@ -67,6 +37,22 @@
                 var RGBChange = function() {
                     $('#RGB').css('background', 'rgb(' + r.getValue() + ',' + g.getValue() + ',' + b.getValue() + ')')
                 };
+            }
+        },
+
+        data() {
+            return {
+                categories: [
+                    { name: 'Antiek en Kunst' },
+                    { name: 'Audio, Tv en Foto' },
+                    { name: 'Auto\'s' },
+                    { name: 'Auto-onderdelen' },
+                    { name: 'Auto diversen' },
+                    { name: 'Boeken' },
+                    { name: 'Caravans en Kamperen' },
+                    { name: 'Caravans en Kamperen' },
+                    { name: 'Cd\'s en Dvd\'s' }
+                ]
             }
         }
     }

@@ -1,6 +1,5 @@
 <template>
     <div id="header">
-
         <div class="header_top"><!--header_top-->
             <div class="container">
                 <div class="row">
@@ -31,7 +30,9 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="logo pull-left">
-                            <a href="/"><img src="images/logo.svg" alt="" height="70px" width="260px" /></a>
+                            <a href="/">
+                                <img src="images/logo.svg" alt="" height="70px" width="260px" />
+                            </a>
                         </div>
                     </div>
                     <div class="col-sm-8">
@@ -54,6 +55,7 @@
     export default {
         mounted() {
             console.log('Component ready.')
+            console.log(window.location)
         }
     }
 </script>

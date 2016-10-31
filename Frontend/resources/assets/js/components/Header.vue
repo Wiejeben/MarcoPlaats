@@ -31,7 +31,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="logo pull-left">
-                            <a href="index.html"><img src="images/home/logo.svg" alt="" height="70px" width="200px" /></a>
+                            <a href="index.html"><img src="images/logo.svg" alt="" height="70px" width="260px" /></a>
                         </div>
                         <!-- <div class="btn-group pull-right">
                             <div class="search_box pull-right">

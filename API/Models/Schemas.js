@@ -5,26 +5,25 @@ schemas = {
         LastName: null,
         Email: null,
         Password: null,
-        Rank: null,
+        Role: null,
         Addresses: {
-            _id: null,
             Street: null,
             City: null,
             Province: null,
             Zipcode: null,
-            NumberDeliveryAddress: null,
+            Number: null,
+            DeliveryAddress: null,
         },
         Orders: {
-            _id: null,
             ProductIds: [],
             OrderDate: null, 
             address: {
-                _id: null,
                 Street: null,
                 City: null,
                 Province: null,
                 Zipcode: null,
-                NumberDeliveryAddress: null,
+                Number: null,
+                DeliveryAddress: null,
             }
         },
         ProductIds: [],
@@ -39,7 +38,6 @@ schemas = {
         Amount: null,
         Properties: [],
         Images: {
-            _id: null,
             Filename:null
         },
         CreatedAt: null,

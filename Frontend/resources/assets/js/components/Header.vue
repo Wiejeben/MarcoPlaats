@@ -31,7 +31,7 @@
                     <div class="col-sm-4">
                         <div class="logo pull-left">
                             <a href="/">
-                                <img src="images/logo.svg" alt="" height="70px" width="260px" />
+                                <img src="/images/logo.svg" alt="" height="70px" width="260px" />
                             </a>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                         <div class="shop-menu pull-right">
                             <ul class="nav navbar-nav">
                                 <li><a href="#"><i class="fa fa-star"></i> Verlanglijstje</a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i> Winkelwagentje</a></li>
+                                <li><a href="/cart/overview.html"><i class="fa fa-shopping-cart"></i> Winkelwagentje</a></li>
                                 <li><a href="/account/login.html"><i class="fa fa-lock"></i> Inloggen</a></li>
                             </ul>
                         </div>

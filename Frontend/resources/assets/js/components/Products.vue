@@ -1,7 +1,7 @@
 <template>
     <div class="features_items"><!--features_items-->
         <h2 class="title text-center">Producten</h2>
-        
+
         <div class="col-sm-4" v-for="product in products">
             <div class="product-image-wrapper">
                 <div class="single-products">

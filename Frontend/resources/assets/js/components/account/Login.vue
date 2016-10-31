@@ -6,9 +6,9 @@
                     <div class="login-form"><!--login form-->
                         <h2>Inloggen</h2>
                         <form action="#">
-                            <input type="email" placeholder="E-mailadres">
-                            <input type="password" placeholder="Wachtwoord">
-                            <button type="submit" class="btn btn-default">Inloggen</button>
+                            <input name="email" v-model="login.email" type="email" placeholder="E-mailadres">
+                            <input name="password" v-model="login.password" type="password" placeholder="Wachtwoord">
+                            <button type="submit" class="btn btn-default" @click.prevent="login">Inloggen</button>
                         </form>
                     </div><!--/login form-->
                 </div>
@@ -19,12 +19,12 @@
                     <div class="signup-form"><!--sign up form-->
                         <h2>Registreren</h2>
                         <form action="#">
-                            <input name="firstName" placeholder="Voornaam">
-                            <input name="lastName" placeholder="Achternaam">
-                            <input name="emailAddress"  type="email" placeholder="E-mailadres">
-                            <input name="password"  type="password" placeholder="Wachtwoord">
-                            <input name="passwordRepeat" type="password" placeholder="Herhaal wachtwoord">
-                            <button type="submit" class="btn btn-default">Registreren</button>
+                            <input name="firstName" v-model="register.firstName" placeholder="Voornaam">
+                            <input name="lastName" v-model="register.lastName" placeholder="Achternaam">
+                            <input name="email" v-model="register.email" type="email" placeholder="E-mailadres">
+                            <input name="password" v-model="register.password" type="password" placeholder="Wachtwoord">
+                            <input name="passwordRepeat" v-model="register.passwordRepeat" type="password" placeholder="Herhaal wachtwoord">
+                            <button type="submit" class="btn btn-default" @click.prevent="register">Registreren</button>
                         </form>
                     </div><!--/sign up form-->
                 </div>
@@ -37,6 +37,45 @@
     export default {
         mounted() {
             console.log('Login ready.')
+        },
+
+        data() {
+            return {
+                login: {
+                    email: '',
+                    password: ''
+                },
+
+                register: {
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    password: '',
+                    passwordRepeat: ''
+                }
+            }
+        },
+
+        methods: {
+            /**
+             * Submit login form.
+             */
+            login() {
+                console.log(this.login.email);
+                console.log(this.login.password);
+            },
+
+            /**
+             * Submit register form.
+             */
+            register() {
+                console.log(this.register.firstName);
+                console.log(this.register.lastName);
+                console.log(this.register.email);
+                console.log(this.register.password);
+                console.log(this.register.passwordRepeat);
+
+            }
         }
     }
 </script>

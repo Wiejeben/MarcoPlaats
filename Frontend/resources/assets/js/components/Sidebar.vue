@@ -4,7 +4,7 @@
         <div class="panel-group category-products" id="accordian"><!--category-productsr-->
             <div class="panel panel-default" v-for="category in categories">
                 <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">{{ category.name }}</a></h4>
+                    <h4 class="panel-title" v-bind:class="{ 'category-active': category.active }"><a href="#" @click.prevent="selectCategory(category)">{{ category.name }}</a></h4>
                 </div>
             </div>
         </div><!--/category-productsr-->
@@ -40,18 +40,31 @@
             }
         },
 
+        methods: {
+            selectCategory(category) {
+
+                this.categories.forEach(function(category) {
+                    category.active = false;
+                });
+
+                category.active = true;
+
+                eventHub.$emit('filter-category', category);
+            }
+        },
+
         data() {
             return {
                 categories: [
-                    { name: 'Antiek en Kunst' },
-                    { name: 'Audio, Tv en Foto' },
-                    { name: 'Auto\'s' },
-                    { name: 'Auto-onderdelen' },
-                    { name: 'Auto diversen' },
-                    { name: 'Boeken' },
-                    { name: 'Caravans en Kamperen' },
-                    { name: 'Caravans en Kamperen' },
-                    { name: 'Cd\'s en Dvd\'s' }
+                    { _id: "abc3123", name: 'Antiek en Kunst', active: false },
+                    { _id: "wejfh3893", name: 'Audio, Tv en Foto', active: false },
+                    { _id: "3oiu233", name: 'Auto\'s', active: false },
+                    { _id: "ej23kek", name: 'Auto-onderdelen', active: false },
+                    { _id: "3iu29ue", name: 'Auto diversen', active: false },
+                    { _id: "e2i923", name: 'Boeken', active: false },
+                    { _id: "ej892uj", name: 'Caravans en Kamperen', active: false },
+                    { _id: "j23893u2", name: 'Caravans en Kamperen', active: false },
+                    { _id: "iu82uet2", name: 'Cd\'s en Dvd\'s', active: false }
                 ]
             }
         }

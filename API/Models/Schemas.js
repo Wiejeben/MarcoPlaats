@@ -13,5 +13,4 @@ schemas = {
         WishlistProductIds: {},
         FavoriteProductIds: {}
     },
-    
 }

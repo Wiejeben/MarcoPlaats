@@ -15,8 +15,12 @@ var server = restify.createServer({
 
 var controllers = AutoLoader('Controllers');
 
+server.use(restify.fullResponse())
+      .use(restify.bodyParser());
+
 RestRouter(server, 'products', controllers.ProductController);
 RestRouter(server, 'users', controllers.UserController);
+RestRouter(server, 'categories', controllers.CategoryController);
 
 
 // Create MongoDb connection pool and start the application
@@ -27,8 +31,7 @@ MongoClient.connect(Config.Database.Url, { promiseLibrary: Promise }, function(e
     };
 });
 
-server.use(restify.fullResponse())
-      .use(restify.bodyParser());
+
 
 
 server.get('/', function (req, res, next){

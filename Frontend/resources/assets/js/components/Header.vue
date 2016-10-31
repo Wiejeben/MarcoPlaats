@@ -33,11 +33,11 @@
                         <div class="logo pull-left">
                             <a href="index.html"><img src="images/home/logo.svg" alt="" height="70px" width="200px" /></a>
                         </div>
-                        <div class="btn-group pull-right">
+                        <!-- <div class="btn-group pull-right">
                             <div class="search_box pull-right">
                                 <input type="search" placeholder="Search"/>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="col-sm-8">
                         <div class="shop-menu pull-right">

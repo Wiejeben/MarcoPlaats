@@ -4,7 +4,8 @@
         <div class="footer-bottom">
             <div class="container">
                 <div class="row">
-                    <p class="pull-left">Copyright © 2016 HRO INF2A project 2 Group 2. All rights reserved.</p>
+                    <p class="pull-left">© 2016 Hogeschool Rotterdam. Alle rechten voorbehouden.</p>
+                    <p class="pull-right">INF2A Project 2 Groep 2.</p>
                 </div>
             </div>
         </div>
@@ -15,7 +16,7 @@
 <script>
     export default {
         mounted() {
-            console.log('Component ready.')
+            console.log('Footer ready.')
         }
     }
 </script>

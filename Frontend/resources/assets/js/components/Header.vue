@@ -31,13 +31,8 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="logo pull-left">
-                            <a href="index.html"><img src="images/home/logo.svg" alt="" height="70px" width="200px" /></a>
+                            <a href="/"><img src="/images/home/logo.svg" alt="MarocPlaats Logo" height="70" width="200" /></a>
                         </div>
-                        <!-- <div class="btn-group pull-right">
-                            <div class="search_box pull-right">
-                                <input type="search" placeholder="Search"/>
-                            </div>
-                        </div> -->
                     </div>
                     <div class="col-sm-8">
                         <div class="shop-menu pull-right">
@@ -45,7 +40,7 @@
                                 <li><a href="#"><i class="fa fa-user"></i> Account</a></li>
                                 <li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
                                 <li><a href="#"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-                                <li><a href="#"><i class="fa fa-lock"></i> Login</a></li>
+                                <li><a href="/account/login.html"><i class="fa fa-lock"></i> Login</a></li>
                             </ul>
                         </div>
                     </div>

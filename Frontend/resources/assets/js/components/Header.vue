@@ -28,12 +28,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="logo pull-left">
-                            <a href="index.html"><img src="images/home/logo.png" alt="" /></a>
-                        </div>
-                        <div class="btn-group pull-right">
-                            <div class="search_box pull-right">
-                                <input type="search" placeholder="Search"/>
-                            </div>
+                            <a href="/"><img src="images/home/logo.png" alt="MarcoPlaats Logo" /></a>
                         </div>
                     </div>
                     <div class="col-sm-8">

@@ -13,10 +13,11 @@ var server = restify.createServer({
     version: '1.0.0'
 });
 
-var controllers = AutoLoader('Controllers');
-
 server.use(restify.fullResponse())
       .use(restify.bodyParser());
+      
+var controllers = AutoLoader('Controllers');
+
 
 RestRouter(server, 'products', controllers.ProductController);
 RestRouter(server, 'users', controllers.UserController);

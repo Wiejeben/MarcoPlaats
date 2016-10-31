@@ -15,13 +15,20 @@ Category.GetAll = function(db, callback) {
 }
 
 Category.Insert = function(db, body, callback) {
-    console.log(body);
     Context.Insert(db, 'Categories', body, callback);
 }
 
 Category.FindById = function (db, id, callback) {  
     Context.FindById(db, 'Categories', id, callback)
 };
+Category.FindBySlug = function(db, slug, callback){
+    
+    var collection = db.collection('Categories');
+
+    collection.find({'Slug':slug}).toArray(function(err, collection){
+        callback(collection)
+    });
+}
 
 
 module.exports = Category;

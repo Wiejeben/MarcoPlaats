@@ -8,15 +8,20 @@ exports.Index = function(req, res, next){
 };
 
 exports.Create = function(req, res, next){
-    Category.Insert(this.locals.db, req.body, function(){
+    Category.Insert(this.locals.db, cat, function(){
         res.send("Category is added");
     })
 };
 
 exports.Show = function(req, res, next) {
-    Category.FindById(this.locals.db, req.params.id, function(category){
+    // Find by ID
+    // Category.FindById(this.locals.db, req.params.id, function(category){
+    // });
+
+    // Find by Slug
+    Category.FindBySlug(this.locals.db, req.params.id, function(category){
         res.send({data:category});
-    })
+    });
 };
 
 exports.Update = function(req, res, next) {

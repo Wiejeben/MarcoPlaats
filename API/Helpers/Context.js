@@ -1,7 +1,5 @@
 // require mongodb
-var MongoClient = require('mongodb').MongoClient,
-    assert = require('assert')
-    ObjectId = require('mongodb').ObjectID;
+var ObjectId = require('mongodb').ObjectID;
 
 // Connection url
 var url = 'mongodb://localhost:27017/MarcoPlaats';

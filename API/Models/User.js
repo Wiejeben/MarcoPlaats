@@ -1,5 +1,5 @@
 // require context
-var Context = require('./../helpers/context');
+var Context = require('./../Helpers/Context.js');
 
 
 var User = function (data) {

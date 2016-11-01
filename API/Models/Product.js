@@ -1,5 +1,5 @@
 var Context = require('./../Helpers/Context.js');
-var schemas = require('./schemas.js');
+var schemas = require('./Schemas.js');
 
 var Product = function (data) {
     this.data = data;
@@ -7,7 +7,7 @@ var Product = function (data) {
 
 Product.prototype.data = {};
 
-Product.prototype.changeName = function (name) {  
+Product.prototype.changeName = function (name) {
     this.data.name = name;
 };
 
@@ -19,7 +19,7 @@ Product.Insert = function(db, body, callback) {
     Context.Insert(db, 'Products', body, callback, schemas.Product);
 }
 
-Product.FindById = function (db, id, callback) {  
+Product.FindById = function (db, id, callback) {
     Context.FindById(db, 'Products', id, callback)
 };
 

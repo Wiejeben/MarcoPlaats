@@ -34,20 +34,38 @@ User.Update = function (db, id, callback) {
 User.GetAllOrders = function(db, params, callback) {
     var collection = db.collection('Users');
 
-    collection.find({ _id:params.uid }, {Orders:1}).toArray(function(err, collection){
+    collection.find({ _id: new ObjectId(params.uid) }, {Orders:1}).toArray(function(err, collection){
+        console.log(err);
+        console.log(collection);
        callback(collection); 
     });
 }
 
 User.InsertOrder = function(db, params, body, callback) {
-    var collection = db.collection('Users')
+    var collection = db.collection('Users');
+
     body = Context.sanitize(body, schemas.Order);
+    body._id = new ObjectId();
 
     collection.update(
         {_id: new ObjectId(params.uid)},
         {$push: {Orders:body}}, function(err, r){
             callback();
         });
+}
+
+User.FindOrderById = function(db, params, callback) {
+    var collection = db.collection('Users');
+
+    collection.find({_id:params.uid}).toArray(function(err, collection) {
+        callback(collection);
+    });
+}
+
+User.DeleteOrder = function(db, params, callback) {
+    var collection = db.collection('Users');
+
+
 }
  
 

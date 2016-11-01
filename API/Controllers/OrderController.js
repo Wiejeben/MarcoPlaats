@@ -14,8 +14,8 @@ exports.Create = function (req, res, next) {
 
 exports.Show = function (req, res, next) {
     console.log(req.params);
-    User.FindById(this.locals.db, req.params.id, function(user) {
-        res.send({data:user});
+    User.FindById(this.locals.db, req.params.id, function(order) {
+        res.send({data:order});
     });
 };
 

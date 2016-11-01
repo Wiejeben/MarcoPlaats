@@ -1,10 +1,8 @@
-var MongoClient = require('mongodb').MongoClient
-  , assert = require('assert');
+// require context
+var Context = require('./../helpers/context');
+var Schema = require('Schemas1.js');
 
-// Connection URL
-var url = 'mongodb://localhost:27017/MarcoPlaats';
-
-
+var Context = require('./../Helpers/Context.js');
 
 var User = function (data) {
     this.data = data;
@@ -12,48 +10,22 @@ var User = function (data) {
 
 User.prototype.data = {};
 
-User.prototype.changeName = function (name) {  
-    this.data.name = name;
-};
+User.Insert = function(db, body, callback) {
 
-User.Insert = function(body) {
-    
-    MongoClient.connect(url, function(err, db) {
-        assert.equal(null, err);
-        insertDocuments(db, function() {
-            db.close();
-        });
-    });
-    return "Created";
+    Context.Insert(db, 'Users', body, callback);
 }
 
-var insertDocuments = function(db, callback) {
-    // Get the documents collection
-    var collection = db.collection('Users');
-    // Insert some documents
-    collection.insertMany([
-        {a : 1}, {a : 2}, {a : 3}
-    ], function(err, result) {
-        assert.equal(err, null);
-        assert.equal(3, result.result.n);
-        assert.equal(3, result.ops.length);
-        console.log("Inserted 3 documents into the collection");
-        callback(result);
-    });
+User.GetAll = function(db, callback) {
+    Context.GetAll(db, 'Users', callback);
 }
 
-User.findById = function (id, callback) {
-    return new User({
-        _id: id,
-        FirstName: "Daan",
-        LastName: "Grashoff",
-        Email: "0913610@hr.nl",
-        Password: "123qwe",
-    });  
-    // db.get('Users', {id: id}).run(function (err, data) {
-    //     if (err) return callback(err);
-    //     callback(null, new User(data));
-    // });
+User.FindById = function (db, id, callback) {
+    Context.FindById(db, 'Users', id, callback);
 };
+
+User.Delete = function (db, id, callback) {
+    Context.Delete(db, 'Users', id, callback);
+}
+
 
 module.exports = User;

@@ -34,7 +34,7 @@ User.Update = function (db, id, callback) {
 User.GetAllOrders = function(db, params, callback) {
     var collection = db.collection('Users');
 
-    collection.find({ _id:params.uid }, {Orders:1}).toArray(function(err, collection){
+    collection.find({ _id: new ObjectId(params.uid)},{Orders: {$elemMatch: {OrderDate: params.id}}}, {Orders:1}).toArray(function(err, collection){
        callback(collection); 
     });
 }

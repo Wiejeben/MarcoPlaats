@@ -7,7 +7,7 @@ exports.Index = function (req, res, next) {
 };
 
 exports.Create = function (req, res, next) {
-    User.InsertOrder(this.locals.db, req.body, function(){
+    User.InsertOrder(this.locals.db, req.params, req.body, function(){
         res.send('Inserted a order');
     })
 };

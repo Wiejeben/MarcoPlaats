@@ -2,6 +2,8 @@
 var Context = require('./../helpers/context');
 var Schema = require('Schemas1.js');
 
+var Context = require('./../Helpers/Context.js');
+
 var User = function (data) {
     this.data = data;
 };

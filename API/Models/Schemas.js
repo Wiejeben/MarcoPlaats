@@ -36,7 +36,6 @@ schemas = {
         Description: null,
         Price: null,
         Amount: null,
-        Properties: [],
         Images: {
             Filename:null
         },
@@ -46,7 +45,6 @@ schemas = {
     Category: {
         _id: null, 
         Name: null,
-        Slug: null,
         ProductIds: []
     },
 }

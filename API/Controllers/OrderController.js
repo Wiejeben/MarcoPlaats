@@ -1,27 +1,26 @@
 var User = require('./../Models/User');
-var Product = require('./../Models/Product');
-var Image = require('./../Models/Image');
 
 exports.Index = function (req, res, next) {
-    User.GetAll(this.locals.db, function(collection){
-        res.send({data:collection})
+    User.GetAllOrders(this.locals.db, req.params, function(orders) {
+        res.send(orders);
     });
 };
 
 exports.Create = function (req, res, next) {
-    console.log(req.body);
-    User.Insert(this.locals.db, req.body, function(){
-        res.send('Created a user');
+    User.InsertOrder(this.locals.db, req.body, function(){
+        res.send('Inserted a order');
     })
 };
 
 exports.Show = function (req, res, next) {
+    console.log(req.params);
     User.FindById(this.locals.db, req.params.id, function(user) {
         res.send({data:user});
     });
 };
 
 exports.Update = function (req, res, next) {
+    
     User.Update(this.locals.db, req.params.id, function(test) {
         res.send(test);
     })

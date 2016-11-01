@@ -12,7 +12,6 @@ Context.GetAll = function(db, _collection, callback) {
     collection.find({}).toArray(function(err, col) {
         callback(col);
     });
-    // db.close();
 };
 
 Context.Insert = function(db, _collection, body, callback) {
@@ -24,19 +23,25 @@ Context.Insert = function(db, _collection, body, callback) {
 };
 
 Context.FindById = function(db, _collection, id, callback) {
-    // MongoClient.connect(url, function(err, db) {
-        var collection = db.collection(_collection);
-        // ugly
-        if(id.length == 24){
-            collection.find({'_id': new ObjectId(id)}).toArray(function(err, collection) {
-                callback(collection);
-            });
-        }else{
-            callback({});
-        }
-    // });
+    var collection = db.collection(_collection);
+    // ugly
+    if(id.length == 24){
+        collection.find({'_id': new ObjectId(id)}).toArray(function(err, collection) {
+            callback(collection);
+        });
+    }else{
+        callback({});
+    }
 };
 
+
+Context.Update = function(db, _collection, id, params, callback) {
+    var collection = db.collection(_collection);
+    collection.update(
+        {_id: new ObjectId(id)},
+        {$push: {ProductIds: new ObjectId()}});
+    // callback('test');
+}
 
 Context.Delete = function(db, _collection, id, callback) {
     var collection = db.collection(_collection);
@@ -45,6 +50,8 @@ Context.Delete = function(db, _collection, id, callback) {
         callback(r.deletedCount);
     });
 }
+
+
 
 
 

@@ -22,6 +22,7 @@ var controllers = AutoLoader('Controllers');
 RestRouter(server, 'products', controllers.ProductController);
 RestRouter(server, 'users', controllers.UserController);
 RestRouter(server, 'categories', controllers.CategoryController);
+RestRouter(server, 'users/:uid/orders', controllers.OrderController);
 
 
 // Create MongoDb connection pool and start the application

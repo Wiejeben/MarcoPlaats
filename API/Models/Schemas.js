@@ -36,7 +36,6 @@ schemas = {
         Description: null,
         Price: null,
         Amount: null,
-        Properties: [],
         Images: {
             Filename:null
         },

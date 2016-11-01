@@ -1,6 +1,8 @@
 // require context
-var Context = require('./../Helpers/Context.js');
+var Context = require('./../helpers/context');
+var Schema = require('Schemas1.js');
 
+var Context = require('./../Helpers/Context.js');
 
 var User = function (data) {
     this.data = data;
@@ -9,6 +11,7 @@ var User = function (data) {
 User.prototype.data = {};
 
 User.Insert = function(db, body, callback) {
+
     Context.Insert(db, 'Users', body, callback);
 }
 

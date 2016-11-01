@@ -27,7 +27,8 @@ schemas = {
             Filename:null
         },
         CreatedAt: null,
-        DeletedAt: null
+        DeletedAt: null,
+        DeliveryMethod: null
     },
     Category: {
         Name: null,
@@ -45,6 +46,10 @@ schemas = {
             Number: null,
             DeliveryAddress: null,
         }
+    },
+    OrderLines:{
+        ProductId: null,
+        Amount: null
     }
 }
 

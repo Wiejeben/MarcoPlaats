@@ -40,7 +40,7 @@ User.GetAllOrders = function(db, params, callback) {
 
 User.InsertOrder = function(db, params, body, callback) {
     var collection = db.collection('Users');
-
+    body = Context.sanitize(body, schemas.Order);
     collection.insertOne(body, function(err, result) {
         callback();
     });

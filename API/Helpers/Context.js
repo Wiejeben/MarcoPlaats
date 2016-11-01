@@ -1,6 +1,6 @@
 // require ObjectId
 var ObjectId = require('mongodb').ObjectID;
-var schemas = require('./../models/schemas.js');
+var schemas = require('./../Models/Schemas.js');
 var _ = require('lodash');
 
 var Context = function (collection) {

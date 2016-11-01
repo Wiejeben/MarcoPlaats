@@ -1,6 +1,7 @@
 // require context
 var Context = require('./../helpers/context');
 var schemas = require('./schemas.js');
+var ObjectId = require('mongodb').ObjectID;
 
 var User = function (data) {
     this.data = data;
@@ -41,10 +42,14 @@ User.GetAllOrders = function(db, params, callback) {
 User.InsertOrder = function(db, params, body, callback) {
     var collection = db.collection('Users');
 
-    collection.insertOne(body, function(err, result) {
-        callback();
-    });
-}
+    body = Context.sanitize(body, schemas.Order);
 
+    collection.update(
+        {_id: new ObjectId(params.uid)},
+        {$push: {Orders:body}}, function(err, r){
+            callback();
+        });
+}
+ 
 
 module.exports = User;

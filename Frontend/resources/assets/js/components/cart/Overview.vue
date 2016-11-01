@@ -34,7 +34,7 @@
                                 <p>Web ID: 1089772</p>
                             </td>
                             <td class="cart_price">
-                                <p>$59</p>
+                                <p>€59</p>
                             </td>
                             <td class="cart_quantity">
                                 <div class="cart_quantity_button">
@@ -44,7 +44,7 @@
                                 </div>
                             </td>
                             <td class="cart_total">
-                                <p class="cart_total_price">$59</p>
+                                <p class="cart_total_price">€59</p>
                             </td>
                             <td class="cart_delete">
                                 <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
@@ -60,7 +60,7 @@
                                 <p>Web ID: 1089772</p>
                             </td>
                             <td class="cart_price">
-                                <p>$59</p>
+                                <p>€59</p>
                             </td>
                             <td class="cart_quantity">
                                 <div class="cart_quantity_button">
@@ -70,7 +70,7 @@
                                 </div>
                             </td>
                             <td class="cart_total">
-                                <p class="cart_total_price">$59</p>
+                                <p class="cart_total_price">€59</p>
                             </td>
                             <td class="cart_delete">
                                 <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
@@ -85,7 +85,7 @@
                                 <p>Web ID: 1089772</p>
                             </td>
                             <td class="cart_price">
-                                <p>$59</p>
+                                <p>€59</p>
                             </td>
                             <td class="cart_quantity">
                                 <div class="cart_quantity_button">
@@ -95,7 +95,7 @@
                                 </div>
                             </td>
                             <td class="cart_total">
-                                <p class="cart_total_price">$59</p>
+                                <p class="cart_total_price">€59</p>
                             </td>
                             <td class="cart_delete">
                                 <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
@@ -105,13 +105,13 @@
                             <td>&nbsp;</td>
                             <td><h4>Sub totaal</h4></td>
                             <td colspan="2">&nbsp;</td>
-                            <td>$59</td>
+                            <td>€59</td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>
                             <td><h4>BTW</h4></td>
                             <td colspan="2">&nbsp;</td>
-                            <td>$2</td>
+                            <td>€2</td>
                         </tr>
                         <tr class="shipping-cost">
                             <td>&nbsp;</td>
@@ -123,7 +123,7 @@
                             <td>&nbsp;</td>
                             <td><h4>Totaal</h4></td>
                             <td colspan="2">&nbsp;</td>
-                            <td><span>$61</span></td>
+                            <td><span>€61</span></td>
                         </tr>
                     </tbody>
                 </table>

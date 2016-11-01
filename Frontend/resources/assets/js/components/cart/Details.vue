@@ -22,10 +22,6 @@
                     <div class="col-sm-3">
                         <div class="shopper-info">
                             <p>Accountgegevens</p>
-                            <form>
-                                <input type="password" placeholder="Wachtwoord">
-                                <input type="password" placeholder="Herhaal wachtwoord">
-                            </form>
                         </div>
                     </div>
                     <div class="col-sm-5 clearfix">
@@ -41,15 +37,13 @@
                             </div>
                             <div class="form-two">
                                 <form>
-                                    <input type="text" placeholder="Adres">
-                                    <input type="text" placeholder="Postcode">
+                                    <input type="text" placeholder="Adres" :value="currentLocation.address[0]">
+                                    <input type="text" placeholder="Postcode" :value="currentLocation.address[1]">
                                     <input type="text" placeholder="Alternatief Adres">
                                     <input type="text" placeholder="Alternatieve Postcode">
                                     <select>
                                         <option>-- Land --</option>
-                                        <option>Nederland</option>
-                                        <option>België</option>
-                                        <option>Duitsland</option>
+                                        <option v-for="country in countries" :selected="country.selected" :value="country.name">{{ country.name }}</option>
                                     </select>
                                 </form>
                             </div>
@@ -75,8 +69,9 @@
 </template>
 <script>
     export default {
-        mounted() {
-            console.log('Login ready.')
+        mixins: [require('./../../mixins/location.js')],
+        created() {
+            this.currentLocation = this.getCurrentAdress()
         }
     }
 </script>

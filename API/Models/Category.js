@@ -21,10 +21,10 @@ Category.Insert = function(db, body, callback) {
 Category.FindById = function (db, id, callback) {  
     Context.FindById(db, 'Categories', id, callback)
 };
-Category.FindBySlug = function(db, slug, callback){
-    
-    var collection = db.collection('Categories');
 
+Category.FindBySlug = function(db, slug, callback){
+    var collection = db.collection('Categories');
+    
     collection.find({'Slug':slug}).toArray(function(err, collection){
         callback(collection)
     });

@@ -20,5 +20,9 @@ User.FindById = function (db, id, callback) {
     Context.FindById(db, 'Users', id, callback);
 };
 
+User.Delete = function (db, id, callback) {
+    Context.Delete(db, 'Users', id, callback);
+}
+
 
 module.exports = User;

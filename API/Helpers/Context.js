@@ -1,8 +1,5 @@
-// require mongodb
+// require ObjectId
 var ObjectId = require('mongodb').ObjectID;
-
-// Connection url
-var url = 'mongodb://localhost:27017/MarcoPlaats';
 
 var Context = function (collection) {
     this.collection = collection;
@@ -19,13 +16,11 @@ Context.GetAll = function(db, _collection, callback) {
 };
 
 Context.Insert = function(db, _collection, body, callback) {
-    // MongoClient.connect(url, function(err, db) {
-        var collection = db.collection(_collection);
+    var collection = db.collection(_collection);
 
-        collection.insertOne(body, function(err, result){
-            callback();
-        });
-    // });
+    collection.insertOne(body, function(err, result){
+        callback();
+    });
 };
 
 Context.FindById = function(db, _collection, id, callback) {
@@ -41,6 +36,15 @@ Context.FindById = function(db, _collection, id, callback) {
         }
     // });
 };
+
+
+Context.Delete = function(db, _collection, id, callback) {
+    var collection = db.collection(_collection);
+
+    collection.deleteOne({'_id': new ObjectId(id)}, function(err, r) {
+        callback(r.deletedCount);
+    });
+}
 
 
 

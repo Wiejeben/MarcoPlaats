@@ -17,7 +17,7 @@ schemas = {
         Orders: {
             ProductIds: [],
             OrderDate: null, 
-            address: {
+            Address: {
                 Street: null,
                 City: null,
                 Province: null,
@@ -46,7 +46,6 @@ schemas = {
     Category: {
         _id: null, 
         Name: null,
-        Slug: null,
         ProductIds: []
     },
 }

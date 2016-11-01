@@ -1,8 +1,6 @@
 // require context
 var Context = require('./../helpers/context');
-// var Schema = require('Schemas.js');
-
-var Context = require('./../Helpers/Context.js');
+var schemas = require('./schemas.js');
 
 var User = function (data) {
     this.data = data;
@@ -12,7 +10,7 @@ User.prototype.data = {};
 
 // Users
 User.Insert = function(db, body, callback) {
-    Context.Insert(db, 'Users', body, callback);
+    Context.Insert(db, 'Users', body, callback, schemas.User);
 }
 
 User.GetAll = function(db, callback) {

@@ -1,10 +1,9 @@
 schemas = {
     User: {
-        _id: null,
         FirstName: null,
         LastName: null,
+        OAuthId: null,
         Email: null,
-        Password: null,
         Role: null,
         Addresses: {
             Street: null,
@@ -14,24 +13,12 @@ schemas = {
             Number: null,
             DeliveryAddress: null,
         },
-        Orders: {
-            ProductIds: [],
-            OrderDate: null, 
-            Address: {
-                Street: null,
-                City: null,
-                Province: null,
-                Zipcode: null,
-                Number: null,
-                DeliveryAddress: null,
-            }
-        },
+        Orders: [],
         ProductIds: [],
         WishlistProductIds: [],
         FavoriteProductIds: []
     },
     Product: {
-        _id: null, 
         Name: null,
         Description: null,
         Price: null,
@@ -43,8 +30,22 @@ schemas = {
         DeletedAt: null
     },
     Category: {
-        _id: null, 
         Name: null,
         ProductIds: []
     },
+    Order:
+        {
+        OrderLines: [],
+        OrderDate: null,
+        address: {
+            Street: null,
+            City: null,
+            Province: null,
+            Zipcode: null,
+            Number: null,
+            DeliveryAddress: null,
+        }
+    }
 }
+
+module.exports = schemas;

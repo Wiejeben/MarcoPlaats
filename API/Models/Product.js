@@ -1,4 +1,5 @@
 var Context = require('./../Helpers/Context.js');
+var schemas = require('./schemas.js');
 
 var Product = function (data) {
     this.data = data;
@@ -15,7 +16,7 @@ Product.GetAll = function(db, callback) {
 }
 
 Product.Insert = function(db, body, callback) {
-    Context.Insert(db, 'Products', body, callback);
+    Context.Insert(db, 'Products', body, callback, schemas.Product);
 }
 
 Product.FindById = function (db, id, callback) {  

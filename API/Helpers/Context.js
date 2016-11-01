@@ -1,5 +1,7 @@
 // require mongodb
 var ObjectId = require('mongodb').ObjectID;
+var schemas = require('./../models/schemas.js');
+var _ = require('lodash');
 
 // Connection url
 var url = 'mongodb://localhost:27017/MarcoPlaats';
@@ -7,6 +9,10 @@ var url = 'mongodb://localhost:27017/MarcoPlaats';
 var Context = function (collection) {
     this.collection = collection;
 };
+
+Context.sanitize = function(body, schema){
+    return _.pick(_.defaults(body, schema), _.keys(schema));
+}
 
 Context.GetAll = function(db, _collection, callback) {
     // Get the collection
@@ -18,20 +24,16 @@ Context.GetAll = function(db, _collection, callback) {
     // db.close();
 };
 
-Context.Insert = function(db, _collection, body, callback) {
-    // MongoClient.connect(url, function(err, db) {
+Context.Insert = function(db, _collection, body, callback, schema) {
         var collection = db.collection(_collection);
-
+        body = this.sanitize(body, schema);
         collection.insertOne(body, function(err, result){
             callback();
         });
-    // });
 };
 
 Context.FindById = function(db, _collection, id, callback) {
-    // MongoClient.connect(url, function(err, db) {
         var collection = db.collection(_collection);
-        // ugly
         if(id.length == 24){
             collection.find({'_id': new ObjectId(id)}).toArray(function(err, collection) {
                 callback(collection);
@@ -39,7 +41,6 @@ Context.FindById = function(db, _collection, id, callback) {
         }else{
             callback({});
         }
-    // });
 };
 
 

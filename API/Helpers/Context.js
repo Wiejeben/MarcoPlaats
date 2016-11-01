@@ -1,10 +1,7 @@
-// require mongodb
+// require ObjectId
 var ObjectId = require('mongodb').ObjectID;
 var schemas = require('./../models/schemas.js');
 var _ = require('lodash');
-
-// Connection url
-var url = 'mongodb://localhost:27017/MarcoPlaats';
 
 var Context = function (collection) {
     this.collection = collection;
@@ -42,6 +39,15 @@ Context.FindById = function(db, _collection, id, callback) {
             callback({});
         }
 };
+
+
+Context.Delete = function(db, _collection, id, callback) {
+    var collection = db.collection(_collection);
+
+    collection.deleteOne({'_id': new ObjectId(id)}, function(err, r) {
+        callback(r.deletedCount);
+    });
+}
 
 
 

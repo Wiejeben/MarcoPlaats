@@ -33,8 +33,6 @@ MongoClient.connect(Config.Database.Url, { promiseLibrary: Promise }, function(e
 });
 
 
-
-
 server.get('/', function (req, res, next){
     res.send('Hello World!');
 });

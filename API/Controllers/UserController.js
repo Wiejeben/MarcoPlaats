@@ -26,5 +26,7 @@ exports.Update = function (req, res, next) {
 };
 
 exports.Delete = function (req, res, next) {
-    res.send("Delete " + req.params.id);
+    User.Delete(this.locals.db, req.params.id, function(deletedCount) {
+        res.send('Deleted accounts: ' + deletedCount);
+    });
 };

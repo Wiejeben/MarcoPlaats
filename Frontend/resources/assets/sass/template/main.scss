@@ -75,6 +75,11 @@ a#scrollUp i{
   font-size: 12px;
   color: #696763;
   font-family: 'Roboto', sans-serif;
+  padding: 8px 15px;
+
+  .fa {
+    margin-right: 3px;
+  }
 }
 
 
@@ -113,7 +118,7 @@ a#scrollUp i{
 
 
 .fa-facebook:hover {
-  background: #0083C9;
+  background: #3B5998;
 }
 
 .fa-twitter:hover  {
@@ -121,7 +126,7 @@ a#scrollUp i{
 }
 
 .fa-linkedin:hover  {
-	background:#FF4518;
+	background:#2977B5;
 }
 
 .fa-dribbble:hover  {
@@ -200,7 +205,7 @@ a#scrollUp i{
   font-weight: 300;
   padding:0;
   padding-right: 0;
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 
@@ -646,6 +651,14 @@ ul.sub-menu {
 
 .right {
   right: 0;
+}
+
+.category-active {
+
+  a {
+    color: #FE980F !important;
+  }
+
 }
 
 .category-products {
@@ -1506,7 +1519,7 @@ h2.title {
 	font-size: 16px;
 	height: 50px;
 	line-height: 50px;
-	margin-top: 75px;
+	margin-top: 130px;
 	text-align: center;
 	width: 50px;
 }
@@ -1515,6 +1528,10 @@ h2.title {
 /*************************
 *******Cart CSS******
 **************************/
+
+.cart_delete {
+  width: 100%;
+}
 
 #do_action {
   margin-bottom: 50px;
@@ -2511,4 +2528,8 @@ h2.title {
 
 .contact-info .social-networks ul li a:hover{
   color: #FE980F;
+}
+
+.mr15 {
+  margin-right: 15px;
 }

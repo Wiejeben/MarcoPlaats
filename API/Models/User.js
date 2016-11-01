@@ -1,6 +1,6 @@
 // require context
-var Context = require('./../helpers/context');
-var schemas = require('./schemas.js');
+var Context = require('./../Helpers/Context.js');
+var schemas = require('./Schemas.js');
 var ObjectId = require('mongodb').ObjectID;
 
 var User = function (data) {
@@ -57,7 +57,7 @@ User.InsertOrder = function(db, params, body, callback) {
 User.FindOrderById = function(db, params, callback) {
     var collection = db.collection('Users');
 
-    collection.find({_id:params.uid}).toArray(function(err, collection) {
+    collection.find({ _id: new ObjectId(params.uid)},{Orders: {$elemMatch: {'_id': new ObjectId(params.id)}}}, {Orders:1}).toArray(function(err, collection){
         callback(collection);
     });
 }

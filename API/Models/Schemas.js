@@ -1,4 +1,19 @@
 schemas = {
+    UserPersonal:{
+        FirstName: null,
+        LastName: null,
+        OAuthId: null,
+        Email: null,
+        Role: null,
+        Addresses: {
+            Street: null,
+            City: null,
+            Province: null,
+            Zipcode: null,
+            Number: null,
+            DeliveryAddress: null,
+        }
+    },
     User: {
         FirstName: null,
         LastName: null,

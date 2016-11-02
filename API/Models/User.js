@@ -26,8 +26,8 @@ User.Delete = function (db, id, callback) {
     Context.Delete(db, 'Users', id, callback);
 }
 
-User.Update = function (db, id, callback) {
-    Context.Update(db, 'Users', id, callback);
+User.Update = function (db, id, body, callback) {
+    Context.Update(db, 'Users', id, body, schemas.UserPersonal, callback);
 }
 
 // Orders

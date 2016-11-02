@@ -22,7 +22,7 @@ exports.Show = function (req, res, next) {
 };
 
 exports.Update = function (req, res, next) {
-    User.Update(this.locals.db, req.params.id, function(test) {
+    User.Update(this.locals.db, req.params.id, req.body, function(test) {
         res.send(test);
     })
 };

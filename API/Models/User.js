@@ -16,22 +16,31 @@ User.Insert = function(db, body, callback) {
 
 User.InsertFromGoogle = function(db, profile, callback) {
     User.Exists(db, profile, function(result){
-        if(result == null){
+
+        console.log(result);
+
+        if(result.length == 0){
             var _user = {
-                FirstName: profile.name.givenname, 
-                LastName: profile.name.familyname,
+                FirstName: profile.name.givenName, 
+                LastName: profile.name.familyName,
                 OAuthId: profile.id, 
-                Email: emails[0].value
+                Email: profile.emails[0].value
             }
 
-            Context.insert(db, 'Users', _user, callback, schemas.User);
+            var collection = db.collection('Users');
+            _user = Context.sanitize(_user, schemas.User);
+            collection.insertOne(_user, function(err, result){
+                callback(profile.id);
+            });
         }else{
             callback(result);
         }
     })
 }
 
-User.Exists = (db, profile, callback) => {
+User.Exists = function(db, profile, callback) {
+    var collection = db.collection('Users');
+
     collection.find({OAuthId: profile.id}).toArray(function(err, collection) {
             callback(collection);
         });

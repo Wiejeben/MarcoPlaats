@@ -1,10 +1,7 @@
-var MongoClient = require('mongodb').MongoClient
-  , assert = require('assert');
-
-// Connection URL
-var url = 'mongodb://localhost:27017/MarcoPlaats';
-
-
+// require context
+var Context = require('./../Helpers/Context.js');
+var schemas = require('./Schemas.js');
+var ObjectId = require('mongodb').ObjectID;
 
 var User = function (data) {
     this.data = data;
@@ -12,48 +9,128 @@ var User = function (data) {
 
 User.prototype.data = {};
 
-User.prototype.changeName = function (name) {  
-    this.data.name = name;
-};
-
-User.Insert = function(body) {
-    
-    MongoClient.connect(url, function(err, db) {
-        assert.equal(null, err);
-        insertDocuments(db, function() {
-            db.close();
-        });
-    });
-    return "Created";
+// Users
+User.Insert = function(db, body, callback) {
+    Context.Insert(db, 'Users', body, callback, schemas.User);
 }
 
-var insertDocuments = function(db, callback) {
-    // Get the documents collection
+User.InsertFromGoogle = function(db, profile, callback) {
+    User.Exists(db, profile, function(result){
+
+        console.log(result);
+
+        if(result.length == 0){
+            var _user = {
+                FirstName: profile.name.givenName, 
+                LastName: profile.name.familyName,
+                OAuthId: profile.id, 
+                Email: profile.emails[0].value
+            }
+
+            var collection = db.collection('Users');
+            _user = Context.sanitize(_user, schemas.User);
+            collection.insertOne(_user, function(err, result){
+                callback(profile.id);
+            });
+        }else{
+            callback(result);
+        }
+    })
+}
+
+User.Exists = function(db, profile, callback) {
     var collection = db.collection('Users');
-    // Insert some documents
-    collection.insertMany([
-        {a : 1}, {a : 2}, {a : 3}
-    ], function(err, result) {
-        assert.equal(err, null);
-        assert.equal(3, result.result.n);
-        assert.equal(3, result.ops.length);
-        console.log("Inserted 3 documents into the collection");
-        callback(result);
+
+    collection.find({OAuthId: profile.id}).toArray(function(err, collection) {
+            callback(collection);
+        });
+}
+
+User.GetAll = function(db, callback) {
+    Context.GetAll(db, 'Users', callback);
+}
+
+User.FindById = function (db, id, callback) {
+    Context.FindById(db, 'Users', id, callback);
+};
+
+User.Delete = function (db, id, callback) {
+    Context.Delete(db, 'Users', id, callback);
+}
+
+User.Update = function (db, id, body, callback) {
+    Context.Update(db, 'Users', id, body, schemas.UserPersonal, callback);
+}
+
+// Orders
+User.GetAllOrders = function(db, params, callback) {
+    var collection = db.collection('Users');
+
+    collection.find({ _id: new ObjectId(params.uid) },
+                    {Orders:1})
+                    .toArray(function(err, collection){
+        console.log(err);
+        console.log(collection);
+       callback(collection); 
     });
 }
 
-User.findById = function (id, callback) {
-    return new User({
-        _id: id,
-        FirstName: "Daan",
-        LastName: "Grashoff",
-        Email: "0913610@hr.nl",
-        Password: "123qwe",
-    });  
-    // db.get('Users', {id: id}).run(function (err, data) {
-    //     if (err) return callback(err);
-    //     callback(null, new User(data));
-    // });
-};
+User.InsertOrder = function(db, params, body, callback) {
+    var collection = db.collection('Users');
+
+    body = Context.sanitize(body, schemas.Order);
+    body._id = new ObjectId();
+
+    collection.update(
+        {_id: new ObjectId(params.uid)},
+        {$push: {Orders:body}}, function(err, r){
+            callback();
+        });
+}
+
+User.FindOrderById = function(db, params, callback) {
+    var collection = db.collection('Users');
+
+    collection.find({ _id: new ObjectId(params.uid)},
+                    {Orders: {$elemMatch: {_id: new ObjectId(params.id)}}},
+                    {Orders:1})
+                    .toArray(function(err, collection){
+        callback(collection);
+    });
+}
+
+User.DeleteOrder = function(db, params, callback) {
+    var collection = db.collection('Users');
+
+    collection.update({_id: new ObjectId(params.uid),
+                     Orders: {$elemMatch: {_id: new ObjectId(params.id)}}},
+                      {$pull: {Orders:{_id: new ObjectId(params.id)}}},
+                       function(err, r){
+        callback();
+    });
+
+}
+
+// Wishlist
+User.GetWishlist = (db, params, callback) => {
+    var collection = db.collection('Users');
+    
+    collection.find({_id:new ObjectId(params.uid)}, 
+                        {WishlistProductIds:1})
+                        .toArray(function(err, results) {
+                            callback(results);
+    });
+}
+
+User.InsertWishlist = (db, params, body, callback) => {
+    var collection = db.collection('Users');
+
+    collection.update({_id:new ObjectId(params.uid)}, 
+                        {$addToSet: {WishlistProductIds:body.ProductId}}, function(err, r){
+                            callback()
+                        });
+}
+
+
 
 module.exports = User;

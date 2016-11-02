@@ -9,7 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "lodash": "^4.16.6",
     "mongodb": "^2.2.11",
+    "passport-google-oauth": "^1.0.0",
+    "passport-restify": "^1.0.1",
     "restify": "^4.2.0"
   }
 }

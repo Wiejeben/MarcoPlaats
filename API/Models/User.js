@@ -67,6 +67,12 @@ User.FindOrderById = function(db, params, callback) {
 User.DeleteOrder = function(db, params, callback) {
     var collection = db.collection('Users');
 
+    collection.update({_id: new ObjectId(params.uid),
+                     Orders: {$elemMatch: {_id: new ObjectId(params.id)}}},
+                      {$pull: {Orders:{_id: new ObjectId(params.id)}}},
+                       function(err, r){
+        callback();
+    });
 
 }
  

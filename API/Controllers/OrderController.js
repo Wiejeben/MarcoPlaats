@@ -20,14 +20,13 @@ exports.Show = function (req, res, next) {
 };
 
 exports.Update = function (req, res, next) {
-    
     User.Update(this.locals.db, req.params.id, function(test) {
         res.send(test);
     })
 };
 
 exports.Delete = function (req, res, next) {
-    User.Delete(this.locals.db, req.params.id, function(deletedCount) {
+    User.DeleteOrder(this.locals.db, req.params, function(deletedCount) {
         res.send('Deleted accounts: ' + deletedCount);
     });
 };

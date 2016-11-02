@@ -29,14 +29,14 @@ Context.Insert = function(db, _collection, body, callback, schema) {
 };
 
 Context.FindById = function(db, _collection, id, callback) {
-        var collection = db.collection(_collection);
-        if(id.length == 24){
-            collection.find({'_id': new ObjectId(id)}).toArray(function(err, collection) {
-                callback(collection);
-            });
-        }else{
-            callback({});
-        }
+    var collection = db.collection(_collection);
+    if(id.length == 24){
+        collection.find({'_id': new ObjectId(id)}).toArray(function(err, collection) {
+            callback(collection);
+        });
+    }else{
+        callback({});
+    }
 };
 
 

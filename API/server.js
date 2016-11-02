@@ -7,6 +7,7 @@ var AutoLoader = require('./Helpers/AutoLoader');
 var RestRouter = require('./Helpers/RestRouter');
 
 var User = require('./Models/User');
+var md5 = require('md5');
 
 // Config settings
 var Config = require('./config');
@@ -38,8 +39,8 @@ passport.use(new GoogleStrategy({
     },
     function(accessToken, refreshToken, profile, done) {
         User.InsertFromGoogle(server.locals.db, profile, function(Oauth){
-            console.log('before headers');
-            return done(null, 'Oauth');    
+            var hash = md5(Oauth);
+            return done(null, hash);    
         });
     }
 ));
@@ -59,9 +60,8 @@ server.get('/auth', passport.authenticate('google', { scope: ['https://www.googl
 server.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/failure', session: false }),
     function(req, res) {
-        console.log('after headers');
         res.statusCode = 302;
-        res.setHeader('Location', 'http://marcoplaats.maarten.co.uk?token=' + req.user.token);
+        res.setHeader('Location', 'http://marcoplaats.maarten.co.uk/account/process.html?token=' + req.user);
         res.setHeader('Content-Length', '0');
         res.end();
     });

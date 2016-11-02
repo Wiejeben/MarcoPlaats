@@ -40,7 +40,7 @@
                             <ul class="nav navbar-nav">
                                 <li><a href="#"><i class="fa fa-star"></i> Verlanglijstje</a></li>
                                 <li><a href="/cart/overview.html"><i class="fa fa-shopping-cart"></i> Winkelwagentje</a></li>
-                                <li><a href="/account/login.html"><i class="fa fa-lock"></i> Inloggen</a></li>
+                                <li><a href="http://localhost:8080/auth"><i class="fa fa-lock"></i> Inloggen</a></li>
                             </ul>
                         </div>
                     </div>

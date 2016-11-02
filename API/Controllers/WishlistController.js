@@ -1,20 +1,18 @@
 var User = require('./../Models/User');
-var Product = require('./../Models/Product');
-var Image = require('./../Models/Image');
 
 exports.Index = function (req, res, next) {
-    User.GetAll(this.locals.db, function(collection){
+    User.GetWishlist(this.locals.db, req.params, function(collection){
         res.send({data:collection})
     });
 };
 
 exports.Create = function (req, res, next) {
-    console.log(req.body);
-    User.Insert(this.locals.db, req.body, function(){
+    User.InsertWishlist(this.locals.db, req.params, req.body, function(){
         res.send('Created a user');
     })
 };
 
+// ??
 exports.Show = function (req, res, next) {
     User.FindById(this.locals.db, req.params.id, function(user) {
         res.send({data:user});
@@ -22,13 +20,13 @@ exports.Show = function (req, res, next) {
 };
 
 exports.Update = function (req, res, next) {
-    User.Update(this.locals.db, req.params.id, req.body, function(test) {
+    User.UpdateWishlist(this.locals.db, req.params, req.body, function(test) {
         res.send(test);
     })
 };
 
 exports.Delete = function (req, res, next) {
-    User.Delete(this.locals.db, req.params.id, function(deletedCount) {
-        res.send('Deleted accounts: ' + deletedCount);
+    User.DeleteWishlist(this.locals.db, req.params, function(deletedCount) {
+        res.send('Delete Wishlist: ' + deletedCount);
     });
 };

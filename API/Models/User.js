@@ -14,6 +14,29 @@ User.Insert = function(db, body, callback) {
     Context.Insert(db, 'Users', body, callback, schemas.User);
 }
 
+User.InsertFromGoogle = function(db, profile, callback) {
+    User.Exists(db, profile, function(result){
+        if(result == null){
+            var _user = {
+                FirstName: profile.name.givenname, 
+                LastName: profile.name.familyname,
+                OAuthId: profile.id, 
+                Email: emails[0].value
+            }
+
+            Context.insert(db, 'Users', _user, callback, schemas.User);
+        }else{
+            callback(result);
+        }
+    })
+}
+
+User.Exists = (db, profile, callback) => {
+    collection.find({OAuthId: profile.id}).toArray(function(err, collection) {
+            callback(collection);
+        });
+}
+
 User.GetAll = function(db, callback) {
     Context.GetAll(db, 'Users', callback);
 }
@@ -34,7 +57,9 @@ User.Update = function (db, id, body, callback) {
 User.GetAllOrders = function(db, params, callback) {
     var collection = db.collection('Users');
 
-    collection.find({ _id: new ObjectId(params.uid) }, {Orders:1}).toArray(function(err, collection){
+    collection.find({ _id: new ObjectId(params.uid) },
+                    {Orders:1})
+                    .toArray(function(err, collection){
         console.log(err);
         console.log(collection);
        callback(collection); 
@@ -58,7 +83,8 @@ User.FindOrderById = function(db, params, callback) {
     var collection = db.collection('Users');
 
     collection.find({ _id: new ObjectId(params.uid)},
-                    {Orders: {$elemMatch: {_id: new ObjectId(params.id)}}}, {Orders:1})
+                    {Orders: {$elemMatch: {_id: new ObjectId(params.id)}}},
+                    {Orders:1})
                     .toArray(function(err, collection){
         callback(collection);
     });
@@ -75,6 +101,27 @@ User.DeleteOrder = function(db, params, callback) {
     });
 
 }
- 
+
+// Wishlist
+User.GetWishlist = (db, params, callback) => {
+    var collection = db.collection('Users');
+    
+    collection.find({_id:new ObjectId(params.uid)}, 
+                        {WishlistProductIds:1})
+                        .toArray(function(err, results) {
+                            callback(results);
+    });
+}
+
+User.InsertWishlist = (db, params, body, callback) => {
+    var collection = db.collection('Users');
+
+    collection.update({_id:new ObjectId(params.uid)}, 
+                        {$addToSet: {WishlistProductIds:body.ProductId}}, function(err, r){
+                            callback()
+                        });
+}
+
+
 
 module.exports = User;

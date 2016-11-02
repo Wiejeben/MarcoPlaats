@@ -23,6 +23,8 @@ RestRouter(server, 'products', controllers.ProductController);
 RestRouter(server, 'users', controllers.UserController);
 RestRouter(server, 'categories', controllers.CategoryController);
 RestRouter(server, 'users/:uid/orders', controllers.OrderController);
+RestRouter(server, 'users/:uid/wishlist', controllers.WishlistController);
+// RestRouter(server, 'users/:uid/favorites', controllers.FavoritesController);
 
 
 // Create MongoDb connection pool and start the application

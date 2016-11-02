@@ -57,7 +57,9 @@ User.InsertOrder = function(db, params, body, callback) {
 User.FindOrderById = function(db, params, callback) {
     var collection = db.collection('Users');
 
-    collection.find({ _id: new ObjectId(params.uid)},{Orders: {$elemMatch: {'_id': new ObjectId(params.id)}}}, {Orders:1}).toArray(function(err, collection){
+    collection.find({ _id: new ObjectId(params.uid)},
+                    {Orders: {$elemMatch: {_id: new ObjectId(params.id)}}}, {Orders:1})
+                    .toArray(function(err, collection){
         callback(collection);
     });
 }

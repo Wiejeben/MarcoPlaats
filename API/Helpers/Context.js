@@ -29,23 +29,19 @@ Context.Insert = function(db, _collection, body, callback, schema) {
 };
 
 Context.FindById = function(db, _collection, id, callback) {
-        var collection = db.collection(_collection);
-        if(id.length == 24){
-            collection.find({'_id': new ObjectId(id)}).toArray(function(err, collection) {
-                callback(collection);
-            });
-        }else{
-            callback({});
-        }
+    var collection = db.collection(_collection);
+    if(id.length == 24){
+        collection.find({'_id': new ObjectId(id)}).toArray(function(err, collection) {
+            callback(collection);
+        });
+    }else{
+        callback({});
+    }
 };
 
 
 Context.Update = function(db, _collection, id, params, callback) {
-    var collection = db.collection(_collection);
-    collection.update(
-        {_id: new ObjectId(id)},
-        {$push: {ProductIds: new ObjectId()}});
-    // callback('test');
+    
 }
 
 Context.Delete = function(db, _collection, id, callback) {

@@ -16,9 +16,6 @@ User.Insert = function(db, body, callback) {
 
 User.InsertFromGoogle = function(db, profile, callback) {
     User.Exists(db, profile, function(result){
-
-        console.log(result);
-
         if(result.length == 0){
             var _user = {
                 FirstName: profile.name.givenName, 
@@ -26,10 +23,8 @@ User.InsertFromGoogle = function(db, profile, callback) {
                 OAuthId: profile.id, 
                 Email: profile.emails[0].value
             }
-
-            var collection = db.collection('Users');
-            _user = Context.sanitize(_user, schemas.User);
-            collection.insertOne(_user, function(err, result){
+            
+            User.Insert(db, _user, function(){
                 callback(profile.id);
             });
         }else{

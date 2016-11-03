@@ -6,7 +6,7 @@
                     <div class="col-sm-6">
                         <div class="contactinfo">
                             <ul class="nav nav-pills">
-                                <li><a href=""><i class="fa fa-envelope"></i> info@marcoplaats.nl</a></li>
+                                <li><a href="mailto:info@marcoplaats.nl"><i class="fa fa-envelope"></i> info@marcoplaats.nl</a></li>
                             </ul>
                         </div>
                     </div>

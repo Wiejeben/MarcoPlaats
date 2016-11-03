@@ -16,20 +16,16 @@ User.Insert = function(db, body, callback) {
 
 User.InsertFromGoogle = function(db, profile, callback) {
     User.Exists(db, profile, function(result){
-
-        console.log(result);
-
         if(result.length == 0){
             var _user = {
                 FirstName: profile.name.givenName, 
                 LastName: profile.name.familyName,
                 OAuthId: profile.id, 
-                Email: profile.emails[0].value
+                Email: profile.emails[0].value,
+                Role: 'user'
             }
-
-            var collection = db.collection('Users');
-            _user = Context.sanitize(_user, schemas.User);
-            collection.insertOne(_user, function(err, result){
+            
+            User.Insert(db, _user, function(){
                 callback(profile.id);
             });
         }else{
@@ -38,9 +34,17 @@ User.InsertFromGoogle = function(db, profile, callback) {
     })
 }
 
-User.Exists = function(db, profile, callback) {
+User.GetByToken = function (db, OauthId, callback) {
     var collection = db.collection('Users');
 
+    collection.find({OAuthId:OauthId}).toArray(function(err, collection){
+        callback(collection);
+    });
+}
+
+User.Exists = function(db, profile, callback) {
+    var collection = db.collection('Users');
+    
     collection.find({OAuthId: profile.id}).toArray(function(err, collection) {
             callback(collection);
         });

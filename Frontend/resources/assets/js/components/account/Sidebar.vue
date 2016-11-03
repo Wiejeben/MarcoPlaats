@@ -4,7 +4,7 @@
         <div class="panel-group category-products" id="accordian"><!--category-productsr-->
             <div class="panel panel-default" v-for="item in menu">
                 <div class="panel-heading">
-                    <h4 class="panel-title" v-bind:class="{ 'category-active': item.active }"><a href="#">{{ item.name }}</a></h4>
+                    <h4 class="panel-title" v-bind:class="{ 'category-active': item.active }"><a :href="baseUrl+item.url">{{ item.name }}</a></h4>
                 </div>
             </div>
         </div><!--/category-productsr-->
@@ -15,18 +15,21 @@
     export default {
         data() {
             return {
-                url: window.location.pathname.split('/').pop(),
+                baseUrl: '/account',
+                url: '/' + window.location.pathname.split('/').pop(),
                 menu: [
-                    { name: 'Profiel', url: 'profile', active: false },
-                    { name: 'Settings', url: 'settings', active: false }
+                    { name: 'Profiel', url: '/', active: false },
+                    { name: 'Wishlist', url: '/wishlist.html', active: false },
+                    { name: 'Settings', url: '/settings.html', active: false }
                 ],
             }
         },
         created() {
-            console.log(this.url);
-            /*this.menu.forEach(function(item) {
-                item.active = (item.url == );
-            });*/
+            var self = this;
+            self.menu.forEach(function(item) {
+                // console.log(self.url);
+                item.active = (item.url == self.url);
+            });
         }
     }
 </script>

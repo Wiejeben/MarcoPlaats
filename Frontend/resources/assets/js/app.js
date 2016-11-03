@@ -7,10 +7,13 @@ Vue.component('products-component', require('./components/Products.vue'));
 
 Vue.component('account-sidebar-component', require('./components/account/Sidebar.vue'));
 Vue.component('account-profile-component', require('./components/account/Profile.vue'));
+Vue.component('account-wishlist-component', require('./components/account/Wishlist.vue'));
 Vue.component('account-settings-component', require('./components/account/Settings.vue'));
 
 Vue.component('cart-overview-component', require('./components/cart/Overview.vue'));
 Vue.component('cart-details-component', require('./components/cart/Details.vue'));
+
+window.apiUrl = 'http://146.185.176.116:8080';
 
 const app = new Vue({
     el: '#app',

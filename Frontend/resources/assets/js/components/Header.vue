@@ -38,9 +38,10 @@
                     <div class="col-sm-8">
                         <div class="shop-menu pull-right">
                             <ul class="nav navbar-nav">
-                                <li><a href="#"><i class="fa fa-star"></i> Verlanglijstje</a></li>
+                                <li v-show="loggedIn"><a href="#"><i class="fa fa-star"></i> Verlanglijstje</a></li>
                                 <li><a href="/cart/overview.html"><i class="fa fa-shopping-cart"></i> Winkelwagentje</a></li>
-                                <li><a href="http://localhost:8080/auth"><i class="fa fa-lock"></i> Inloggen</a></li>
+                                <li v-show="!loggedIn"><a href="http://localhost:8080/auth"><i class="fa fa-lock"></i> Inloggen</a></li>
+                                <li v-show="loggedIn"><a href="#"><i class="fa fa-sign-out"></i> Uitloggen</a></li>
                             </ul>
                         </div>
                     </div>
@@ -55,6 +56,26 @@
     export default {
         mounted() {
             console.log('Header ready.');
+
+            eventHub.$on('user-detected', this.setUser)
+        },
+
+        computed: {
+            loggedIn() {
+                return this.user != null;
+            }
+        },
+
+        data() {
+            return {
+                user: null
+            }
+        },
+
+        methods: {
+            setUser(user) {
+                this.user = user;
+            }
         }
     }
 </script>

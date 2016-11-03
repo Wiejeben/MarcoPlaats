@@ -21,7 +21,8 @@ User.InsertFromGoogle = function(db, profile, callback) {
                 FirstName: profile.name.givenName, 
                 LastName: profile.name.familyName,
                 OAuthId: profile.id, 
-                Email: profile.emails[0].value
+                Email: profile.emails[0].value,
+                Role: 'user'
             }
             
             User.Insert(db, _user, function(){

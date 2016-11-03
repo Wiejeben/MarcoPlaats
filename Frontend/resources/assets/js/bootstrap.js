@@ -8,3 +8,5 @@ require('vue-resource');
 
 // Handles events
 window.eventHub = new Vue();
+
+window.User = null;

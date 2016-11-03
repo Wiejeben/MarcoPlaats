@@ -37,16 +37,17 @@
         methods:{
             submitSettings(){
                 console.log('submitted');
-                $.ajax(window.apiUrl+'/users', {
-                    method: 'POST',
-                    dataType: 'json',
-                    data: {
-                        "FirstName": 'Rick',
-                        "LastName": 'Droogh',
-                        "Email": '0911272@hr.nl'
-                    }
-                }).then(function(data) {
-                    console.log(data);
+
+                $.ajax({
+                    url: window.apiUrl+'/users',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        FirstName: 'Rick',
+                        LastName: 'Droogh',
+                        Email: '0911272@hr.nl'
+                    }),
+                    dataType: 'json'
                 });
             }
         }

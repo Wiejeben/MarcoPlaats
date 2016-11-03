@@ -1,6 +1,6 @@
 var Config = {
   Database:{
-    Url: 'mongodb://db:27017/MarcoPlaats',
+    Url: 'mongodb://localhost:27017/MarcoPlaats',
   },
   Application: {
     name: 'Marcoplaats API',

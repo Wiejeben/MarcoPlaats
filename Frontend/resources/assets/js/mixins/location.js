@@ -1,6 +1,11 @@
+
 module.exports = {
+    mounted(){
+        $.getScript("http://maps.googleapis.com/maps/api/js?sensor=false&key="+this.apiKey);
+    },
 	data() {
-        return {	
+        return {
+            apiKey: 'AIzaSyA16P_aWqSP37FhtIhFtvf0zN1jMWhbbkQ',	
             currentLocation: { 
                 lat: null,
                 lon: null,

@@ -1,5 +1,5 @@
 <template>
-    <div class="features_items"><!--features_items-->
+    <div class="items"><!--features_items-->
         <h2 class="title text-center">Producten {{ category.name }}</h2>
 
         <div class="col-sm-4" v-for="product in products">

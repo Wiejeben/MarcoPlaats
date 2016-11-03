@@ -32,8 +32,18 @@ module.exports = {
 
                     geocoder.geocode({ 'latLng': latlng }, function (results, status) {
                         if (status == google.maps.GeocoderStatus.OK) {
-                            if (results[0]) {  
+                            if (results[0]) {
                                 self.currentLocation.address = results[0].formatted_address.split(', ');
+                                console.log(results[0]);
+
+                                splittedAdress = self.currentLocation.address[1].split(' ');
+
+                                if(splittedAdress.length == 3){
+                                    self.currentLocation.address[1] = splittedAdress[0] + splittedAdress[1]
+                                    self.currentLocation.address[3] = splittedAdress[2]
+                                }
+                                console.log(self.currentLocation.address);
+
                                 self.countries.forEach(function(value) {
                                 	value.selected = (self.currentLocation.address[2] == value.name);
                                 });

@@ -9,5 +9,13 @@ Vue.component('cart-overview-component', require('./components/cart/Overview.vue
 Vue.component('cart-details-component', require('./components/cart/Details.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+
+    created() {
+
+        if (typeof(Storage) != "undefined") {
+            // Prepare authorization header
+            Vue.http.headers.common['authorization'] = localStorage.getItem('authorization');
+        }
+    }
 });

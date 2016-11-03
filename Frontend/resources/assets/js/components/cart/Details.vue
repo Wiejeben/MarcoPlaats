@@ -39,8 +39,10 @@
                                 <form>
                                     <input type="text" placeholder="Adres" :value="currentLocation.address[0]">
                                     <input type="text" placeholder="Postcode" :value="currentLocation.address[1]">
+                                    <input type="text" placeholder="Plaats" :value="currentLocation.address[3]">
                                     <input type="text" placeholder="Alternatief Adres">
                                     <input type="text" placeholder="Alternatieve Postcode">
+                                    <input type="text" placeholder="Alternatieve Plaats">
                                     <select>
                                         <option>-- Land --</option>
                                         <option v-for="country in countries" :selected="country.selected" :value="country.name">{{ country.name }}</option>

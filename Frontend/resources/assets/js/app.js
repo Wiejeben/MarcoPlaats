@@ -13,7 +13,8 @@ Vue.component('account-settings-component', require('./components/account/Settin
 Vue.component('cart-overview-component', require('./components/cart/Overview.vue'));
 Vue.component('cart-details-component', require('./components/cart/Details.vue'));
 
-window.apiUrl = 'http://146.185.176.116:8080';
+// window.apiUrl = 'http://146.185.176.116:8080';
+window.apiUrl = 'http://localhost:8080';
 
 const app = new Vue({
     el: '#app',

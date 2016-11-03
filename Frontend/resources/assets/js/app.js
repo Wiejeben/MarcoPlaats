@@ -14,6 +14,7 @@ Vue.component('cart-details-component', require('./components/cart/Details.vue')
 
 const app = new Vue({
     el: '#app',
+    mixins: [require('./mixins/auth')],
 
     created() {
 

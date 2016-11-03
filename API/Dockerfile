@@ -1,16 +1,12 @@
 FROM node:argon
 
-# Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/
+WORKDIR /app
 
-# Install app dependencies
-COPY package.json /usr/src/app/
+RUN npm install nodemon -g
+
+COPY package.json /app/package.json
 RUN npm install
 
-# Bundle app source
-COPY . /usr/src/app
+COPY server.js /app
 
 EXPOSE 8080
-
-CMD [ "npm", "start" ]

@@ -16,5 +16,14 @@ Vue.component('cart-details-component', require('./components/cart/Details.vue')
 window.apiUrl = 'http://146.185.176.116:8080';
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    mixins: [require('./mixins/auth')],
+
+    created() {
+
+        if (typeof(Storage) != "undefined") {
+            // Prepare authorization header
+            Vue.http.headers.common['authorization'] = localStorage.getItem('authorization');
+        }
+    }
 });

@@ -9,7 +9,7 @@ const restify = require('restify');
 
 // Authentication
 var passport = global.passport = require('passport-restify');
-require('./auth');
+    require('./auth');
 
 // Restify server
 var server = global.server = restify.createServer(config.Application);

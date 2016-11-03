@@ -119,22 +119,108 @@ User.DeleteOrder = function(db, params, callback) {
 User.GetWishlist = (db, params, callback) => {
     var collection = db.collection('Users');
     
-    collection.find({_id:new ObjectId(params.uid)}, 
-                        {WishlistProductIds:1})
-                        .toArray(function(err, results) {
-                            callback(results);
+    // collection.find({_id:new ObjectId(params.uid)}, 
+    //                     {WishlistProductIds:1})
+    //                     .toArray(function(err, results) {
+    //                         callback(results);
+    //                 });
+
+
+    collection.aggregate([
+        { $match: {_id: new ObjectId(params.uid)}},
+        // Unwind the source
+        { $unwind: '$WishlistProductIds'},
+        // Do the lookup matching
+        { $lookup: {
+                from: 'Products',
+                localField: 'WishlistProductIds',
+                foreignField: '_id',
+                as: 'productObjects'
+        }},
+        // Unwind the result arrays ( likely one or none )
+        { $unwind: '$productObjects' },
+        // Group back to arrays
+        {  $group: {
+                _id: '$_id',
+                productObjects: { $push: '$productObjects' }
+        }}
+    ], function(err, results){
+        callback(results);
     });
 }
 
+// Insert into wishlist
 User.InsertWishlist = (db, params, body, callback) => {
     var collection = db.collection('Users');
 
+    var _objectId = new ObjectId(body.ProductId);
+
     collection.update({_id:new ObjectId(params.uid)}, 
-                        {$addToSet: {WishlistProductIds:body.ProductId}}, function(err, r){
+                        {$addToSet: {WishlistProductIds: _objectId}}, function(err, r){
                             callback()
                         });
 }
+// Delete from wishlist
+User.DeleteWishlist = (db, params, callback) => {
+    var collection = db.collection('Users');
 
+    collection.update({_id: new ObjectId(params.uid)},
+                        {$pull: {WishlistProductIds: { $in: [new ObjectId(params.id)]}}},
+                        function(err, r){
+                            callback(0);
+                        })
+}
+
+// Favourites
+User.GetFavourites = (db, params, callback) => {
+    var collection = db.collection('Users');
+
+    //  collection.find({_id: new ObjectId(params.uid)},
+    //                  {FavoriteProductIds:1})
+    //                  .toArray(function(err, collection) {
+    //                     callback(collection);
+    //     });
+
+
+    collection.aggregate([
+        { $match: { _id: new ObjectId(params.uid)} },
+        { $unwind: '$FavoriteProductIds' },
+        { $lookup: { 
+            from:'Products',
+            localField:'FavoriteProductIds',
+            foreignField:'_id',
+            as: 'productObjects'
+        }},
+        { $unwind: '$productObjects' },
+        { $group: {
+            _id: '$_id',
+            productObjects: { $push: '$productObjects' }
+        }}
+    ],
+    function(err, collection) {
+        callback(collection)
+    })
+
+}
+// Insert into favourites
+User.InsertFavourite = (db, params, body,  callback) => {
+    var collection = db.collection('Users');
+
+    collection.update({_id: new ObjectId(params.uid)},
+                       {$addToSet: {FavoriteProductIds:new ObjectId(body.ProductId)}}, function(err, r){
+                           callback();
+                       });
+}
+// Delete from favourites
+User.DeleteFavourite = (db, params, callback) => {
+    var collection = db.collection('Users');
+
+    collection.update({_id:new ObjectId(params.uid)},
+                      {$pull: {FavoriteProductIds: { $in: [new ObjectId(params.id)]}}}, 
+                      function(err, r){
+                          callback();
+                      });
+}
 
 
 module.exports = User;

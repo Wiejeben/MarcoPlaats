@@ -34,9 +34,17 @@ User.InsertFromGoogle = function(db, profile, callback) {
     })
 }
 
-User.Exists = function(db, profile, callback) {
+User.GetByToken = function (db, OauthId, callback) {
     var collection = db.collection('Users');
 
+    collection.find({OAuthId:OauthId}).toArray(function(err, collection){
+        callback(collection);
+    });
+}
+
+User.Exists = function(db, profile, callback) {
+    var collection = db.collection('Users');
+    
     collection.find({OAuthId: profile.id}).toArray(function(err, collection) {
             callback(collection);
         });

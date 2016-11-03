@@ -1,6 +1,6 @@
 var Config = {
   Database:{
-    Url: 'mongodb://localhost:27017/MarcoPlaats',
+    Url: 'mongodb://db:27017/MarcoPlaats',
   },
   Application: {
     name: 'Marcoplaats API',
@@ -12,10 +12,10 @@ var Config = {
     callbackURL: "http://localhost:8080/auth/google/callback"
   },
   Misc: {
-    // ClientUrl: 'http://marcoplaats.maarten.co.uk' // Must be without a slash on the end.
-    ClientUrl: 'http://marcoplaats.dev' // Must be without a slash on the end.
+    ClientUrl: 'http://marcoplaats.maarten.co.uk' // Must be without a slash on the end.
+    // ClientUrl: 'marcoplaats.dev' // Must be without a slash on the end.
   },
-  Roles: ['user', 'admin', 'blocked']
+    Roles: ['user', 'admin', 'blocked']
 };
 
 

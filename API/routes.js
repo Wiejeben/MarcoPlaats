@@ -24,7 +24,17 @@ server.get('/auth/google/callback',
     });
 
 
+
 var controllers = AutoLoader('Controllers');
+
+var User = require('./Models/User')
+
+server.get('/auth/user', function (req, res, next) {
+
+    User.GetByToken(this.locals.db, req.headers.authorization, function(user){
+        res.send(user);
+    });
+});
 
 RestRouter(server, 'products', controllers.ProductController);
 RestRouter(server, 'users', controllers.UserController);

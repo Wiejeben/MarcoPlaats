@@ -8,8 +8,9 @@ passport.use(new GoogleStrategy(global.config.OAuth,
         var User = require('./Models/User');
 
         User.InsertFromGoogle(server.locals.db, profile, function(Oauth){
-            var hash = require('md5')(Oauth);
-            return done(null, hash);
+            // securtie boeit niet
+            // var hash = require('md5')(Oauth);
+            return done(null, Oauth);
         });
 
     }

@@ -22,6 +22,7 @@ server.use(restify.fullResponse())
 
 // MongoDB
 require('mongodb').MongoClient.connect(config.Database.Url, { promiseLibrary: Promise }, function(err, _db) {
+    console.log(err);
     server.locals = {
         db: _db
     };

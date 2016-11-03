@@ -8,7 +8,7 @@ cd API
 #Install packages
 sudo npm install
 #Set up docker
-docker-compose -p "MarcoPlaats" up
+docker-compose -p "MarcoPlaats" up -d
 
 cd ../Frontend
 

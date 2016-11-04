@@ -6,14 +6,14 @@
         <div class="row">
             <div class="col-sm-12 clearfix">
                 <div class="form-one">
-                    <form>
+                    <form v-if="user != null">
                         <input type="text" placeholder="Voornaam" v-model="user.FirstName">
                         <input type="text" placeholder="Achternaam" v-model="user.LastName">
                         <input type="text" placeholder="Email" v-model="user.Email">
-                        <input type="text" placeholder="Telefoonnummer">
-                        <input type="text" placeholder="Adres">
-                        <input type="text" placeholder="Postcode">
-                        <input type="text" placeholder="Plaats">
+                        <input type="text" placeholder="Telefoonnummer" v-model="user.PhoneNumber">
+                        <input type="text" placeholder="Adres" v-model="user.Addresses.Street">
+                        <input type="text" placeholder="Postcode" v-model="user.Addresses.Zipcode">
+                        <input type="text" placeholder="Plaats" v-model="user.Addresses.City">
                         <input type="text" placeholder="Alternatief Adres">
                         <input type="text" placeholder="Alternatieve Postcode">
                         <input type="text" placeholder="Alternatieve Plaats">
@@ -38,20 +38,16 @@
             console.log('Users edit is ready.');
 
             var self = this;
-            $.get(apiUrl + '/users/581b117c9f385b0013f00518', function(data) {
+            $.get(apiUrl + '/users/581c8fcf5a6cdb1374ebc4a7', function(data) {
 
                 self.user = data.data[0];
-
             });
-
         },
-
         data() {
             return {
-                user: {}
+                user: null
             }
         },
-
         methods:{
             submit(){
                 console.log('submitted');

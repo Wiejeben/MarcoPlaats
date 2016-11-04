@@ -11,12 +11,12 @@
                         <input type="text" placeholder="Achternaam" v-model="user.LastName">
                         <input type="text" placeholder="Email" v-model="user.Email">
                         <input type="text" placeholder="Telefoonnummer" v-model="user.PhoneNumber">
-                        <input type="text" placeholder="Adres" v-model="user.Addresses.Street">
-                        <input type="text" placeholder="Postcode" v-model="user.Addresses.Zipcode">
-                        <input type="text" placeholder="Plaats" v-model="user.Addresses.City">
-                        <input type="text" placeholder="Alternatief Adres">
-                        <input type="text" placeholder="Alternatieve Postcode">
-                        <input type="text" placeholder="Alternatieve Plaats">
+                        <input type="text" placeholder="Adres" v-model="user.MainAddress.Address">
+                        <input type="text" placeholder="Postcode" v-model="user.MainAddress.Zipcode">
+                        <input type="text" placeholder="Plaats" v-model="user.MainAddress.City">
+                        <input type="text" placeholder="Alternatief Adres" v-model="user.DeliveryAddress.Address">
+                        <input type="text" placeholder="Alternatieve Postcode" v-model="user.DeliveryAddress.Zipcode">
+                        <input type="text" placeholder="Alternatieve Plaats" v-model="user.DeliveryAddress.City">
                         <select>
                             <option>-- Land --</option>
                             <!--<option v-for="country in countries" :selected="country.selected" :value="country.name">{{ country.name }}</option>-->

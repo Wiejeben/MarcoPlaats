@@ -1661,25 +1661,34 @@ h2.title {
   
 }
 
+.table_button  {
+  display: inline-block;
+  overflow: hidden;
+  a {
+    background:#F0F0E9;
+    color: #FFFFFF;
+    padding: 5px 7px;
+    font-size: 16px
+  }
+  a:hover {
+    background:#FE980F
+  }
+}
 
 .cart_delete  {
   display: block;
   margin-right: -12px;
   overflow: hidden;
+  a {
+    background:#F0F0E9;
+    color: #FFFFFF;
+    padding: 5px 7px;
+    font-size: 16px
+  }
+  a:hover {
+    background:#FE980F
+  }
 }
-
-
-.cart_delete a {
-  background:#F0F0E9;
-  color: #FFFFFF;
-  padding: 5px 7px;
-  font-size: 16px
-}
-
-.cart_delete a:hover {
-  background:#FE980F
-}
-
 
 .bg h2.title {
   margin-right:0;

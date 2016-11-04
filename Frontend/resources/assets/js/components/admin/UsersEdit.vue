@@ -38,7 +38,8 @@
             console.log('Users edit is ready.');
 
             var self = this;
-            $.get(apiUrl + '/users/581c8fcf5a6cdb1374ebc4a7', function(data) {
+            var token = location.search.split('id=')[1];
+            $.get(apiUrl + '/users/' + token, function(data) {
 
                 self.user = data.data[0];
             });

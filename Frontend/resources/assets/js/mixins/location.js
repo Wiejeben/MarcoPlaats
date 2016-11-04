@@ -1,4 +1,3 @@
-
 module.exports = {
     mounted(){
         $.getScript("http://maps.googleapis.com/maps/api/js?sensor=false&key="+this.apiKey);

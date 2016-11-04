@@ -23,5 +23,4 @@ Product.FindById = function (db, id, callback) {
     Context.FindById(db, 'Products', id, callback)
 };
 
-
 module.exports = Product;

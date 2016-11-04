@@ -15,10 +15,10 @@ server.get('/auth', passport.authenticate('google', { scope: ['https://www.googl
 server.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/failure', session: false }),
     function(req, res) {
-
+        
         // Send user back to client
         res.statusCode = 302;
-        res.setHeader('Location', global.config.Misc.ClientUrl + '/account/process.html?token=' + req.user);
+        res.setHeader('Location', global.config.Misc.ClientUrl + '/account/process.html?token=' + req.user.OAuthId);
         res.setHeader('Content-Length', '0');
         res.end();
     });
@@ -42,4 +42,4 @@ RestRouter(server, 'users', controllers.UserController);
 RestRouter(server, 'categories', controllers.CategoryController);
 RestRouter(server, 'users/:uid/orders', controllers.OrderController);
 RestRouter(server, 'users/:uid/wishlist', controllers.WishlistController);
-// RestRouter(server, 'users/:uid/favorites', controllers.FavoritesController);
+RestRouter(server, 'users/:uid/favourites', controllers.FavouritesController);

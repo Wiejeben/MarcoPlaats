@@ -38,10 +38,13 @@
                     <div class="col-sm-8">
                         <div class="shop-menu pull-right">
                             <ul class="nav navbar-nav">
-                                <li v-show="loggedIn"><a href="#"><i class="fa fa-star"></i> Verlanglijstje</a></li>
-                                <li><a href="/cart/overview.html"><i class="fa fa-shopping-cart"></i> Winkelwagentje</a></li>
-                                <li v-show="!loggedIn"><a href="http://localhost:8080/auth"><i class="fa fa-lock"></i> Inloggen</a></li>
-                                <li v-show="loggedIn"><a href="#"><i class="fa fa-sign-out"></i> Uitloggen</a></li>
+                                <li><a href="/cart"><i class="fa fa-shopping-cart"></i> Winkelwagentje</a></li>
+
+                                <li v-show="loggedIn"><a href="/account"><i class="fa fa-user"></i> Account</a></li>
+                                <li v-show="loggedIn"><a href="/account/wishlist.html"><i class="fa fa-star"></i> Verlanglijstje</a></li>
+                                <li v-show="loggedIn"><a href="/account/logout.html"><i class="fa fa-sign-out"></i> Uitloggen</a></li>
+
+                                <li v-show="!loggedIn"><a :href="apiUrl + '/auth'"><i class="fa fa-lock"></i> Inloggen</a></li>
                             </ul>
                         </div>
                     </div>
@@ -68,7 +71,8 @@
 
         data() {
             return {
-                user: null
+                user: null,
+                apiUrl: window.apiUrl
             }
         },
 

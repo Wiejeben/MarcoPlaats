@@ -13,6 +13,8 @@
 
 <script>
     export default {
+        mixins: [require('./../../mixins/auth')],
+
         data() {
             return {
                 baseUrl: '/account',

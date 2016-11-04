@@ -1,15 +1,15 @@
 module.exports = {
-    created() {
-
-        if (localStorage.getItem("authorization") != null)
+    mounted() {
+        // Redirect user to front-page if he is not logged in.
+        if (!window.LoggedIn)
         {
-            this.$http.get('http://localhost:8080/auth/user').then((response) => {
-                    window.User = response;
-                },
-                (response) => {
-                    alert('Kon geen verbinding maken met de Marcoplaats API.')
-                })
+            window.location.href = '/';
         }
-    }
-}
 
+        eventHub.$once('user-undefined', function()
+        {
+            window.location.href = '/';
+        });
+    }
+
+}

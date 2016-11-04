@@ -40,7 +40,7 @@
             var self = this;
             $.get(apiUrl + '/users/581b117c9f385b0013f00518', function(data) {
 
-                self.user = data.data[0];
+                self.user = data;
 
             });
 

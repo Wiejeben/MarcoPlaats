@@ -38,9 +38,18 @@ const app = new Vue({
         if (window.LoggedIn)
         {
             $.get('http://marcoplaats.dev:8080/auth/user', function(data) {
-                window.User = data[0];
 
-                eventHub.$emit('user-detected', data[0]);
+                if(data.length)
+                {
+                    window.User = data[0];
+                    eventHub.$emit('user-detected', data[0]);
+                }
+                else
+                {
+                    window.LoggedIn = false;
+                    localStorage.removeItem('authorization');
+                    eventHub.$emit('user-undefined');
+                }
             });
         }
     }

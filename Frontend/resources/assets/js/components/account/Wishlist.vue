@@ -63,6 +63,8 @@
 </template>
 <script>
     export default {
+        mixins: [require('./../../mixins/auth')],
+
         created() {
             console.log('test')
             //this.currentLocation = this.getCurrentAdress()

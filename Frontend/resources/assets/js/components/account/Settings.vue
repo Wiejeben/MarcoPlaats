@@ -32,7 +32,7 @@
 </template>
 <script>
     export default {
-        mixins: [require('./../../mixins/location.js')],
+        mixins: [require('./../../mixins/location.js'), require('./../../mixins/auth')],
         created() {
             this.currentLocation = this.getCurrentAdress()
         },

@@ -17,7 +17,7 @@
 
         data() {
             return {
-                baseUrl: '/account',
+                baseUrl: '/admin',
                 url: '/' + window.location.pathname.split('/').pop(),
                 menu: [
                     { name: 'Gebruikers', url: '/admin/users', active: false },

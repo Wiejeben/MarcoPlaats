@@ -1,6 +1,6 @@
 <template>
     <div class="items"><!--features_items-->
-        
+
         <h2 class="title text-center">Beheer</h2>
         <h3>Gebruikers</h3>
 
@@ -32,7 +32,6 @@
     export default {
         created() {
             console.log('Users admin ready.');
-
 
             var that = this;
             $.get(apiUrl + '/users', function(data) {

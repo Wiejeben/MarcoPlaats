@@ -19,3 +19,4 @@ Vue.component('cart-details-component', require('./cart/Details.vue'));
 // Admin
 Vue.component('admin-sidebar-component', require('./admin/Sidebar.vue'));
 Vue.component('admin-users-component', require('./admin/Users.vue'));
+Vue.component('admin-users-edit-component', require('./admin/UsersEdit.vue'));

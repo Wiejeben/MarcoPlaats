@@ -6,12 +6,15 @@ schemas = {
         Email: null,
         Role: null,
         PhoneNumber: null,
-        Addresses: {
-            Street: null,
+        MainAddress: {
+            Address: null,
             City: null,
             Zipcode: null,
-            Number: null,
-            DeliveryAddress: null,
+        },
+        DeliveryAddress: {
+            Address: null,
+            City: null,
+            Zipcode: null,
         }
     },
     User: {
@@ -21,12 +24,15 @@ schemas = {
         Email: null,
         Role: null,
         PhoneNumber: null,
-        Addresses: {
-            Street: null,
+        MainAddress: {
+            Address: null,
             City: null,
             Zipcode: null,
-            Number: null,
-            DeliveryAddress: null,
+        },
+        DeliveryAddress: {
+            Address: null,
+            City: null,
+            Zipcode: null,
         },
         Orders: [],
         ProductIds: [],
@@ -53,10 +59,9 @@ schemas = {
         OrderLines: [],
         OrderDate: null,
         address: {
-            Street: null,
+            Address: null,
             City: null,
             Zipcode: null,
-            Number: null,
             DeliveryAddress: null,
         }
     },

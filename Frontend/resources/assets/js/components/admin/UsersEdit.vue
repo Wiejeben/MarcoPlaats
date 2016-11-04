@@ -7,9 +7,9 @@
             <div class="col-sm-12 clearfix">
                 <div class="form-one">
                     <form>
-                        <input type="text" placeholder="Voornaam">
-                        <input type="text" placeholder="Achternaam">
-                        <input type="text" placeholder="Email">
+                        <input type="text" placeholder="Voornaam" v-model="user.FirstName">
+                        <input type="text" placeholder="Achternaam" v-model="user.LastName">
+                        <input type="text" placeholder="Email" v-model="user.Email">
                         <input type="text" placeholder="Telefoonnummer">
                         <input type="text" placeholder="Adres">
                         <input type="text" placeholder="Postcode">
@@ -33,9 +33,25 @@
 <script>
     export default {
         mixins: [require('./../../mixins/auth')],
+
         created() {
             console.log('Users edit is ready.');
+
+            var self = this;
+            $.get(apiUrl + '/users/581b117c9f385b0013f00518', function(data) {
+
+                self.user = data.data[0];
+
+            });
+
         },
+
+        data() {
+            return {
+                user: {}
+            }
+        },
+
         methods:{
             submit(){
                 console.log('submitted');

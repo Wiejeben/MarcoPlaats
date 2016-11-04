@@ -15,10 +15,10 @@ server.get('/auth', passport.authenticate('google', { scope: ['https://www.googl
 server.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/failure', session: false }),
     function(req, res) {
-
+        
         // Send user back to client
         res.statusCode = 302;
-        res.setHeader('Location', global.config.Misc.ClientUrl + '/account/process.html?token=' + req.user);
+        res.setHeader('Location', global.config.Misc.ClientUrl + '/account/process.html?token=' + req.user.OAuthId);
         res.setHeader('Content-Length', '0');
         res.end();
     });

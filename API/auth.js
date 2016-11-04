@@ -10,7 +10,7 @@ passport.use(new GoogleStrategy(global.config.OAuth,
         User.InsertFromGoogle(server.locals.db, profile, function(Oauth){
             // securtie boeit niet
             // var hash = require('md5')(Oauth);
-            return done(null, Oauth);
+            return done(null, Oauth[0]);
         });
 
     }

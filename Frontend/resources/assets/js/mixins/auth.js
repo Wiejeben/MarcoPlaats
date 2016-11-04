@@ -6,7 +6,7 @@ module.exports = {
             window.location.href = '/';
         }
 
-        eventHub.$emit('user-undefined', function()
+        eventHub.$once('user-undefined', function()
         {
             window.location.href = '/';
         });

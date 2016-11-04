@@ -41,7 +41,7 @@
                                 <li v-show="loggedIn"><a href="#"><i class="fa fa-star"></i> Verlanglijstje</a></li>
                                 <li><a href="/cart/overview.html"><i class="fa fa-shopping-cart"></i> Winkelwagentje</a></li>
                                 <li v-show="!loggedIn"><a href="http://localhost:8080/auth"><i class="fa fa-lock"></i> Inloggen</a></li>
-                                <li v-show="loggedIn"><a href="#"><i class="fa fa-sign-out"></i> Uitloggen</a></li>
+                                <li v-show="loggedIn"><a href="/account/logout.html"><i class="fa fa-sign-out"></i> Uitloggen</a></li>
                             </ul>
                         </div>
                     </div>

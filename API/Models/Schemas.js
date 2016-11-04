@@ -5,10 +5,10 @@ schemas = {
         OAuthId: null,
         Email: null,
         Role: null,
+        PhoneNumber: null,
         Addresses: {
             Street: null,
             City: null,
-            Province: null,
             Zipcode: null,
             Number: null,
             DeliveryAddress: null,
@@ -20,10 +20,10 @@ schemas = {
         OAuthId: null,
         Email: null,
         Role: null,
+        PhoneNumber: null,
         Addresses: {
             Street: null,
             City: null,
-            Province: null,
             Zipcode: null,
             Number: null,
             DeliveryAddress: null,
@@ -55,7 +55,6 @@ schemas = {
         address: {
             Street: null,
             City: null,
-            Province: null,
             Zipcode: null,
             Number: null,
             DeliveryAddress: null,

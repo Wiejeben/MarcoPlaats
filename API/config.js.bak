@@ -1,0 +1,27 @@
+var Config = {
+  Database:{
+    Url: 'mongodb://db:27017/MarcoPlaats',
+  },
+  Application: {
+    name: 'Marcoplaats API',
+    version: '1.0.0'
+  },
+  OAuth: {
+    clientID: "FILL IN",
+    clientSecret: "FILL IN",
+    callbackURL: "http://localhost:8080/auth/google/callback"
+  },
+  Misc: {
+    // ClientUrl: 'http://marcoplaats.maarten.co.uk' // Must be without a slash on the end.
+    ClientUrl: 'http://marcoplaats.dev' // Must be without a slash on the end.
+  },
+  Encryption: {
+    algorithm: "aes-256-ctr",
+    password: "Marco123Plaats"
+  },
+  Roles: ['user', 'admin', 'blocked']
+};
+
+
+
+module.exports = Config;

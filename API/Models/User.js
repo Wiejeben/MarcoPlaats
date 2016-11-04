@@ -2,12 +2,30 @@
 var Context = require('./../Helpers/Context.js');
 var schemas = require('./Schemas.js');
 var ObjectId = require('mongodb').ObjectID;
+var crypto = require('crypto');
+
 
 var User = function (data) {
     this.data = data;
 };
 
 User.prototype.data = {};
+
+//Encrypt OauthId
+User.encryptToken = function(text){
+    var cipher = crypto.createCipher(global.Config.Encryption.algorithm, global.Config.Encryption.password)
+    var crypted = cipher.update(text,'utf8','hex')
+    crypted += cipher.final('hex');
+    return crypted;
+}
+
+//Decrypt OauthId
+User.decryptToken = function(text){
+    var decipher = crypto.createDecipher(global.Config.Encryption.algorithm, global.Config.Encryption.password)
+    var dec = decipher.update(text,'hex','utf8')
+    dec += decipher.final('utf8');
+    return dec;
+}
 
 // Users
 User.Insert = function(db, body, callback) {
@@ -26,18 +44,20 @@ User.InsertFromGoogle = function(db, profile, callback) {
             }
             
             User.Insert(db, _user, function(){
-                callback(profile.id);
+                var encryptedToken = User.encryptToken(profile.id);
+                callback(encryptedToken);
             });
         }else{
-            callback(result);
+            var encryptedToken = User.encryptToken(result[0].OAuthId);
+            callback(encryptedToken);
         }
     })
 }
 
 User.GetByToken = function (db, OauthId, callback) {
     var collection = db.collection('Users');
-
-    collection.find({OAuthId:OauthId}).toArray(function(err, collection){
+    var decryptedToken = User.decryptToken(OauthId);
+    collection.find({OAuthId:decryptedToken}).toArray(function(err, collection){
         callback(collection);
     });
 }

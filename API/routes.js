@@ -18,7 +18,7 @@ server.get('/auth/google/callback',
         
         // Send user back to client
         res.statusCode = 302;
-        res.setHeader('Location', global.config.Misc.ClientUrl + '/account/process.html?token=' + req.user.OAuthId);
+        res.setHeader('Location', global.config.Misc.ClientUrl + '/account/process.html?token=' + req.user);
         res.setHeader('Content-Length', '0');
         res.end();
     });
@@ -31,7 +31,7 @@ var User = require('./Models/User')
 
 server.get('/auth/user', function (req, res, next) {
 
-    User.GetByToken(this.locals.db, req.headers.authorization, function(user){
+    User.GetByToken(this.locals.db, req.headers.authorization, function(user) {
         res.send(user);
     });
     

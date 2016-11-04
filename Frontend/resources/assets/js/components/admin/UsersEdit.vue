@@ -40,8 +40,7 @@
             var self = this;
             var token = location.search.split('id=')[1];
             $.get(apiUrl + '/users/' + token, function(data) {
-
-                self.user = data.data[0];
+                self.user = data;
             });
         },
         data() {

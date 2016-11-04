@@ -24,6 +24,7 @@ User.decryptToken = function(text){
     var decipher = crypto.createDecipher(global.config.Encryption.algorithm, global.config.Encryption.password);
     var dec = decipher.update(text,'hex','utf8');
     dec += decipher.final('utf8');
+    
     return dec;
 }
 
@@ -56,10 +57,10 @@ User.InsertFromGoogle = function(db, profile, callback) {
 
 User.GetByToken = function (db, OauthId, callback) {
     var collection = db.collection('Users');
-
     var decryptedToken = User.decryptToken(OauthId);
+    
 
-    collection.find({OAuthId:decryptedToken}).toArray(function(err, collection){
+    collection.findOne({OAuthId:decryptedToken}, function(err, collection){
         callback(collection);
     });
 }

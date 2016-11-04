@@ -9,11 +9,11 @@ const app = new Vue({
         if (window.LoggedIn)
         {
             $.get(window.apiUrl + '/auth/user', function(data) {
-
-                if(data.length)
-                {
-                    window.User = data[0];
-                    eventHub.$emit('user-detected', data[0]);
+                console.log(data);
+                if(data)
+                {  
+                    window.User = data;
+                    eventHub.$emit('user-detected', data);
                 }
                 else
                 {

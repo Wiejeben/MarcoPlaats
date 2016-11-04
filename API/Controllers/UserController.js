@@ -17,7 +17,7 @@ exports.Create = function (req, res, next) {
 
 exports.Show = function (req, res, next) {
     User.FindById(this.locals.db, req.params.id, function(user) {
-        res.send({data:user});
+        res.send(user);
     });
 };
 

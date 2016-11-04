@@ -38,8 +38,8 @@
             console.log('Users edit is ready.');
 
             var self = this;
-            var token = location.search.split('id=')[1];
-            $.get(apiUrl + '/users/' + token, function(data) {
+            self.token = location.search.split('id=')[1];
+            $.get(apiUrl + '/users/' + self.token, function(data) {
                 self.user = data;
             });
         },
@@ -52,18 +52,10 @@
             submit(){
                 console.log('submitted');
                 // $.ajax({
-                //     url: window.apiUrl+'/users',
+                //     url: window.apiUrl+'/users/' + this.token,
                 //     type: 'POST',
                 //     contentType: 'application/json',
-                //     data: JSON.stringify({
-                //         FirstName: 'Rick',
-                //         LastName: 'Droogh',
-                //         Email: '0911272@hr.nl',
-                //         Addresses : {
-                //             Street: 'test123',
-
-                //         }
-                //     }),
+                //     data: this.user,
                 //     dataType: 'json'
                 // });
             }

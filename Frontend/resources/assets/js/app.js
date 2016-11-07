@@ -10,7 +10,7 @@ const app = new Vue({
         {
             $.get(window.apiUrl + '/auth/user', function(data) {
                 if(data && JSON.stringify(data) != '{}')
-                {  
+                {
                     window.User = data;
                     eventHub.$emit('user-detected', data);
                 }

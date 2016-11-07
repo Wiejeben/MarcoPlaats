@@ -9,6 +9,8 @@ require('vue-resource');
 // Handles events
 window.eventHub = new Vue();
 
+window.HasRole = require('./functions/HasRole');
+
 window.User = null;
 
 // Generate API url

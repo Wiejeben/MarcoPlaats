@@ -35,10 +35,11 @@
         created() {
             console.log('Users admin ready.');
 
-            var that = this;
-            $.get(apiUrl + '/users', function(data) {
-                that.users = data.data;
-            });
+            HasRole('admin', function() {
+                $.get(apiUrl + '/users', function(data) {
+                    that.users = data.data;
+                });
+            })
         },
         data() {
             return {

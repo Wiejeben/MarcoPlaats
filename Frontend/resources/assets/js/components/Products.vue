@@ -57,6 +57,7 @@
             },
 
             InsertWishlist(id) {
+                var self = this;
                 $.ajax({
                     url: window.apiUrl+'/users/' + window.User._id + '/wishlist',
                     type: 'POST',
@@ -74,6 +75,7 @@
             },
             
             DeleteWishlist(id) {
+                var self = this;
                 $.ajax({
                     url: window.apiUrl+'/users/'+window.User._id + '/wishlist/' + id,
                     type: 'DELETE',

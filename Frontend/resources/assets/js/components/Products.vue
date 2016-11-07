@@ -77,7 +77,7 @@
                 $.ajax({
                     url: window.apiUrl+'/users/'+window.User._id + '/wishlist/' + id,
                     type: 'DELETE',
-                    success: function(result) {
+                    success: function(data) {
                         if(data == true){
                             self.newAlert('success', 'Product succesvol verwijdert van verlanglijstje!');
                         } else {

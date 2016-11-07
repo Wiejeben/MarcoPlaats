@@ -16,7 +16,7 @@
 <script>
     export default {
         mounted() {
-            console.log('Footer ready.')
+            console.info('Footer ready.')
         }
     }
 </script>

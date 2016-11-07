@@ -33,12 +33,13 @@
 <script>
     export default {
         created() {
-            console.log('Users admin ready.');
-
-            var that = this;
-            $.get(apiUrl + '/users', function(data) {
-                that.users = data.data;
-            });
+            console.info('Users admin ready.');
+            var self = this;
+            HasRole('admin', function() {
+                $.get(apiUrl + '/users', function(data) {
+                    self.users = data.data;
+                });
+            })
         },
         data() {
             return {

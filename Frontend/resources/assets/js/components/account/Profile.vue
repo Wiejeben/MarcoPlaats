@@ -7,7 +7,9 @@
 <script>
     export default {
         created() {
-            console.log('created');
+            HasRole('user')
+
+            console.info('created');
         }
     }
 </script>

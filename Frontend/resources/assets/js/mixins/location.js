@@ -10,11 +10,6 @@ module.exports = {
                 lon: null,
                 address: [],
             },
-            countries: [
-            	{ name: 'Nederland', selected: false },
-            	{ name: 'België', selected: false }, 
-            	{ name: 'Duitsland', selected: false }
-            ],
         }
     },
     methods: {

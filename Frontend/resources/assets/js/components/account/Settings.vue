@@ -17,10 +17,6 @@
                         <input type="text" placeholder="Alternatief Adres" v-model="user.DeliveryAddress.Address">
                         <input type="text" placeholder="Alternatieve Postcode" v-model="user.DeliveryAddress.Zipcode">
                         <input type="text" placeholder="Alternatieve Plaats" v-model="user.DeliveryAddress.City">
-                        <select>
-                            <option>-- Land --</option>
-                            <option v-for="country in countries" :selected="country.selected" :value="country.name">{{ country.name }}</option>
-                        </select>
                         <div id="do_action">
                             <a href="#" class="btn btn-primary" @click.prevent="submitSettings()">Opslaan</a>
                         </div>
@@ -41,6 +37,7 @@
             var self = this;
             eventHub.$on('user-detected', function(data) {
                 self.user = data;
+                console.log(self.user.MainAddress);
             })
         },
         data() {
@@ -49,9 +46,7 @@
             }
         },
         methods:{
-
             submitSettings() {
-
                 $.ajax({
                     url: window.apiUrl + '/users/' + User._id,
                     type: 'PUT',

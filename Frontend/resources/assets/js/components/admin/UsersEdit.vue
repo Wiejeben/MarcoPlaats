@@ -17,10 +17,6 @@
                         <input type="text" placeholder="Alternatief Adres" v-model="user.DeliveryAddress.Address">
                         <input type="text" placeholder="Alternatieve Postcode" v-model="user.DeliveryAddress.Zipcode">
                         <input type="text" placeholder="Alternatieve Plaats" v-model="user.DeliveryAddress.City">
-                        <select>
-                            <option>-- Land --</option>
-                            <!--<option v-for="country in countries" :selected="country.selected" :value="country.name">{{ country.name }}</option>-->
-                        </select>
                         <div id="do_action">
                             <a href="#" class="btn btn-primary" @click.prevent="submit()">Opslaan</a>
                         </div>
@@ -38,8 +34,8 @@
             console.log('Users edit is ready.');
 
             var self = this;
-            self.token = location.search.split('id=')[1];
-            $.get(apiUrl + '/users/' + self.token, function(data) {
+            self._id = location.search.split('id=')[1];
+            $.get(apiUrl + '/users/' + self._id, function(data) {
                 self.user = data;
             });
         },
@@ -50,21 +46,11 @@
         },
         methods:{
             submit(){
-                console.log('submitted');
-
-                var _user = JSON.parse(JSON.stringify(this.user));
-
-                $.post(window.apiUrl+'/users/' + this.token, _user, function( data ) {
-                    console.log(data);
-                    // $( ".result" ).html( data );
-                });
-
-
                 $.ajax({
-                    url: window.apiUrl+'/users/' + this.token,
+                    url: window.apiUrl+'/users/' + this._id,
                     type: 'PUT',
                     contentType: 'application/json',
-                    data: _user,
+                    data: JSON.stringify(this.user),
                     dataType: 'json'
                 });
             }

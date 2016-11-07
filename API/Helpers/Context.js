@@ -21,14 +21,12 @@ Context.GetAll = function(db, _collection, callback) {
 };
 
 Context.Insert = function(db, _collection, body, callback, schema) {
-        var collection = db.collection(_collection);
-        body = this.sanitize(body, schema);
-        collection.insertOne(body, function(err, result){
-            callback();
-        });
+    var collection = db.collection(_collection);
+    body = this.sanitize(body, schema);
+    collection.insertOne(body, function(err, result){
+        callback();
+    });
 };
-
-
 
 Context.FindById = function(db, _collection, id, callback) {
     var collection = db.collection(_collection);
@@ -41,7 +39,6 @@ Context.FindById = function(db, _collection, id, callback) {
         callback({});
     }
 };
-
 
 Context.Update = function(db, _collection, id, body, schema, callback) {
     var collection = db.collection(_collection);
@@ -58,9 +55,5 @@ Context.Delete = function(db, _collection, id, callback) {
         callback(r.deletedCount);
     });
 }
-
-
-
-
 
 module.exports = Context;

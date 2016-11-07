@@ -15,7 +15,6 @@ var passport = global.passport = require('passport-restify');
 var server = global.server = restify.createServer(config.Application);
 
 // Allow custom headers
-// restify.CORS.ALLOW_HEADERS.push('Access-Control-Allow-Origin‌​');
 restify.CORS.ALLOW_HEADERS.push('authorization');
 
 // Implement the following plugins

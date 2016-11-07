@@ -262,4 +262,18 @@ User.DeleteFavourite = (db, params, callback) => {
 }
 
 
+/*
+    Products
+*/
+
+User.InsertProduct = (db, userId, productId, callback) => {
+    var collection = db.collection('Users');
+
+    collection.update({_id: new ObjectId(userId)},
+                      {$addToSet: {ProductIds: new ObjectId(productId)}}, function(err, r) {
+                          callback();
+                      })
+}
+
+
 module.exports = User;

@@ -1,4 +1,5 @@
 var Product = require('./../Models/Product');
+var User = require('./../Models/User');
 var Image = require('./../Models/Image');
 
 exports.Index = function(req, res, next){
@@ -9,8 +10,10 @@ exports.Index = function(req, res, next){
 
 exports.Create = function(req, res, next){
     Product.Insert(this.locals.db, req.body, function(){
+        // User.InsertProduct(this.locals.db, )
         res.send("Product is added");
     })
+
 };
 
 exports.Show = function(req, res, next) {

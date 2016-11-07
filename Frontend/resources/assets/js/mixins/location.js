@@ -37,10 +37,6 @@ module.exports = {
                                     self.currentLocation.address[3] = splittedAdress[2]
                                 }
                                 console.log(self.currentLocation.address);
-
-                                self.countries.forEach(function(value) {
-                                	value.selected = (self.currentLocation.address[2] == value.name);
-                                });
                             } else {
                 				console.log("No location found!");
                             }

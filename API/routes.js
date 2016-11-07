@@ -30,7 +30,6 @@ var controllers = AutoLoader('Controllers');
 var User = require('./Models/User')
 
 server.get('/auth/user', function (req, res, next) {
-    // console.log(req.headers.authorization);
     User.GetByToken(this.locals.db, req.headers.authorization, function(user) {
         res.send(user);
     });

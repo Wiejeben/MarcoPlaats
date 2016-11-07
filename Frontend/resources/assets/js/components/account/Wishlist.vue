@@ -10,50 +10,22 @@
                         <td>Afbeelding</td>
                         <td>Product</td>
                         <td>Prijs</td>
-                        <td>Aantal</td>
-                        <td>Totaal</td>
                         <td></td>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr v-for="product in wishlist.productObjects">
                         <td>
-                            <a href=""><img src="/images/cart/one.png" alt=""></a>
+                            <a href=""><img class="img-responsive" :src="product.Images[0]" alt=""></a>
                         </td>
                         <td>
-                            <h4><a href="">Colorblock Scuba</a></h4>
+                            <h4><a href="" v-model="product.Name">{{product.Name}}</a></h4>
                         </td>
                         <td>
-                            <p>€59</p>
-                        </td>
-                        <td>
-                            <p>1</p>
-                        </td>
-                        <td>
-                            <p class="cart_total_price">€59</p>
+                            <p>€{{product.Price}}</p>
                         </td>
                         <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href=""><img src="/images/cart/one.png" alt=""></a>
-                        </td>
-                        <td>
-                            <h4><a href="">Colorblock</a></h4>
-                        </td>
-                        <td>
-                            <p>€55</p>
-                        </td>
-                        <td>
-                            <p>2</p>
-                        </td>
-                        <td>
-                            <p class="cart_total_price">€110</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+                            <a class="cart_quantity_delete" @click.prevent="deleteWishlistItem(product._id)" href=""><i class="fa fa-times"></i></a>
                         </td>
                     </tr>
                 </tbody>
@@ -66,8 +38,30 @@
         mixins: [require('./../../mixins/auth')],
 
         created() {
-            console.log('test')
+            console.log('get products from wishlist');
+
+            var self = this;
+
+            $.get(window.apiUrl + '/auth/user', function(user) {
+                $.get(apiUrl + '/users/' + user._id + '/wishlist', function(data) {
+                    self.wishlist = data;
+                });
+            });
+
             //this.currentLocation = this.getCurrentAdress()
+        }, 
+        data() {
+            return {
+                wishlist: []
+            }
+        },
+        methods:{
+            deleteWishlistItem(id) {
+                console.log("Delete %s", id);
+                // $.ajax({
+                //     url:apiUrl +
+                // })
+            }
         }
     }
 </script>

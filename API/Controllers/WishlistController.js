@@ -2,7 +2,7 @@ var User = require('./../Models/User');
 
 exports.Index = function (req, res, next) {
     User.GetWishlist(this.locals.db, req.params, function(collection){
-        res.send({data:collection})
+        res.send(collection)
     });
 };
 

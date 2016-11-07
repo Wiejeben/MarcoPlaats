@@ -51,13 +51,22 @@
         methods:{
             submit(){
                 console.log('submitted');
-                // $.ajax({
-                //     url: window.apiUrl+'/users/' + this.token,
-                //     type: 'POST',
-                //     contentType: 'application/json',
-                //     data: this.user,
-                //     dataType: 'json'
-                // });
+
+                var _user = JSON.parse(JSON.stringify(this.user));
+
+                $.post(window.apiUrl+'/users/' + this.token, _user, function( data ) {
+                    console.log(data);
+                    // $( ".result" ).html( data );
+                });
+
+
+                $.ajax({
+                    url: window.apiUrl+'/users/' + this.token,
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: ,
+                    dataType: 'json'
+                });
             }
         }
     }

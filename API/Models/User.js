@@ -166,9 +166,9 @@ User.GetWishlist = (db, params, callback) => {
         {  $group: {
                 _id: '$_id',
                 productObjects: { $push: '$productObjects' }
-        }}
+        }},
     ], function(err, results){
-        callback(results);
+        callback(results[0]);
     });
 }
 

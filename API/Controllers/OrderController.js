@@ -13,7 +13,6 @@ exports.Create = function (req, res, next) {
 };
 
 exports.Show = function (req, res, next) {
-    console.log(req.params);
     User.FindOrderById(this.locals.db, req.params, function(order) {
         res.send({data:order});
     });

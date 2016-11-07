@@ -49,6 +49,8 @@
                         </div>
                     </div>
                 </div>
+                <div class="messages">
+                </div>
             </div>
         </div><!--/header-middle-->
 
@@ -59,7 +61,6 @@
     export default {
         mounted() {
             console.log('Header ready.');
-
             eventHub.$on('user-detected', this.setUser)
         },
 

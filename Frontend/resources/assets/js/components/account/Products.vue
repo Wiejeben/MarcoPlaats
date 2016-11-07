@@ -2,7 +2,7 @@
     <div class="items"><!--features_items-->
 
         <h2 class="title text-center">Beheer</h2>
-        <h3>Gebruikers</h3>
+        <h3>Producten</h3>
 
         <div class="table-responsive">
             <table class="table table-condensed">
@@ -35,11 +35,10 @@
         created() {
             console.log('Users admin ready.');
 
-            HasRole('admin', function() {
-                $.get(apiUrl + '/users', function(data) {
-                    that.users = data.data;
-                });
-            })
+            var that = this;
+            $.get(apiUrl + '/users', function(data) {
+                that.users = data.data;
+            });
         },
         data() {
             return {

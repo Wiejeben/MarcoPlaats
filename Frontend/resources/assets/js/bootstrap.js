@@ -9,6 +9,8 @@ require('vue-resource');
 // Handles events
 window.eventHub = new Vue();
 
+window.HasRole = require('./functions/HasRole');
+
 window.User = null;
 
 // Generate API url
@@ -18,7 +20,7 @@ if (localStorage.getItem('apiUrl') != null) { // You may overwrite the API url b
     location = localStorage.getItem('apiUrl');
 }
 
-window.apiUrl = 'http://' + location + ':8080';
+window.apiUrl = 'http://' + 'localhost' + ':8080';
 
 window.LoggedIn = false;
 

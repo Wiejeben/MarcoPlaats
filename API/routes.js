@@ -42,3 +42,4 @@ RestRouter(server, 'categories', controllers.CategoryController);
 RestRouter(server, 'users/:uid/orders', controllers.OrderController);
 RestRouter(server, 'users/:uid/wishlist', controllers.WishlistController);
 RestRouter(server, 'users/:uid/favourites', controllers.FavouritesController);
+RestRouter(server, 'users/:uid/products', controllers.UserProductController);

@@ -7,24 +7,24 @@
             <div class="col-sm-6 col-xs-12 shopper-info">
 
                 <h4>Account</h4>
-                <input type="text" class="form-control" placeholder="Voornaam"  v-model="user.FirstName">
-                <input type="text" class="form-control" placeholder="Achternaam" v-model="user.LastName">
-                <input type="text" class="form-control" placeholder="Email" v-model="user.Email">
-                <input type="text" class="form-control" placeholder="Telefoonnummer" v-model="user.PhoneNumber">
+                <input class="form-control" placeholder="Voornaam"  v-model="user.FirstName">
+                <input class="form-control" placeholder="Achternaam" v-model="user.LastName">
+                <input type="email" class="form-control" placeholder="Email" v-model="user.Email">
+                <input class="form-control" placeholder="Telefoonnummer" v-model="user.PhoneNumber">
 
                 <h4 class="form-spacing">Adres</h4>
-                <input type="text" class="form-control" placeholder="Adres" v-model="user.MainAddress.Address">
-                <input type="text" class="form-control" placeholder="Postcode" v-model="user.MainAddress.Zipcode">
-                <input type="text" class="form-control" placeholder="Plaats" v-model="user.MainAddress.City">
+                <input class="form-control" placeholder="Adres" v-model="user.MainAddress.Address">
+                <input class="form-control" placeholder="Postcode" v-model="user.MainAddress.Zipcode">
+                <input class="form-control" placeholder="Plaats" v-model="user.MainAddress.City">
 
             </div>
 
             <div class="col-sm-6 col-xs-12 shopper-info">
 
                 <h4>Alternatief adres</h4>
-                <input type="text" class="form-control" placeholder="Adres" v-model="user.DeliveryAddress.Address">
-                <input type="text" class="form-control" placeholder="Postcode" v-model="user.DeliveryAddress.Zipcode">
-                <input type="text" class="form-control" placeholder="Plaats" v-model="user.DeliveryAddress.City">
+                <input class="form-control" placeholder="Adres" v-model="user.DeliveryAddress.Address">
+                <input class="form-control" placeholder="Postcode" v-model="user.DeliveryAddress.Zipcode">
+                <input class="form-control" placeholder="Plaats" v-model="user.DeliveryAddress.City">
 
             </div>
 

@@ -1,6 +1,6 @@
 <template>
     <div class="items"><!--features_items-->
-        <h2 class="title text-center">Wishlist</h2>
+        <h2 class="title text-center">Verlanglijstje</h2>
 
         <h3>Producten</h3>
         <div class="table-responsive">

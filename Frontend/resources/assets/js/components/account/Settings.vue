@@ -47,12 +47,20 @@
         },
         methods:{
             submit() {
+                var self = this;
                 $.ajax({
                     url: window.apiUrl + '/users/' + User._id,
                     type: 'PUT',
                     contentType: 'application/json',
                     data: JSON.stringify(this.user),
-                    dataType: 'json'
+                    dataType: 'json',
+                    success: function(data) {
+                        if(data == true){
+                            self.newAlert('success', 'Uw instellingen zijn succesvol aangepast!');
+                        } else {
+                            self.newAlert('error', 'Er is iets fout gegaan');
+                        }
+                    }
                 });
             }
         }

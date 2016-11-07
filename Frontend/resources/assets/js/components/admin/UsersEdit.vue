@@ -52,15 +52,23 @@
         },
         methods:{
             submit(){
-                this.user.Role = $("#RoleSelect").val();
+                var self = this;
+                self.user.Role = $("#RoleSelect").val();
                 $.ajax({
-                    url: window.apiUrl+'/users/' + this._id,
+                    url: window.apiUrl+'/users/' + self._id,
                     type: 'PUT',
                     contentType: 'application/json',
-                    data: JSON.stringify(this.user),
-                    dataType: 'json'
+                    data: JSON.stringify(self.user),
+                    dataType: 'json',
+                    success: function(data){
+                        if(data == true){
+                            self.newAlert('success', 'De gebruiker is succesvol aangepast!');
+                        } else {
+                            self.newAlert('error', 'Er is iets fout gegaan');
+                        }
+                    }
                 });
-            }
+            },
         }
     }
 </script>

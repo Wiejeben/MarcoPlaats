@@ -52,8 +52,13 @@
                 $.ajax({
                     url: window.apiUrl+'/users/' + user._id,
                     type: 'DELETE',
-                    success: function(){
-                        self.users.splice(self.users.indexOf(user), 1);
+                    success: function(data){
+                        if(data == true){
+                            self.users.splice(self.users.indexOf(user), 1);
+                            self.newAlert('success', 'Product succesvol verwijdert!');
+                        } else {
+                            self.newAlert('error', 'Er is iets fout gegaan');
+                        }
                     }
                 });
             }

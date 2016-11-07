@@ -17,6 +17,9 @@
                         <input type="text" placeholder="Alternatief Adres" v-model="user.DeliveryAddress.Address">
                         <input type="text" placeholder="Alternatieve Postcode" v-model="user.DeliveryAddress.Zipcode">
                         <input type="text" placeholder="Alternatieve Plaats" v-model="user.DeliveryAddress.City">
+                        <select id="RoleSelect">
+                            <option v-for="role in Roles" :selected="role.selected" :value="role.name">{{ role.name }}</option>
+                        </select>
                         <div id="do_action">
                             <a href="#" class="btn btn-primary" @click.prevent="submit()">Opslaan</a>
                         </div>
@@ -29,7 +32,6 @@
 <script>
     export default {
         mixins: [require('./../../mixins/auth')],
-
         created() {
             console.log('Users edit is ready.');
 
@@ -37,6 +39,10 @@
             self._id = location.search.split('id=')[1];
             $.get(apiUrl + '/users/' + self._id, function(data) {
                 self.user = data;
+
+                self.Roles.forEach(function(value) {
+                    value.selected = (self.user.Role == value.name);
+                });
             });
         },
         data() {
@@ -46,6 +52,7 @@
         },
         methods:{
             submit(){
+                this.user.Role = $("#RoleSelect").val();
                 $.ajax({
                     url: window.apiUrl+'/users/' + this._id,
                     type: 'PUT',

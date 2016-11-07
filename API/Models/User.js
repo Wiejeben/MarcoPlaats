@@ -1,8 +1,8 @@
 // require context
-var Context = require('./../Helpers/Context.js');
-var schemas = require('./Schemas.js');
-var ObjectId = require('mongodb').ObjectID;
-var crypto = require('crypto');
+var Context = require('./../Helpers/Context.js'),
+    schemas = require('./Schemas.js'),
+    ObjectId = require('mongodb').ObjectID,
+    crypto = require('crypto');
 
 
 var User = function (data) {
@@ -11,31 +11,34 @@ var User = function (data) {
 
 User.prototype.data = {};
 
-//Encrypt OauthId
+//Encrypt OAuthId
 User.encryptToken = function(text){
-    var cipher = crypto.createCipher(global.config.Encryption.algorithm, global.config.Encryption.password);
-    var crypted = cipher.update(text,'utf8','hex');
-    crypted += cipher.final('hex');
+    var cipher = crypto.createCipher(global.config.Encryption.algorithm, global.config.Encryption.password),
+        crypted = cipher.update(text,'utf8','hex') + cipher.final('hex');
+
     return crypted;
 }
 
-//Decrypt OauthId
+// Decrypt OAuthId
 User.decryptToken = function(text){
-    var decipher = crypto.createDecipher(global.config.Encryption.algorithm, global.config.Encryption.password);
-    var dec = decipher.update(text,'hex','utf8');
-    dec += decipher.final('utf8');
-    
-    return dec;
+    try {
+        var decipher = crypto.createDecipher(global.config.Encryption.algorithm, global.config.Encryption.password);
+
+        return decipher.update(text,'hex','utf8') + decipher.final('utf8');
+    } catch (ex) {
+        return false;
+    }
 }
 
-// Users
+// Create user
 User.Insert = function(db, body, callback) {
     Context.Insert(db, 'Users', body, callback, schemas.User);
 }
 
+// Create user via Google
 User.InsertFromGoogle = function(db, profile, callback) {
-    User.Exists(db, profile, function(result){
-        if(result.length == 0){
+    User.Exists(db, profile, function(result) {
+        if(result.length == 0) {
             var _user = {
                 FirstName: profile.name.givenName, 
                 LastName: profile.name.familyName,
@@ -44,11 +47,11 @@ User.InsertFromGoogle = function(db, profile, callback) {
                 Role: 'user'
             }
             
-            User.Insert(db, _user, function(){
+            User.Insert(db, _user, function() {
                 var encryptedToken = User.encryptToken(profile.id);
                 callback(encryptedToken);
             });
-        }else{
+        } else {
             var encryptedToken = User.encryptToken(result[0].OAuthId);
             callback(encryptedToken);
         }
@@ -56,12 +59,24 @@ User.InsertFromGoogle = function(db, profile, callback) {
 }
 
 User.GetByToken = function (db, OauthId, callback) {
-    var collection = db.collection('Users');
-    var decryptedToken = User.decryptToken(OauthId);
+    var collection = db.collection('Users'),
+        decryptedToken = User.decryptToken(OauthId);
 
-    // console.log('hello');
+    // Failed to decrypt token
+    if (!decryptedToken)
+    {
+        callback({});
+        return;
+    }
 
-    collection.findOne({OAuthId:decryptedToken}, function(err, collection){
+    collection.findOne({ OAuthId: decryptedToken }, function(err, collection) {
+
+        if (collection == null)
+        {
+            callback({});
+            return;
+        }
+
         callback(collection);
     });
 }

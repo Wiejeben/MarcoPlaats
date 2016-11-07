@@ -21,7 +21,7 @@
                         <td>{{ user.Email }}</td>
                         <td>{{ user.PhoneNumber }}</td>
                         <td class="table_button"><a :href="'/admin/users/edit.html?id=' + user._id"><i class="fa fa-pencil"></i></a></td>
-                        <td class="table_button"><a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a></td>
+                        <td class="table_button"><a class="cart_quantity_delete" @click.prevent="deleteUser(user)"><i class="fa fa-times"></i></a></td>
                     </tr>
                 </tbody>
             </table>
@@ -40,10 +40,22 @@
                 that.users = data.data;
             });
         },
-
         data() {
             return {
                 users: []
+            }
+        },
+        methods:{
+            deleteUser(user){
+                var self = this;
+
+                $.ajax({
+                    url: window.apiUrl+'/users/' + user._id,
+                    type: 'DELETE',
+                    success: function(){
+                        self.users.splice(self.users.indexOf(user), 1);
+                    }
+                });
             }
         }
     }

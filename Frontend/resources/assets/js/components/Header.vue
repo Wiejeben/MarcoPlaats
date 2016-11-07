@@ -40,11 +40,13 @@
                             <ul class="nav navbar-nav">
                                 <li><a href="/cart"><i class="fa fa-shopping-cart"></i> Winkelwagentje</a></li>
 
-                                <li v-show="loggedIn"><a href="/account"><i class="fa fa-user"></i> Account</a></li>
-                                <li v-show="loggedIn"><a href="/account/wishlist.html"><i class="fa fa-star"></i> Verlanglijstje</a></li>
-                                <li v-show="loggedIn"><a href="/account/logout.html"><i class="fa fa-sign-out"></i> Uitloggen</a></li>
+                                <li v-if="isAdmin"><a href="/admin/users"><i class="fa fa-pencil-square"></i> Beheer</a></li>
 
-                                <li v-show="!loggedIn"><a :href="apiUrl + '/auth'"><i class="fa fa-lock"></i> Inloggen</a></li>
+                                <li v-if="loggedIn"><a href="/account"><i class="fa fa-user"></i> Account</a></li>
+                                <li v-if="loggedIn"><a href="/account/wishlist.html"><i class="fa fa-star"></i> Verlanglijstje</a></li>
+                                <li v-if="loggedIn"><a href="/account/logout.html"><i class="fa fa-sign-out"></i> Uitloggen</a></li>
+
+                                <li v-if="!loggedIn"><a :href="apiUrl + '/auth'"><i class="fa fa-lock"></i> Inloggen</a></li>
                             </ul>
                         </div>
                     </div>
@@ -67,6 +69,13 @@
         computed: {
             loggedIn() {
                 return this.user != null;
+            },
+
+            isAdmin() {
+                if (this.loggedIn)
+                {
+                    return this.user.Role == 'admin';
+                }
             }
         },
 

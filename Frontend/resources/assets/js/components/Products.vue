@@ -6,16 +6,16 @@
             <div class="product-image-wrapper">
                 <div class="single-products">
                     <div class="productinfo text-center">
-                        <img :src="product.image" :alt="product.name" />
-                        <h2>€ {{ product.price }}</h2>
-                        <p>{{ product.name }}</p>
+                        <img src="/images/shop/product8.jpg" :alt="product.name" />
+                        <h2>€ {{ product.Price }}</h2>
+                        <p>{{ product.Name }}</p>
                         <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
                     </div>
 
                 </div>
                 <div class="choose">
                     <ul class="nav nav-pills nav-justified">
-                        <li><a href=""><i class="fa fa-heart"></i>Op verlanglijstje</a></li>
+                        <li><a href="" @click.prevent="InsertWishlist(product._id)"><i class="fa fa-heart"></i>Op verlanglijstje</a></li>
                     </ul>
                 </div>
             </div>
@@ -27,6 +27,12 @@
     export default {
         created() {
             eventHub.$on('filter-category', this.switchCategory);
+
+            var self = this;
+            
+            $.get(apiUrl + '/products', function(products) {
+                self.products = products;
+            });
         },
 
         mounted() {
@@ -38,12 +44,12 @@
                 category: { name: 'Alles' },
 
                 products: [
-                    { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product7.jpg' },
-                    { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product8.jpg' },
-                    { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product9.jpg' },
-                    { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product10.jpg' },
-                    { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product11.jpg' },
-                    { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product12.jpg' }
+                    // { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product7.jpg' },
+                    // { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product8.jpg' },
+                    // { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product9.jpg' },
+                    // { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product10.jpg' },
+                    // { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product11.jpg' },
+                    // { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product12.jpg' }
                 ]
             }
         },
@@ -51,6 +57,26 @@
         methods: {
             switchCategory(category) {
                 this.category = category;
+            },
+
+            InsertWishlist(id) {
+                // console.log(window);  
+                $.ajax({
+                    url: window.apiUrl+'/users/' + window.User._id + '/wishlist',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ ProductId: id }),
+                    dataType: 'Json'
+                });
+            },
+            DeleteWishlist(id) {
+                $.ajax({
+                    url: window.apiUrl+'/users/'+window.User._id + '/wishlist/' + id,
+                    type: 'DELETE',
+                    success: function(result) {
+                        console.log(result);
+                    }
+                });
             }
         }
     }

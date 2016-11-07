@@ -3,7 +3,7 @@ var Image = require('./../Models/Image');
 
 exports.Index = function(req, res, next){
     Product.GetAll(this.locals.db, function(products){
-        res.send({data:products});
+        res.send(products);
     });
 };
 

@@ -51,13 +51,13 @@
         methods:{
             submit(){
                 console.log('submitted');
-                // $.ajax({
-                //     url: window.apiUrl+'/users/' + this.token,
-                //     type: 'POST',
-                //     contentType: 'application/json',
-                //     data: this.user,
-                //     dataType: 'json'
-                // });
+                $.ajax({
+                    url: window.apiUrl+'/users/' + this.token,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: this.user,
+                    dataType: 'json'
+                });
             }
         }
     }

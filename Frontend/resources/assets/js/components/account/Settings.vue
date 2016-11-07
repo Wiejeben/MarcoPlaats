@@ -18,7 +18,7 @@
                         <input type="text" placeholder="Alternatieve Postcode" v-model="user.DeliveryAddress.Zipcode">
                         <input type="text" placeholder="Alternatieve Plaats" v-model="user.DeliveryAddress.City">
                         <div id="do_action">
-                            <a href="#" class="btn btn-primary" @click.prevent="submitSettings()">Opslaan</a>
+                            <a href="#" class="btn btn-primary" @click.prevent="submit()">Opslaan</a>
                         </div>
                     </form>
                 </div>
@@ -46,7 +46,7 @@
             }
         },
         methods:{
-            submitSettings() {
+            submit() {
                 $.ajax({
                     url: window.apiUrl + '/users/' + User._id,
                     type: 'PUT',

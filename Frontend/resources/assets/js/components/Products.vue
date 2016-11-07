@@ -11,11 +11,10 @@
                         <p>{{ product.Name }}</p>
                         <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
                     </div>
-
                 </div>
                 <div class="choose">
                     <ul class="nav nav-pills nav-justified">
-                        <li><a href="" @click.prevent="InsertWishlist(product._id)"><i class="fa fa-heart"></i>Op verlanglijstje</a></li>
+                        <li><a href="#" @click.prevent="InsertWishlist(product._id)"><i class="fa fa-heart"></i>Op verlanglijstje</a></li>
                     </ul>
                 </div>
             </div>
@@ -58,13 +57,19 @@
             },
 
             InsertWishlist(id) {
-
                 $.ajax({
                     url: window.apiUrl+'/users/' + window.User._id + '/wishlist',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify({ ProductId: id }),
-                    dataType: 'Json'
+                    dataType: 'Json',
+                    success: function(data) {
+                        if(data == true){
+                            self.newAlert('success', 'Product succesvol toegevoegd aan verlanglijstje!');
+                        } else {
+                            self.newAlert('error', 'Er is iets fout gegaan');
+                        }
+                    }
                 });
             },
             
@@ -72,8 +77,12 @@
                 $.ajax({
                     url: window.apiUrl+'/users/'+window.User._id + '/wishlist/' + id,
                     type: 'DELETE',
-                    success: function(result) {
-                        console.log(result);
+                    success: function(data) {
+                        if(data == true){
+                            self.newAlert('success', 'Product succesvol verwijdert van verlanglijstje!');
+                        } else {
+                            self.newAlert('error', 'Er is iets fout gegaan');
+                        }
                     }
                 });
             }

@@ -33,17 +33,17 @@
     export default {
         mixins: [require('./../../mixins/auth')],
         created() {
-            console.info('Users edit is ready.');
-
             var self = this;
-            self._id = location.search.split('id=')[1];
-            $.get(apiUrl + '/users/' + self._id, function(data) {
-                self.user = data;
+            HasRole('admin', function(){
+                self._id = location.search.split('id=')[1];
+                $.get(apiUrl + '/users/' + self._id, function(data) {
+                    self.user = data;
 
-                self.Roles.forEach(function(value) {
-                    value.selected = (self.user.Role == value.name);
+                    self.Roles.forEach(function(value) {
+                        value.selected = (self.user.Role == value.name);
+                    });
                 });
-            });
+            })
         },
         data() {
             return {

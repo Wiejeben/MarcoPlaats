@@ -21,9 +21,9 @@
                 url: '/' + window.location.pathname.split('/').pop(),
                 menu: [
                     { name: 'Profiel', url: '/', active: false },
-                    { name: 'Wishlist', url: '/wishlist.html', active: false },
-                    { name: 'Settings', url: '/settings.html', active: false },
-                    { name: 'Products', url: '/products.html', active: false }
+                    { name: 'Verlanglijstje', url: '/wishlist.html', active: false },
+                    { name: 'Producten', url: '/products.html', active: false },
+                    { name: 'Instellingen', url: '/settings.html', active: false }
                 ],
             }
         },

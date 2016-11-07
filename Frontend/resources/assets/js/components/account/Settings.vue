@@ -39,7 +39,7 @@
         created() {
             // this.currentLocation = this.getCurrentAdress()
             var self = this;
-            eventHub.$on('user-detected', function(data){
+            eventHub.$on('user-detected', function(data) {
                 self.user = data;
             })
         },

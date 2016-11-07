@@ -69,6 +69,7 @@
                     dataType: 'Json'
                 });
             },
+            
             DeleteWishlist(id) {
                 $.ajax({
                     url: window.apiUrl+'/users/'+window.User._id + '/wishlist/' + id,

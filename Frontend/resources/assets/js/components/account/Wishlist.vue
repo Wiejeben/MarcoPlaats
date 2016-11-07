@@ -59,7 +59,6 @@
         },
         methods:{
             deleteWishlistItem(product) {
-                
                 this.wishlist.productObjects.splice(this.wishlist.productObjects.indexOf(product), 1);
 
                 $.ajax({

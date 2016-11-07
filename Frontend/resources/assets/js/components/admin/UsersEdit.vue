@@ -50,16 +50,6 @@
         },
         methods:{
             submit(){
-                console.log('submitted');
-
-                var _user = JSON.parse(JSON.stringify(this.user));
-
-                $.post(window.apiUrl+'/users/' + this.token, _user, function( data ) {
-                    console.log(data);
-                    // $( ".result" ).html( data );
-                });
-
-
                 $.ajax({
                     url: window.apiUrl+'/users/' + this._id,
                     type: 'PUT',

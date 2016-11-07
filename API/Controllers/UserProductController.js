@@ -1,4 +1,5 @@
 var User = require('./../Models/User');
+var Product = require('./../Models/Product');
 
 exports.Index = function (req, res, next) {
     User.GetProducts(this.locals.db, req.params, function(collection){
@@ -13,6 +14,16 @@ exports.Create = function (req, res, next) {
 };
 
 exports.Delete = function (req, res, next) {
+    var _db = this.locals.db;
+    User.DeleteProduct(_db, req.params, function(response){
+        if(response){
+            Product.Delete(_db, response, function(result){
+                res.send(true);
+            });
+        }else{
+            res.send(false);
+        }
+    });
     // User.DeleteFavourite(this.locals.db, req.params, function(deletedCount) {
     //     res.send('Delete Wishlist: ' + deletedCount);
     // });

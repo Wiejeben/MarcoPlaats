@@ -3,6 +3,7 @@
         <h2 class="title text-center">Products</h2>
 
         <h3>Producten</h3>
+        <a href="addproduct.html">Add product</a>
         <div class="table-responsive">
             <table class="table table-condensed">
                 <thead>
@@ -25,7 +26,7 @@
                             <p>€{{product.Price}}</p>
                         </td>
                         <td class="cart_delete">
-                            <a class="cart_quantity_delete" @click.prevent="deleteWishlistItem(product)" href=""><i class="fa fa-times"></i></a>
+                            <a class="cart_quantity_delete" @click.prevent="deleteProduct(product)" href=""><i class="fa fa-times"></i></a>
                         </td>
                     </tr>
                 </tbody>
@@ -39,6 +40,7 @@
         created() {
             self = this;
             eventHub.$on('user-detected', function(user) {
+                self.user = user;
                 $.get(apiUrl + '/users/' + user._id + '/products', function(_products) {
 
                     self.products = _products.productObjects;
@@ -51,11 +53,11 @@
             }
         },
         methods:{
-            deleteUser(user){
+            deleteProduct(product){
                 var self = this;
-
+                console.log(window.apiUrl+'/users/' + self.user._id + '/products/' + product._id);
                 $.ajax({
-                    url: window.apiUrl+'/users/' + user._id,
+                    url: window.apiUrl+'/users/' + self.user._id + '/products/' + product._id,
                     type: 'DELETE',
                     success: function(data){
                         if(data == true){

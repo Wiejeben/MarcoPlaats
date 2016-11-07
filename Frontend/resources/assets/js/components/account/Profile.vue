@@ -2,21 +2,30 @@
     <div class="items"><!--features_items-->
         <h2 class="title text-center">Instellingen</h2>
         <h3>Account</h3>
-        <div v-if="user != null">
-            <dl class="dl-horizontal">
-                <dt>Naam:</dt>
-                <dd>{{ user.FirstName }} {{ user.LastName }}</dd>
-                <dt>Email:</dt>
-                <dd>{{ user.Email }}</dd>
-                <dt>Telefoon:</dt>
-                <dd>{{ user.PhoneNumber }}</dd>
-                <dt>Adres:</dt>
-                <dd>{{ user.MainAddress.Address }}</dd>
-                <dt>City:</dt>
-                <dd>{{ user.MainAddress.City }}</dd>
-                <dt>Postcode:</dt>
-                <dd>{{ user.MainAddress.Zipcode }}</dd>
-            </dl>
+
+        <div v-if="user != null" class="row">
+
+            <div class="col-sm-6 col-xs-12">
+                <dl class="dl-horizontal">
+                    <dt>Naam:</dt>
+                    <dd>{{ user.FirstName }} {{ user.LastName }}</dd>
+                    <dt>Email:</dt>
+                    <dd>{{ user.Email }}</dd>
+                    <dt>Telefoon:</dt>
+                    <dd>{{ user.PhoneNumber }}</dd>
+                </dl>
+            </div>
+
+            <div class="col-sm-6 col-xs-12">
+                <dl class="dl-horizontal">
+                    <dt>Adres:</dt>
+                    <dd>{{ user.MainAddress.Address }}</dd>
+                    <dt>City:</dt>
+                    <dd>{{ user.MainAddress.City }}</dd>
+                    <dt>Postcode:</dt>
+                    <dd>{{ user.MainAddress.Zipcode }}</dd>
+                </dl>
+            </div>
         </div>
     </div>
 </template>

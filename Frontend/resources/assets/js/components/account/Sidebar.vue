@@ -22,7 +22,8 @@
                 menu: [
                     { name: 'Profiel', url: '/', active: false },
                     { name: 'Wishlist', url: '/wishlist.html', active: false },
-                    { name: 'Settings', url: '/settings.html', active: false }
+                    { name: 'Settings', url: '/settings.html', active: false },
+                    { name: 'Products', url: '/products.html', active: false }
                 ],
             }
         },

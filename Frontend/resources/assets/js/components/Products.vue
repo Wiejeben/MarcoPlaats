@@ -6,7 +6,7 @@
             <div class="product-image-wrapper">
                 <div class="single-products">
                     <div class="productinfo text-center">
-                        <img src="/images/shop/product8.jpg" :alt="product.name" />
+                        <img :src="'/images/shop/' + product.image" :alt="product.name" />
                         <h2>€ {{ product.Price }}</h2>
                         <p>{{ product.Name }}</p>
                         <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
@@ -27,12 +27,10 @@
     export default {
         created() {
             eventHub.$on('filter-category', this.switchCategory);
-
             var self = this;
-            
-            $.get(apiUrl + '/products', function(products) {
+            /*$.get(apiUrl + '/products', function(products) {
                 self.products = products;
-            });
+            });*/
         },
 
         mounted() {
@@ -44,12 +42,12 @@
                 category: { name: 'Alles' },
 
                 products: [
-                    // { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product7.jpg' },
-                    // { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product8.jpg' },
-                    // { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product9.jpg' },
-                    // { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product10.jpg' },
-                    // { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product11.jpg' },
-                    // { name: 'Easy Polo Black Edition', price: 56, image: '/images/shop/product12.jpg' }
+                    { name: 'Easy Polo Black Edition', price: 56, image: 'product7.jpg' },
+                    { name: 'Easy Polo Black Edition', price: 56, image: 'product8.jpg' },
+                    { name: 'Easy Polo Black Edition', price: 56, image: 'product9.jpg' },
+                    { name: 'Easy Polo Black Edition', price: 56, image: 'product10.jpg' },
+                    { name: 'Easy Polo Black Edition', price: 56, image: 'product11.jpg' },
+                    { name: 'Easy Polo Black Edition', price: 56, image: 'product12.jpg' }
                 ]
             }
         },

@@ -16,11 +16,15 @@ window.User = null;
 // Generate API url
 var location = window.location.hostname;
 
+if(location == 'localhost'){
+    localStorage.setItem('apiUrl', '146.185.176.116');
+}
+
 if (localStorage.getItem('apiUrl') != null) { // You may overwrite the API url by defining a different one in local storage
     location = localStorage.getItem('apiUrl');
 }
 
-window.apiUrl = 'http://' + 'localhost' + ':8080';
+window.apiUrl = 'http://' + location + ':8080';
 
 window.LoggedIn = false;
 

@@ -49,12 +49,14 @@
             }
         },
         methods:{
+
             submitSettings() {
+
                 $.ajax({
-                    url: window.apiUrl + '/users/' + localStorage.getItem('authorization'),
+                    url: window.apiUrl + '/users/' + User._id,
                     type: 'PUT',
                     contentType: 'application/json',
-                    data: self.user,
+                    data: JSON.stringify(this.user),
                     dataType: 'json'
                 });
             }

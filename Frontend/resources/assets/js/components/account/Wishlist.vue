@@ -40,6 +40,8 @@
         created() {
             console.log('get products from wishlist');
 
+            
+
             var self = this;
 
             $.get(window.apiUrl + '/auth/user', function(user) {
@@ -57,6 +59,9 @@
         },
         methods:{
             deleteWishlistItem(id) {
+
+
+
                 console.log("Delete %s", id);
                 // $.ajax({
                 //     url:apiUrl +

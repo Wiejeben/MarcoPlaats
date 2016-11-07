@@ -64,7 +64,7 @@
                     url: window.apiUrl+'/users/' + this.token,
                     type: 'PUT',
                     contentType: 'application/json',
-                    data: ,
+                    data: _user,
                     dataType: 'json'
                 });
             }

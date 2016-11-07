@@ -44,7 +44,7 @@ Context.Update = function(db, _collection, id, body, schema, callback) {
     var collection = db.collection(_collection);
     body = this.sanitize(body, schema);
     collection.update({_id: new ObjectId(id)}, {$set: body}, function(err, collection){
-        callback();
+        callback(true);
     });
 }
 

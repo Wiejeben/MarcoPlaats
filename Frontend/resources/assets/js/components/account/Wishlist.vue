@@ -19,13 +19,13 @@
                             <a href=""><img class="img-responsive" :src="product.Images[0]" alt=""></a>
                         </td>
                         <td>
-                            <h4><a href="" v-model="product.Name">{{product.Name}}</a></h4>
+                            <h4><a href="">{{product.Name}}</a></h4>
                         </td>
                         <td>
                             <p>€{{product.Price}}</p>
                         </td>
                         <td class="cart_delete">
-                            <a class="cart_quantity_delete" @click.prevent="deleteWishlistItem(product._id)" href=""><i class="fa fa-times"></i></a>
+                            <a class="cart_quantity_delete" @click.prevent="deleteWishlistItem(product)" href=""><i class="fa fa-times"></i></a>
                         </td>
                     </tr>
                 </tbody>
@@ -58,14 +58,17 @@
             }
         },
         methods:{
-            deleteWishlistItem(id) {
+            deleteWishlistItem(product) {
+                
+                this.wishlist.productObjects.splice(this.wishlist.productObjects.indexOf(product), 1);
 
-
-
-                console.log("Delete %s", id);
-                // $.ajax({
-                //     url:apiUrl +
-                // })
+                $.ajax({
+                    url: window.apiUrl+'/users/'+window.User._id + '/wishlist/' + product._id,
+                    type: 'DELETE',
+                    success: function(result) {
+                        console.log(result);
+                    }
+                });
             }
         }
     }

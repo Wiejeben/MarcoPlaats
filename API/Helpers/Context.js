@@ -22,9 +22,10 @@ Context.GetAll = function(db, _collection, callback) {
 
 Context.Insert = function(db, _collection, body, callback, schema) {
     var collection = db.collection(_collection);
+    
     body = this.sanitize(body, schema);
     collection.insertOne(body, function(err, result){
-        callback();
+        callback(result.insertedId);
     });
 };
 

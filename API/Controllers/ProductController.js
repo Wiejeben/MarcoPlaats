@@ -9,9 +9,11 @@ exports.Index = function(req, res, next){
 };
 
 exports.Create = function(req, res, next){
-    Product.Insert(this.locals.db, req.body, function(){
-        // User.InsertProduct(this.locals.db, )
-        res.send("Product is added");
+    var _db = this.locals.db;
+    Product.Insert(_db, req.body, function(insertedId){
+        User.InsertProduct(_db, req.headers.authorization, insertedId, function(){
+            res.send("Product is added");
+        })
     })
 
 };

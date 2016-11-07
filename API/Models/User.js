@@ -266,13 +266,38 @@ User.DeleteFavourite = (db, params, callback) => {
     Products
 */
 
-User.InsertProduct = (db, userId, productId, callback) => {
+User.InsertProduct = (db, OauthId, productId, callback) => {
     var collection = db.collection('Users');
-
-    collection.update({_id: new ObjectId(userId)},
-                      {$addToSet: {ProductIds: new ObjectId(productId)}}, function(err, r) {
+    
+    User.GetByToken(db, OauthId, function(_user){
+        collection.update({_id: _user._id},
+                      {$addToSet: {ProductIds:productId}}, function(err, r) {
                           callback();
                       })
+    });
+}
+
+User.GetProducts = (db, params, callback) => {
+    var collection = db.collection('Users');
+
+    collection.aggregate([
+        { $match: { _id: new ObjectId(params.uid)}}, 
+        { $unwind: '$ProductIds' },
+        { $lookup: {
+            from:'Products',
+            localField:'ProductIds',
+            foreignField:'_id',
+            as: 'productObjects'
+        }},
+        { $unwind: '$productObjects' },
+        { $group: {
+            _id: '$_id',
+            productObjects: { $push: '$productObjects' }
+        }}
+    ],
+    function(err, collection){
+        callback(collection[0]);
+    });
 }
 
 

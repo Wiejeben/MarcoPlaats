@@ -34,10 +34,10 @@
     export default {
         created() {
             console.info('Users admin ready.');
-
+            var self = this;
             HasRole('admin', function() {
                 $.get(apiUrl + '/users', function(data) {
-                    that.users = data.data;
+                    self.users = data.data;
                 });
             })
         },

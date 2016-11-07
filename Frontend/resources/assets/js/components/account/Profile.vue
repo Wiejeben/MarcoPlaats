@@ -28,7 +28,6 @@
             HasRole('user', function(){
                 self.user = window.User;
             })
-
             console.info('created');
         },
         data() {

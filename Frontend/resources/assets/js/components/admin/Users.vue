@@ -35,10 +35,13 @@
         created() {
             console.info('Users admin ready.');
             var self = this;
+
             HasRole('admin', function() {
+
                 $.get(apiUrl + '/users', function(data) {
                     self.users = data.data;
                 });
+
             })
         },
         data() {
@@ -53,8 +56,13 @@
                 $.ajax({
                     url: window.apiUrl+'/users/' + user._id,
                     type: 'DELETE',
-                    success: function(){
-                        self.users.splice(self.users.indexOf(user), 1);
+                    success: function(data){
+                        if(data == true){
+                            self.users.splice(self.users.indexOf(user), 1);
+                            self.newAlert('success', 'Gebruiker succesvol verwijdert!');
+                        } else {
+                            self.newAlert('error', 'Er is iets fout gegaan');
+                        }
                     }
                 });
             }

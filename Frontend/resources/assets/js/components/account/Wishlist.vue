@@ -1,6 +1,6 @@
 <template>
     <div class="items"><!--features_items-->
-        <h2 class="title text-center">Wishlist</h2>
+        <h2 class="title text-center">Verlanglijstje</h2>
 
         <h3>Producten</h3>
         <div class="table-responsive">
@@ -60,8 +60,12 @@
                 $.ajax({
                     url: window.apiUrl+'/users/'+window.User._id + '/wishlist/' + product._id,
                     type: 'DELETE',
-                    success: function(result) {
-                        console.log(result);
+                    success: function(data){
+                        if(data == true){
+                            self.newAlert('success', 'Product succesvol verwijdert van verlanglijstje!');
+                        } else {
+                            self.newAlert('error', 'Er is iets fout gegaan');
+                        }
                     }
                 });
             }

@@ -34,7 +34,7 @@
         },
 
         mounted() {
-            console.log('Products ready.')
+            console.info('Products ready.')
         },
 
         data() {
@@ -58,7 +58,7 @@
             },
 
             InsertWishlist(id) {
-                // console.log(window);  
+
                 $.ajax({
                     url: window.apiUrl+'/users/' + window.User._id + '/wishlist',
                     type: 'POST',

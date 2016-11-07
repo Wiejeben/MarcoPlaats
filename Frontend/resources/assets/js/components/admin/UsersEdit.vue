@@ -33,7 +33,7 @@
     export default {
         mixins: [require('./../../mixins/auth')],
         created() {
-            console.log('Users edit is ready.');
+            console.info('Users edit is ready.');
 
             var self = this;
             self._id = location.search.split('id=')[1];

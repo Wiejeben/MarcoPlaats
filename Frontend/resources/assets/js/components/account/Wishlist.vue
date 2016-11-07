@@ -38,19 +38,15 @@
         mixins: [require('./../../mixins/auth')],
 
         created() {
-            console.log('get products from wishlist');
-
-            
+            console.info('Wishlist account ready.');
 
             var self = this;
 
-            $.get(window.apiUrl + '/auth/user', function(user) {
+            eventHub.$on('user-detected', function(user) {
                 $.get(apiUrl + '/users/' + user._id + '/wishlist', function(data) {
                     self.wishlist = data;
                 });
             });
-
-            //this.currentLocation = this.getCurrentAdress()
         }, 
         data() {
             return {

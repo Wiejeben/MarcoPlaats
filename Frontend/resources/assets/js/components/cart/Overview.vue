@@ -142,7 +142,7 @@
 <script>
     export default {
         mounted() {
-            console.log('Login ready.')
+            console.info('Shopping cart ready.')
         }
     }
 </script>

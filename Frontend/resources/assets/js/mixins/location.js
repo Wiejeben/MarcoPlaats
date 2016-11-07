@@ -46,7 +46,7 @@ module.exports = {
                     });
                 })
             } else {
-                console.log("Geolocation is disabled!");
+                console.error("Geolocation is disabled!");
             }
             return self.currentLocation;
         }

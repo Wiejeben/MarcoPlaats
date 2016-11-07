@@ -28,7 +28,6 @@
         created() {
             var self = this;
             self.menu.forEach(function(item) {
-                // console.log(self.url);
                 item.active = (item.url == self.url);
             });
         }

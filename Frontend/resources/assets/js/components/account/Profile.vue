@@ -9,7 +9,7 @@
         created() {
             HasRole('user')
 
-            console.log('created');
+            console.info('created');
         }
     }
 </script>

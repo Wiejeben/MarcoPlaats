@@ -11,10 +11,9 @@ module.exports = function(role, feedback) {
     });
 
     eventHub.$on('user-detected', function(user) {
-        if (user.Role != role)
+        if (user.Role != role && user.Role != 'admin')
         {
             window.location.href = '/';
-            console.log('redirect');
             return;
         }
 

@@ -33,11 +33,10 @@
             require('./../../mixins/auth')
         ],
         created() {
-            // this.currentLocation = this.getCurrentAdress()
             var self = this;
+
             eventHub.$on('user-detected', function(data) {
                 self.user = data;
-                console.log(self.user.MainAddress);
             })
         },
         data() {

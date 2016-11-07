@@ -26,7 +26,7 @@
     export default {
 
         mounted() {
-            console.log('Sidebar ready.');
+            console.info('Sidebar ready.');
 
             var priceRange = $('#priceSlider');
 

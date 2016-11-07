@@ -15,7 +15,6 @@ var passport = global.passport = require('passport-restify');
 var server = global.server = restify.createServer(config.Application);
 
 // Allow custom headers
-// restify.CORS.ALLOW_HEADERS.push('Access-Control-Allow-Origin‌​');
 restify.CORS.ALLOW_HEADERS.push('authorization');
 
 // Implement the following plugins
@@ -27,7 +26,6 @@ server.use(restify.fullResponse())
 
 // MongoDB
 require('mongodb').MongoClient.connect(config.Database.Url, { promiseLibrary: Promise }, function(err, _db) {
-    console.log(err);
     server.locals = {
         db: _db
     };

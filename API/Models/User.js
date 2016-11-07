@@ -58,7 +58,8 @@ User.InsertFromGoogle = function(db, profile, callback) {
 User.GetByToken = function (db, OauthId, callback) {
     var collection = db.collection('Users');
     var decryptedToken = User.decryptToken(OauthId);
-    
+
+    // console.log('hello');
 
     collection.findOne({OAuthId:decryptedToken}, function(err, collection){
         callback(collection);

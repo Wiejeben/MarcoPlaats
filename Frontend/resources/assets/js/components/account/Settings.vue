@@ -39,7 +39,7 @@
         created() {
             // this.currentLocation = this.getCurrentAdress()
             var self = this;
-            eventHub.$on('user-detected', function(data){
+            eventHub.$on('user-detected', function(data) {
                 self.user = data;
             })
         },
@@ -49,18 +49,16 @@
             }
         },
         methods:{
-            submitSettings(){
-                /*if(this.user.MainAddress.city == null){
-                    alert('jaja');
-                }*/
-                console.log(this.user);
-                /*$.ajax({
-                    url: window.apiUrl + '/users/' + localStorage.getItem('authorization'),
-                    type: 'POST',
+
+            submitSettings() {
+
+                $.ajax({
+                    url: window.apiUrl + '/users/' + User._id,
+                    type: 'PUT',
                     contentType: 'application/json',
-                    data: self.user,
+                    data: JSON.stringify(this.user),
                     dataType: 'json'
-                });*/
+                });
             }
         }
     }

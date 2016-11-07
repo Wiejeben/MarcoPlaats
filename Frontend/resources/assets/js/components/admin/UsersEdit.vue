@@ -38,8 +38,8 @@
             console.log('Users edit is ready.');
 
             var self = this;
-            self.token = location.search.split('id=')[1];
-            $.get(apiUrl + '/users/' + self.token, function(data) {
+            self._id = location.search.split('id=')[1];
+            $.get(apiUrl + '/users/' + self._id, function(data) {
                 self.user = data;
             });
         },
@@ -52,10 +52,10 @@
             submit(){
                 console.log('submitted');
                 $.ajax({
-                    url: window.apiUrl+'/users/' + this.token,
-                    type: 'POST',
+                    url: window.apiUrl+'/users/' + this._id,
+                    type: 'PUT',
                     contentType: 'application/json',
-                    data: this.user,
+                    data: JSON.stringify(this.user),
                     dataType: 'json'
                 });
             }

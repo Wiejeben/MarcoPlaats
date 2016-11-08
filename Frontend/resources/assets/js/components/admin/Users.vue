@@ -20,7 +20,7 @@
                         <td>{{ user.LastName }}</td>
                         <td>{{ user.Email }}</td>
                         <td>{{ user.PhoneNumber }}</td>
-                        <td class="table_button"><a :href="'/admin/users/edit.html?id=' + user._id"><i class="fa fa-pencil"></i></a></td>
+                        <td class="table_button"><a :href="'edit.html?id=' + user._id"><i class="fa fa-pencil"></i></a></td>
                         <td class="table_button"><a class="cart_quantity_delete" @click.prevent="deleteUser(user)"><i class="fa fa-times"></i></a></td>
                     </tr>
                 </tbody>
@@ -54,7 +54,7 @@
                 var self = this;
 
                 $.ajax({
-                    url: window.apiUrl+'/users/' + user._id,
+                    url: window.apiUrl + '/users/' + user._id,
                     type: 'DELETE',
                     success: function(data){
                         if(data == true){

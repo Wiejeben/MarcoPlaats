@@ -43,10 +43,6 @@
                                     <input type="text" placeholder="Alternatief Adres">
                                     <input type="text" placeholder="Alternatieve Postcode">
                                     <input type="text" placeholder="Alternatieve Plaats">
-                                    <select>
-                                        <option>-- Land --</option>
-                                        <option v-for="country in countries" :selected="country.selected" :value="country.name">{{ country.name }}</option>
-                                    </select>
                                 </form>
                             </div>
                         </div>
@@ -55,7 +51,7 @@
                         <div class="order-message">
                             <p>Extra informatie</p>
                             <textarea name="message"  placeholder="Speciale notities met betrekking tot de bestelling." rows="9"></textarea>
-                            <label><input type="checkbox"> Gebruik het tweede adres als bezorg adres.</label>
+                            <label><input type="checkbox"> Gebruik het alternatief adres als bezorg adres.</label>
                         </div>  
                     </div>                  
                 </div>
@@ -63,7 +59,7 @@
         </div>
         <div id="do_action">
             <div class="container">
-                <a class="btn btn-primary" href="overview.html">Terug</a>
+                <a class="btn btn-primary" href="/cart/">Terug</a>
                 <a class="btn btn-primary pull-right" href="">Betaling</a>
             </div>
         </div><!--/#do_action-->

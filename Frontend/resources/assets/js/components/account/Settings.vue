@@ -16,11 +16,9 @@
                 <input class="form-control" placeholder="Adres" v-model="user.MainAddress.Address">
                 <input class="form-control" placeholder="Postcode" v-model="user.MainAddress.Zipcode">
                 <input class="form-control" placeholder="Plaats" v-model="user.MainAddress.City">
-
             </div>
 
             <div class="col-sm-6 col-xs-12 shopper-info">
-
                 <h4>Alternatief adres</h4>
                 <input class="form-control" placeholder="Adres" v-model="user.DeliveryAddress.Address">
                 <input class="form-control" placeholder="Postcode" v-model="user.DeliveryAddress.Zipcode">
@@ -31,7 +29,6 @@
                         <input type="checkbox" v-model="user.PublicWishlist"> Verlanglijstje openbaar
                     </label>
                 </div>
-
             </div>
 
             <div class="col-xs-12">

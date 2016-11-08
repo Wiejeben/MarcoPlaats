@@ -49,9 +49,9 @@
                     success: function(data){
                         if(data == true){
                             self.categories.splice(self.categories.indexOf(user), 1);
-                            self.newAlert('success', 'Gebruiker succesvol verwijdert!');
+                            NewAlert('success', 'Gebruiker succesvol verwijdert!');
                         } else {
-                            self.newAlert('error', 'Er is iets fout gegaan');
+                            NewAlert('error', 'Er is iets fout gegaan');
                         }
                     }
                 });

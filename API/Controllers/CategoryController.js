@@ -3,21 +3,12 @@ var Image = require('./../Models/Image');
 
 exports.Index = function(req, res, next){
     Category.GetAll(this.locals.db, function(categories){
-        res.send({data:categories});
+        res.send(categories);
     });
 };
 
 exports.Create = function(req, res, next){
-    // Get post
-    var body = req.body;
-
-    // Create new Category
-    _category = new Category({
-        name: body.Name,
-        ProductIds: []
-    });
-
-    Category.Insert(this.locals.db, _category, function(){
+    Category.Insert(this.locals.db, req.body, function(){
         res.send("Category is added");
     });
 };
@@ -25,7 +16,7 @@ exports.Create = function(req, res, next){
 exports.Show = function(req, res, next) {
     // Find by ID
     Category.FindById(this.locals.db, req.params.id, function(category){
-        res.send({data:category});
+        res.send(category);
     });
 
     // Find by Slug

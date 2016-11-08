@@ -1,4 +1,5 @@
-var Context = require('./../Helpers/Context.js');
+var Context = require('./../Helpers/Context.js'),
+    ObjectId = require('mongodb').ObjectID;
 
 var Category = function (data) {
     this.data = data;
@@ -15,7 +16,7 @@ Category.GetAll = function(db, callback) {
 }
 
 Category.Insert = function(db, body, callback) {
-    Context.Insert(db, 'Categories', body, callback);
+    Context.Insert(db, 'Categories', body, callback, schemas.Category);
 }
 
 Category.FindById = function (db, id, callback) {  
@@ -28,6 +29,18 @@ Category.FindBySlug = function(db, slug, callback){
     collection.find({'Slug':slug}).toArray(function(err, collection){
         callback(collection)
     });
+}
+
+Category.InsertProduct = function(db, categoryId, productId, callback) {
+    var collection = db.collection('Categories');
+    console.log('catid ' + categoryId);
+    console.log('prodId' + productId);
+
+    collection.update({_id: new ObjectId(categoryId)},
+                        {$addToSet: {ProductIds: new ObjectId(productId)}},
+                        function(err, r){
+                            callback();
+                        });
 }
 
 

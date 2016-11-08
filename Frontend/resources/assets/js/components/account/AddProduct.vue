@@ -8,9 +8,13 @@
 
                 <h4>Product</h4>
                 <input class="form-control" placeholder="Name"  v-model="product.Name">
-                <input class="form-control" placeholder="Description"  v-model="product.Description">
                 <input class="form-control" placeholder="Prijs"  v-model="product.Price">
                 <input class="form-control" placeholder="Amount"  v-model="product.Amount">
+                <textarea name="message" v-model="product.Description" placeholder="Description." rows="9"></textarea>
+
+                <select v-model="product.Category" id="CategorySelect">
+                    <option v-for="(category, index) in categories" :selected="index === 0" :value="category._id">{{ category.Name }}</option>
+                </select>
 
                 <!--<ul>
                 <li v-for="image in product.Images">
@@ -47,7 +51,13 @@
 
             eventHub.$on('user-detected', function(data) {
                 self.user = data;
-            })
+                $.get(apiUrl + '/categories', function(categories) {
+                    self.categories = categories;
+                    console.log(categories[0]);
+                    self.product.Category = categories[0]._id;
+                });
+            });
+
         },
         data() {
             return {
@@ -60,9 +70,11 @@
                     // {Filename}
                     CreatedAt: null,
                     DeletedAt: null,
-                    DeliveryMethod: null
+                    DeliveryMethod: null,
+                    Category: null
                 },
-                user:null
+                user:null,
+                categories:[]
             }
         },
         methods:{

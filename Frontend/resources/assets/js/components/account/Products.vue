@@ -40,11 +40,8 @@
         created() {
             self = this;
             HasRole('user', function(){
-                eventHub.$on('user-detected', function(user) {
-                    self.user = user;
-                    $.get(apiUrl + '/users/' + user._id + '/products', function(_products) {
+                $.get(apiUrl + '/users/' + User._id + '/products', function(_products) {
                         self.products = _products.productObjects;
-                    });
                 });
             })
         },

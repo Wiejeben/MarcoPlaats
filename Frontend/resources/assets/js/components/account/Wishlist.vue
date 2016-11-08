@@ -41,13 +41,11 @@
             console.info('Wishlist account ready.');
 
             var self = this;
-            HasRole('user', function(){
-                eventHub.$on('user-detected', function(user) {
-                    $.get(apiUrl + '/users/' + user._id + '/wishlist', function(data) {
+             HasRole('user', function(){
+                    $.get(apiUrl + '/users/' + User._id + '/wishlist', function(data) {
                         self.wishlist = data;
                     });
-                });
-            })
+             })
         }, 
         data() {
             return {

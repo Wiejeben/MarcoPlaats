@@ -9,7 +9,6 @@ exports.Index = function (req, res, next) {
 };
 
 exports.Create = function (req, res, next) {
-    console.log(req.body);
     User.Insert(this.locals.db, req.body, function(){
         res.send('Created a user');
     })

@@ -272,9 +272,8 @@ User.InsertProduct = (db, OauthId, productId, callback) => {
     User.GetByToken(db, OauthId, function(_user){
         collection.update({_id: _user._id},
                       {$addToSet: {ProductIds:productId}}, function(err, r) {
-                          console.log(productId);
-                          callback();
-                      })
+                          callback(productId);
+                      });
     });
 }
 

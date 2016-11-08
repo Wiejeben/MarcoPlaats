@@ -1,6 +1,6 @@
 var Product = require('./../Models/Product');
 var User = require('./../Models/User');
-var Image = require('./../Models/Image');
+var Category = require('./../Models/Category');
 
 exports.Index = function(req, res, next){
     Product.GetAll(this.locals.db, function(products){
@@ -10,9 +10,13 @@ exports.Index = function(req, res, next){
 
 exports.Create = function(req, res, next){
     var _db = this.locals.db;
+    var categoryId = req.body.Category; 
+
     Product.Insert(_db, req.body, function(insertedId){
-        User.InsertProduct(_db, req.headers.authorization, insertedId, function(){
-            res.send("Product is added");
+        User.InsertProduct(_db, req.headers.authorization, insertedId, function(productId){
+            Category.InsertProduct(_db, categoryId, productId, function(){
+                res.send("Product is added");
+            });
         })
     })
 

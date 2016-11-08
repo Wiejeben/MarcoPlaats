@@ -20,7 +20,7 @@ exports.Create = function(req, res, next){
 
 exports.Show = function(req, res, next) {
     Product.FindById(this.locals.db, req.params.id, function(product){
-        res.send({data:product});
+        res.send(product);
     })
 };
 

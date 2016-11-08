@@ -272,6 +272,7 @@ User.InsertProduct = (db, OauthId, productId, callback) => {
     User.GetByToken(db, OauthId, function(_user){
         collection.update({_id: _user._id},
                       {$addToSet: {ProductIds:productId}}, function(err, r) {
+                          console.log(productId);
                           callback();
                       })
     });
@@ -298,6 +299,21 @@ User.GetProducts = (db, params, callback) => {
     function(err, collection){
         callback(collection[0]);
     });
+}
+
+User.DeleteProduct = (db, params, callback) => {
+    var collection = db.collection('Users');
+
+    collection.update({_id:new ObjectId(params.uid)},
+                      {$pull: {ProductIds: { $in: [new ObjectId(params.id)]}}}, 
+                      function(err, r){
+                          
+                          if(r.result.nModified){
+                              callback(params.id);
+                          }else{
+                              callback(false);
+                          }
+                      });
 }
 
 

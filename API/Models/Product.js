@@ -23,4 +23,8 @@ Product.FindById = function (db, id, callback) {
     Context.FindById(db, 'Products', id, callback)
 };
 
+Product.Delete = function (db, id, callback) {
+    Context.Delete(db, 'Products', id, callback);
+}
+
 module.exports = Product;

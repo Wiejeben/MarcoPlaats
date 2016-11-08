@@ -11,7 +11,6 @@
                 <input class="form-control" placeholder="Prijs"  v-model="product.Price">
                 <input class="form-control" placeholder="Amount"  v-model="product.Amount">
                 <textarea name="message" v-model="product.Description" placeholder="Description." rows="9"></textarea>
-
                 <select v-model="product.Category" id="CategorySelect">
                     <option v-for="(category, index) in categories" :selected="index === 0" :value="category._id">{{ category.Name }}</option>
                 </select>
@@ -53,7 +52,6 @@
                 self.user = data;
                 $.get(apiUrl + '/categories', function(categories) {
                     self.categories = categories;
-                    console.log(categories[0]);
                     self.product.Category = categories[0]._id;
                 });
             });

@@ -22,30 +22,33 @@ Category.Insert = function(db, body, callback) {
 // get all products from category
 Category.FindById = function (db, id, callback) {
     var collection = db.collection('Categories');
+    if(id.length == 24){
+        collection.aggregate([
+            { $match: { _id: new ObjectId(id) }},
 
-    collection.aggregate([
-        { $match: { _id: new ObjectId(id) }},
+            { $unwind: '$ProductIds' },
 
-        { $unwind: '$ProductIds' },
+            { $lookup: {
+                from: 'Products',
+                localField: 'ProductIds',
+                foreignField: '_id',
+                as: 'productObjects'
+            }},
 
-        { $lookup: {
-            from: 'Products',
-            localField: 'ProductIds',
-            foreignField: '_id',
-            as: 'productObjects'
-        }},
-
-        { $unwind: '$productObjects' },
-        
-        { $group: {
-            _id: '$_id',
-            Name: { $push: '$Name'},
-            ProductObjects: { $push: '$productObjects' }
-        }},
-        { $unwind: '$Name' }
-    ], function(err, results){
-        callback(results[0]);
-    });
+            { $unwind: '$productObjects' },
+            
+            { $group: {
+                _id: '$_id',
+                Name: { $push: '$Name'},
+                ProductObjects: { $push: '$productObjects' }
+            }},
+            { $unwind: '$Name' }
+        ], function(err, results){
+            callback(results[0]);
+        });
+    }else{
+        callback(false);
+    }
 };
 
 Category.FindBySlug = function(db, slug, callback){

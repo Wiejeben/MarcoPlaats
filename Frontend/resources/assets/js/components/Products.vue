@@ -54,7 +54,8 @@
         methods: {
             switchCategory(category) {
                 this.category = category;
-                self = this
+                self = this;
+                
                 $.get(apiUrl + '/categories/' + category._id, function(products) {
                     self.products = products.ProductObjects;
                 }); 

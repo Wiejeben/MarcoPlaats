@@ -112,8 +112,6 @@ User.GetAllOrders = function(db, params, callback) {
     collection.find({ _id: new ObjectId(params.uid) },
                     {Orders:1})
                     .toArray(function(err, collection){
-        console.log(err);
-        console.log(collection);
        callback(collection); 
     });
 }

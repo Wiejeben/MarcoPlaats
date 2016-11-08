@@ -44,9 +44,6 @@ Category.FindById = function (db, id, callback) {
         }},
         { $unwind: '$Name' }
     ], function(err, results){
-        console.log(err);
-        console.log(results);
-        
         callback(results[0]);
     });
 };
@@ -61,8 +58,6 @@ Category.FindBySlug = function(db, slug, callback){
 
 Category.InsertProduct = function(db, categoryId, productId, callback) {
     var collection = db.collection('Categories');
-    console.log('catid ' + categoryId);
-    console.log('prodId' + productId);
 
     collection.update({_id: new ObjectId(categoryId)},
                         {$addToSet: {ProductIds: new ObjectId(productId)}},

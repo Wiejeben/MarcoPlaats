@@ -4,7 +4,7 @@ var Image = require('./../Models/Image');
 
 exports.Index = function (req, res, next) {
     User.GetAll(this.locals.db, function(collection){
-        res.send({data:collection})
+        res.send(collection)
     });
 };
 

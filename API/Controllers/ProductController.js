@@ -18,7 +18,7 @@ exports.Create = function(req, res, next){
                 res.send("Product is added");
             });
         })
-    })
+    });
 
 };
 

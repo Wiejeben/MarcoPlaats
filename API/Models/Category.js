@@ -69,6 +69,30 @@ Category.InsertProduct = function(db, categoryId, productId, callback) {
                         });
 }
 
+Category.DeleteProduct = function(db, productId, callback) {
+    var collection = db.collection('Categories');
+
+    collection.find({ProductIds: {$in: [new ObjectId(productId)]}}).toArray(function(err, r){
+        console.log(r);
+    });
+
+
+    collection.findAndModify(
+                                {ProductIds: {$in: [new ObjectId(productId)]}},
+                                [],
+                                { $pull: { ProductIds: { $in: [new ObjectId(productId)]}}}, function(err, r){
+                                    console.log(err);
+                                    console.log(r);
+                                });
+
+    // collection.update([{ $match: {ProductIds: { $in: [new ObjectId(productId)]}}},
+    //     { $pull: {ProductIds: { $in: [new ObjectId(productId)]}}}],
+    //                     function(err, r) {
+    //                         console.log('test');
+    //                         callback(r);
+    //                     });
+}
+
 
 
 

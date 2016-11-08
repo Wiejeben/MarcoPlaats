@@ -6,7 +6,7 @@
 
             <div class="col-sm-6 col-xs-12 shopper-info">
 
-                <h4>Product</h4>
+                <h4>Product toevoegen</h4>
                 <input class="form-control" placeholder="Name"  v-model="product.Name">
                 <input class="form-control" placeholder="Prijs"  v-model="product.Price">
                 <input class="form-control" placeholder="Amount"  v-model="product.Amount">

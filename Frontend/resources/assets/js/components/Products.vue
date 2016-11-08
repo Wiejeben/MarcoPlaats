@@ -54,10 +54,6 @@
         methods: {
             switchCategory(category) {
                 this.category = category;
-                self = this
-                $.get(apiUrl + '/categories/' + category._id, function(products) {
-                    self.products = products.ProductObjects;
-                }); 
             },
 
             InsertWishlist(id) {
@@ -70,9 +66,9 @@
                     dataType: 'Json',
                     success: function(data) {
                         if(data == true){
-                            self.newAlert('success', 'Product succesvol toegevoegd aan verlanglijstje!');
+                            NewAlert('success', 'Product succesvol toegevoegd aan verlanglijstje!');
                         } else {
-                            self.newAlert('error', 'Er is iets fout gegaan');
+                            NewAlert('error', 'Er is iets fout gegaan');
                         }
                     }
                 });
@@ -85,9 +81,9 @@
                     type: 'DELETE',
                     success: function(data) {
                         if(data == true){
-                            self.newAlert('success', 'Product succesvol verwijdert van verlanglijstje!');
+                            NewAlert('success', 'Product succesvol verwijdert van verlanglijstje!');
                         } else {
-                            self.newAlert('error', 'Er is iets fout gegaan');
+                            NewAlert('error', 'Er is iets fout gegaan');
                         }
                     }
                 });

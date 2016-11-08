@@ -39,9 +39,9 @@
     export default {
         created() {
             self = this;
-            HasRole('user', function(){
+            HasRole('user', function(){               
                 $.get(apiUrl + '/users/' + User._id + '/products', function(_products) {
-                        self.products = _products.productObjects;
+                    self.products = _products.productObjects;
                 });
             })
         },
@@ -53,13 +53,12 @@
         methods:{
             deleteProduct(product){
                 var self = this;
-                console.log(window.apiUrl+'/users/' + self.user._id + '/products/' + product._id);
                 $.ajax({
-                    url: window.apiUrl+'/users/' + self.user._id + '/products/' + product._id,
+                    url: window.apiUrl+'/users/' + User._id + '/products/' + product._id,
                     type: 'DELETE',
                     success: function(data){
                         if(data == true){
-                            self.users.splice(self.users.indexOf(user), 1);
+                            self.products.splice(self.products.indexOf(product), 1);
                             self.newAlert('success', 'Product succesvol verwijdert!');
                         } else {
                             self.newAlert('error', 'Er is iets fout gegaan');

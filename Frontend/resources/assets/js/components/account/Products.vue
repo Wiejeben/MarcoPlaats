@@ -39,13 +39,14 @@
     export default {
         created() {
             self = this;
-            eventHub.$on('user-detected', function(user) {
-                self.user = user;
-                $.get(apiUrl + '/users/' + user._id + '/products', function(_products) {
-
-                    self.products = _products.productObjects;
+            HasRole('user', function(){
+                eventHub.$on('user-detected', function(user) {
+                    self.user = user;
+                    $.get(apiUrl + '/users/' + user._id + '/products', function(_products) {
+                        self.products = _products.productObjects;
+                    });
                 });
-            });
+            })
         },
         data() {
             return {

@@ -20,9 +20,13 @@ Vue.component('cart-details-component', require('./cart/Details.vue'));
 
 // Admin
 Vue.component('admin-sidebar-component', require('./admin/Sidebar.vue'));
+Vue.component('admin-settings-component', require('./admin/Settings.vue'));
+
 Vue.component('admin-products-component', require('./admin/Products.vue'));
+
 Vue.component('admin-categories-component', require('./admin/Categories.vue'));
 Vue.component('admin-addcategories-component', require('./admin/AddCategorie.vue'));
+
 Vue.component('admin-users-component', require('./admin/Users.vue'));
 Vue.component('admin-users-edit-component', require('./admin/UsersEdit.vue'));
 

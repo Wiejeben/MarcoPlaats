@@ -39,7 +39,7 @@
             HasRole('admin', function() {
 
                 $.get(apiUrl + '/users', function(data) {
-                    self.users = data.data;
+                    self.users = data;
                 });
 
             })

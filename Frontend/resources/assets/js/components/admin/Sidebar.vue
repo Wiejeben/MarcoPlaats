@@ -22,7 +22,7 @@
                     { name: 'Gebruikers', url: '/', active: false },
                     { name: 'Producten', url: '/products/', active: false },
                     { name: 'Categorieën', url: '/categories/', active: false },
-                    { name: 'Instellingen', url: '/settings.html', active: false }
+                    { name: 'Instellingen', url: '/settings/', active: false }
                 ],
             }
         },

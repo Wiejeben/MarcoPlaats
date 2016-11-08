@@ -7,29 +7,30 @@
     <meta name="author" content="">
 
     <title>Instellingen | MarcoPlaats</title>
-    
-    <link rel="stylesheet" href="./../css/app.css">
+
+    <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head><!--/head-->
 
 <body>
-    <div id="app">
-        <header-component></header-component>
-        <section>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <admin-sidebar-component></admin-sidebar-component>
-                    </div>
-                    <div class="col-sm-9 padding-right">
-                        
-                    </div>
+<div id="app">
+    <header-component></header-component>
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <admin-sidebar-component></admin-sidebar-component>
+                </div>
+                <div class="col-sm-9 padding-right">
+                    <admin-settings-component></admin-settings-component>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <footer-component></footer-component>
-    </div>
-    <script src="./../js/app.js"></script>
+    <footer-component></footer-component>
+</div>
+<script src="/js/app.js"></script>
 </body>
 </html>

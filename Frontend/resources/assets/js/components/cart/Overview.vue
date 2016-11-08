@@ -132,8 +132,8 @@
 
         <div id="do_action">
             <div class="container">
-                <a class="btn btn-primary" href="">Terug</a>
-                <a class="btn btn-primary pull-right" href="">Bestellen</a>
+                <a class="btn btn-primary" href="/">Terug</a>
+                <a class="btn btn-primary pull-right" href="details.html">Bestellen</a>
             </div>
         </div><!--/#do_action-->
     </section>

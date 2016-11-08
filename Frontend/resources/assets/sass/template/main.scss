@@ -944,8 +944,6 @@ h2.title {
   color: #fff;
 }
 
-
-
 .add-to-cart {
   background:#F5F5ED;
   border: 0 none;
@@ -963,17 +961,30 @@ h2.title {
   color: #FFFFFF;
 }
 
+.orange-btn {
+  background:#F5F5ED;
+  border: 0 none;
+  border-radius: 0;
+  color: #696763;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  margin-top: 20px
+}
+
+.orange-btn:hover {
+  background: #FE980F;
+  border: 0 none;
+  border-radius: 0;
+  color: #FFFFFF;
+}
+
+
 .add-to{
   margin-bottom: 10px;
 }
 
 .add-to-cart i{
 	margin-right:5px;
-}
-
-.add-to-cart:hover {
-  background: #FE980F;
-  color: #FFFFFF;
 }
 
 .choose {

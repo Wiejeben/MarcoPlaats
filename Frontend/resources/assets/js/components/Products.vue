@@ -1,12 +1,11 @@
 <template>
-    <div class="items"><!--features_items-->
-        <h2 class="title text-center">Producten {{ category.name }}</h2>
-
+    <div class="items">
+        <h2 class="title text-center">{{ category.Name }}</h2>
         <div class="col-sm-4" v-for="product in products">
             <div class="product-image-wrapper">
                 <div class="single-products">
                     <div class="productinfo text-center">
-                        <img :src="'/images/shop/product8.jpg'" :alt="product.name" />
+                        <img :src="'/images/shop/product8.jpg'" :alt="product.Name" />
                         <h2>€ {{ product.Price }}</h2>
                         <p>{{ product.Name }}</p>
                         <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
@@ -19,7 +18,7 @@
                 </div>
             </div>
         </div>
-    </div><!--features_items-->
+    </div>
 </template>
 
 <script>
@@ -38,7 +37,7 @@
 
         data() {
             return {
-                category: { name: 'Alles' },
+                category: { Name: 'Alle producten' },
 
                 products: [
                     // { name: 'Easy Polo Black Edition', price: 56, image: 'product7.jpg' },
@@ -53,8 +52,8 @@
 
         methods: {
             switchCategory(category) {
+                var self = this;
                 this.category = category;
-                self = this;
                 
                 $.get(apiUrl + '/categories/' + category._id, function(products) {
                     self.products = products.ProductObjects;

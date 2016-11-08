@@ -1,9 +1,14 @@
 <template>
     <div class="items"><!--features_items-->
         <h2 class="title text-center">Products</h2>
-
-        <h3>Producten</h3>
-        <a href="addproduct.html">Add product</a>
+        <div class="row">
+            <div class="col-sm-9">
+                <h3>Producten</h3>
+            </div>
+            <div class="col-sm-3">
+                <a href="addproduct.html" class="btn btn-default orange-btn">Product toevoegen</a>
+            </div>
+        </div>
         <div class="table-responsive">
             <table class="table table-condensed">
                 <thead>

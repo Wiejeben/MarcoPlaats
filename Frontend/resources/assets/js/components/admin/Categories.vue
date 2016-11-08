@@ -2,8 +2,14 @@
     <div class="items"><!--features_items-->
 
         <h2 class="title text-center">Beheer</h2>
-        <h3>Categorieën</h3>
-
+        <div class="row">
+            <div class="col-sm-9">
+                <h3>Categorieën</h3>
+            </div>
+            <div class="col-sm-3">
+                <a href="addcategorie.html" class="btn btn-default orange-btn">Categorie toevoegen</a>
+            </div>
+        </div>
         <div class="table-responsive">
             <table class="table table-condensed">
                 <thead>
@@ -15,7 +21,7 @@
                     <tr v-for="categorie in categories">
                         <td>{{ categorie.Name }}</td>
                         <td class="table_button"><a :href="'edit.html?id=' + categorie._id"><i class="fa fa-pencil"></i></a></td>
-                        <td class="table_button"><a class="cart_quantity_delete" @click.prevent="deleteUser(categorie)"><i class="fa fa-times"></i></a></td>
+                        <td class="table_button"><a class="cart_quantity_delete" @click.prevent="deleteCategorie(categorie)"><i class="fa fa-times"></i></a></td>
                     </tr>
                 </tbody>
             </table>

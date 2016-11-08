@@ -3,7 +3,6 @@
 
         <h2 class="title text-center">Beheer</h2>
         <h3>Producten</h3>
-
         <div class="table-responsive">
             <table class="table table-condensed">
                 <thead>

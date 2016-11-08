@@ -19,6 +19,11 @@ Category.Insert = function(db, body, callback) {
     Context.Insert(db, 'Categories', body, callback, schemas.Category);
 }
 
+Category.Delete = function(db, id, callback) {
+    console.log('test');
+    Context.Delete(db, 'Categories', id, callback);
+}
+
 // get all products from category
 Category.FindById = function (db, id, callback) {
     var collection = db.collection('Categories');
@@ -72,25 +77,11 @@ Category.InsertProduct = function(db, categoryId, productId, callback) {
 Category.DeleteProduct = function(db, productId, callback) {
     var collection = db.collection('Categories');
 
-    collection.find({ProductIds: {$in: [new ObjectId(productId)]}}).toArray(function(err, r){
-        console.log(r);
-    });
-
-
-    collection.findAndModify(
-                                {ProductIds: {$in: [new ObjectId(productId)]}},
-                                [],
-                                { $pull: { ProductIds: { $in: [new ObjectId(productId)]}}}, function(err, r){
-                                    console.log(err);
-                                    console.log(r);
-                                });
-
-    // collection.update([{ $match: {ProductIds: { $in: [new ObjectId(productId)]}}},
-    //     { $pull: {ProductIds: { $in: [new ObjectId(productId)]}}}],
-    //                     function(err, r) {
-    //                         console.log('test');
-    //                         callback(r);
-    //                     });
+    collection.findAndModify({ProductIds: {$in: [new ObjectId(productId)]}},
+                            [],
+                            { $pull: { ProductIds: { $in: [new ObjectId(productId)]}}}, function(err, r){
+                                callback(r);
+                            });
 }
 
 

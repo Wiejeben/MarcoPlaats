@@ -18,11 +18,6 @@ exports.Show = function(req, res, next) {
     Category.FindById(this.locals.db, req.params.id, function(category){
         res.send(category);
     });
-
-    // Find by Slug
-    // Category.FindBySlug(this.locals.db, req.params.id, function(category){
-    //     res.send({data:category});
-    // });
 };
 
 exports.Update = function(req, res, next) {
@@ -30,5 +25,7 @@ exports.Update = function(req, res, next) {
 };
 
 exports.Delete = function(req, res, next) {
-    res.send("Delete " + req.params.id);
+    Category.Delete(this.locals.db, req.params.id, function(deletedCount) {
+        res.send('Deleted accounts: ' + deletedCount);
+    });
 };

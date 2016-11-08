@@ -11,6 +11,8 @@ window.eventHub = new Vue();
 
 window.HasRole = require('./functions/HasRole');
 
+window.NewAlert = require('./functions/NewAlert');
+
 window.User = null;
 
 // Generate API url

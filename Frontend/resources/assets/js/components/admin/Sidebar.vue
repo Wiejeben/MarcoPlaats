@@ -17,18 +17,20 @@
         data() {
             return {
                 baseUrl: '/admin',
-                url: '/' + window.location.pathname.split('/').pop(),
+                url: '/' + window.location.pathname.split('/').filter(n => n)[1] + '/',
                 menu: [
                     { name: 'Gebruikers', url: '/', active: false },
-                    { name: 'Producten', url: '/products.html', active: false },
+                    { name: 'Producten', url: '/products/', active: false },
+                    { name: 'Categorieën', url: '/categories/', active: false },
                     { name: 'Instellingen', url: '/settings.html', active: false }
                 ],
             }
         },
         created() {
+            console.log(this.url);
             var self = this;
             self.menu.forEach(function(item) {
-                item.active = (item.url == self.url);
+                item.active = (item.url == ((self.url == '/undefined/' || self.url == '/users/') ? '/' : self.url));
             });
         }
     }

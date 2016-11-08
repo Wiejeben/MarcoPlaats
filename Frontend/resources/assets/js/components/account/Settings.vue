@@ -26,11 +26,18 @@
                 <input class="form-control" placeholder="Postcode" v-model="user.DeliveryAddress.Zipcode">
                 <input class="form-control" placeholder="Plaats" v-model="user.DeliveryAddress.City">
 
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" v-model="user.PublicWishlist"> Verlanglijstje openbaar
+                    </label>
+                </div>
+
             </div>
 
             <div class="col-xs-12">
                 <button href="#" class="btn btn-primary" @click.prevent="submit()">Opslaan</button><br><br>
             </div>
+
         </form>
     </div>
 </template>
@@ -43,9 +50,9 @@
         created() {
             var self = this;
 
-            eventHub.$on('user-detected', function(data) {
-                self.user = data;
-            })
+            HasRole('user', function() {
+                self.user = User;
+            });
         },
         data() {
             return {

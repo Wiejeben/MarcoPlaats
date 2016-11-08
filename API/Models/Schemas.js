@@ -6,6 +6,7 @@ schemas = {
         Email: null,
         Role: null,
         PhoneNumber: null,
+        PublicWishlist: false,
         MainAddress: {
             Address: null,
             City: null,
@@ -24,6 +25,7 @@ schemas = {
         Email: null,
         Role: null,
         PhoneNumber: null,
+        PublicWishlist: false,
         MainAddress: {
             Address: null,
             City: null,

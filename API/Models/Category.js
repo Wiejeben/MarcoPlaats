@@ -19,8 +19,36 @@ Category.Insert = function(db, body, callback) {
     Context.Insert(db, 'Categories', body, callback, schemas.Category);
 }
 
-Category.FindById = function (db, id, callback) {  
-    Context.FindById(db, 'Categories', id, callback)
+// get all products from category
+Category.FindById = function (db, id, callback) {
+    var collection = db.collection('Categories');
+
+    collection.aggregate([
+        { $match: { _id: new ObjectId(id) }},
+
+        { $unwind: '$ProductIds' },
+
+        { $lookup: {
+            from: 'Products',
+            localField: 'ProductIds',
+            foreignField: '_id',
+            as: 'productObjects'
+        }},
+
+        { $unwind: '$productObjects' },
+        
+        { $group: {
+            _id: '$_id',
+            Name: { $push: '$Name'},
+            ProductObjects: { $push: '$productObjects' }
+        }},
+        { $unwind: '$Name' }
+    ], function(err, results){
+        console.log(err);
+        console.log(results);
+        
+        callback(results[0]);
+    });
 };
 
 Category.FindBySlug = function(db, slug, callback){
@@ -42,6 +70,9 @@ Category.InsertProduct = function(db, categoryId, productId, callback) {
                             callback();
                         });
 }
+
+
+
 
 
 module.exports = Category;

@@ -29,6 +29,10 @@
         window.location.href = "/?debug=token_undefined";
     }
 
+    if (token == 'blocked') {
+        window.location.href = "/?debug=blocked";
+    }
+
     console.log(token);
 
     if (typeof(Storage) !== "undefined") {

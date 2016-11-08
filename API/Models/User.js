@@ -52,8 +52,12 @@ User.InsertFromGoogle = function(db, profile, callback) {
                 callback(encryptedToken);
             });
         } else {
-            var encryptedToken = User.encryptToken(result[0].OAuthId);
-            callback(encryptedToken);
+            if(result[0].Role == 'blocked'){
+                callback('blocked');
+            }else{
+                var encryptedToken = User.encryptToken(result[0].OAuthId);
+                callback(encryptedToken);
+            }
         }
     })
 }

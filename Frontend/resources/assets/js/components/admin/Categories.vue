@@ -54,7 +54,7 @@
                     url: window.apiUrl + '/categories/' + categorie._id,
                     type: 'DELETE',
                     success: function(data){
-                        if(data == true){
+                        if(data){
                             self.categories.splice(self.categories.indexOf(categorie), 1);
                             NewAlert('success', 'Categorie succesvol verwijdert!');
                         } else {

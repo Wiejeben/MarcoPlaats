@@ -41,7 +41,7 @@
                     data: JSON.stringify(self.categorie),
                     dataType: 'json',
                     success: function(data){
-                        if(data == true){
+                        if(data){
                             NewAlert('success', 'De categorie is succesvol aangemaakt!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');

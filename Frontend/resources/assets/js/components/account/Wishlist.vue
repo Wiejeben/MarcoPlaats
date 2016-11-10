@@ -19,7 +19,7 @@
                             <a href=""><img class="img-responsive" :src="product.Images[0]" alt=""></a>
                         </td>
                         <td>
-                            <h4><a href="">{{product.Name}}</a></h4>
+                            <a href="">{{product.Name}}</a>
                         </td>
                         <td>
                             <p>€{{product.Price}}</p>
@@ -61,7 +61,7 @@
                     url: window.apiUrl+'/users/'+window.User._id + '/wishlist/' + product._id,
                     type: 'DELETE',
                     success: function(data){
-                        if(data == true){
+                        if(data){
                             self.newAlert('success', 'Product succesvol verwijdert van verlanglijstje!');
                         } else {
                             self.newAlert('error', 'Er is iets fout gegaan');

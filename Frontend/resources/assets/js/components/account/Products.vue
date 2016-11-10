@@ -25,7 +25,7 @@
                             <a href=""><img class="img-responsive" :src="product.Images[0]" alt=""></a>
                         </td>
                         <td>
-                            <h4><a href="">{{product.Name}}</a></h4>
+                            <a href="">{{product.Name}}</a>
                         </td>
                         <td>
                             <p>€{{product.Price}}</p>
@@ -62,7 +62,7 @@
                     url: window.apiUrl+'/users/' + User._id + '/products/' + product._id,
                     type: 'DELETE',
                     success: function(data){
-                        if(data == true){
+                        if(data){
                             self.products.splice(self.products.indexOf(product), 1);
                             self.newAlert('success', 'Product succesvol verwijdert!');
                         } else {

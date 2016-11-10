@@ -57,7 +57,7 @@
                     url: window.apiUrl + '/users/' + user._id,
                     type: 'DELETE',
                     success: function(data){
-                        if(data == true){
+                        if(data){
                             self.users.splice(self.users.indexOf(user), 1);
                             self.newAlert('success', 'Gebruiker succesvol verwijdert!');
                         } else {

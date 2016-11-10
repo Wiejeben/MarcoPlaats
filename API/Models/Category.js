@@ -20,7 +20,6 @@ Category.Insert = function(db, body, callback) {
 }
 
 Category.Delete = function(db, id, callback) {
-    console.log('test');
     Context.Delete(db, 'Categories', id, callback);
 }
 

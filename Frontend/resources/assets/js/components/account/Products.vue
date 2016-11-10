@@ -64,9 +64,9 @@
                     success: function(data){
                         if(data){
                             self.products.splice(self.products.indexOf(product), 1);
-                            self.newAlert('success', 'Product succesvol verwijdert!');
+                            NewAlert('success', 'Product succesvol verwijdert!');
                         } else {
-                            self.newAlert('error', 'Er is iets fout gegaan');
+                            NewAlert('error', 'Er is iets fout gegaan');
                         }
                     }
                 });

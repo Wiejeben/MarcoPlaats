@@ -62,9 +62,9 @@
                     type: 'DELETE',
                     success: function(data){
                         if(data){
-                            self.newAlert('success', 'Product succesvol verwijdert van verlanglijstje!');
+                            NewAlert('success', 'Product succesvol verwijdert van verlanglijstje!');
                         } else {
-                            self.newAlert('error', 'Er is iets fout gegaan');
+                            NewAlert('error', 'Er is iets fout gegaan');
                         }
                     }
                 });

@@ -67,9 +67,9 @@
                     dataType: 'json',
                     success: function(data) {
                         if(data){
-                            self.newAlert('success', 'Uw instellingen zijn succesvol aangepast!');
+                            NewAlert('success', 'Uw instellingen zijn succesvol aangepast!');
                         } else {
-                            self.newAlert('error', 'Er is iets fout gegaan');
+                            NewAlert('error', 'Er is iets fout gegaan');
                         }
                     }
                 });

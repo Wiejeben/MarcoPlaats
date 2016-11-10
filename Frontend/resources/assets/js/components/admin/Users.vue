@@ -59,9 +59,9 @@
                     success: function(data){
                         if(data){
                             self.users.splice(self.users.indexOf(user), 1);
-                            self.newAlert('success', 'Gebruiker succesvol verwijdert!');
+                            NewAlert('success', 'Gebruiker succesvol verwijdert!');
                         } else {
-                            self.newAlert('error', 'Er is iets fout gegaan');
+                            NewAlert('error', 'Er is iets fout gegaan');
                         }
                     }
                 });

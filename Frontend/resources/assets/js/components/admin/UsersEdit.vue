@@ -9,7 +9,7 @@
                 <input class="form-control" placeholder="Achternaam" v-model="user.LastName">
                 <input type="email" class="form-control" placeholder="Email" v-model="user.Email">
                 <input class="form-control" placeholder="Telefoonnummer" v-model="user.PhoneNumber">
-                <select id="RoleSelect">
+                <select id="RoleSelect" class="form-control">
                     <option v-for="role in Roles" :selected="role.selected" :value="role.name">{{ role.name }}</option>
                 </select>
 

@@ -51,7 +51,7 @@
                     url: window.apiUrl + '/products/' + product._id,
                     type: 'DELETE',
                     success: function(data){
-                        if(data == true){
+                        if(data){
                             self.products.splice(self.products.indexOf(product), 1);
                             NewAlert('success', 'Product succesvol verwijdert!');
                         } else {

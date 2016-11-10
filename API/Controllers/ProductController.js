@@ -33,5 +33,7 @@ exports.Update = function(req, res, next) {
 };
 
 exports.Delete = function(req, res, next) {
-    res.send("Delete " + req.params.id);
+    Product.Delete(this.locals.db, req.params.id, function(deletedItems) {
+        res.send("Delete " + req.params.id + '  '+ deletedItems);
+    });
 };

@@ -5,7 +5,7 @@
             <div class="product-image-wrapper">
                 <div class="single-products">
                     <div class="productinfo text-center">
-                        <img :src="'/images/shop/product8.jpg'" :alt="product.Name" />
+                        <img :src="'http://lorempixel.com/200/300/'" :alt="product.Name" />
                         <h2>€ {{ product.Price }}</h2>
                         <p>{{ product.Name }}</p>
                         <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
@@ -70,7 +70,7 @@
                     data: JSON.stringify({ ProductId: id }),
                     dataType: 'Json',
                     success: function(data) {
-                        if(data == true){
+                        if(data){
                             NewAlert('success', 'Product succesvol toegevoegd aan verlanglijstje!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');
@@ -85,7 +85,7 @@
                     url: window.apiUrl+'/users/'+window.User._id + '/wishlist/' + id,
                     type: 'DELETE',
                     success: function(data) {
-                        if(data == true){
+                        if(data){
                             NewAlert('success', 'Product succesvol verwijdert van verlanglijstje!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');

@@ -19,7 +19,7 @@
                             <a href=""><img class="img-responsive" :src="product.Images[0]" alt=""></a>
                         </td>
                         <td>
-                            <h4><a href="">{{product.Name}}</a></h4>
+                            <a href="">{{product.Name}}</a>
                         </td>
                         <td>
                             <p>€{{product.Price}}</p>

@@ -70,7 +70,7 @@
                     data: JSON.stringify(self.user),
                     dataType: 'json',
                     success: function(data){
-                        if(data == true){
+                        if(data){
                             NewAlert('success', 'De gebruiker is succesvol aangepast!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');

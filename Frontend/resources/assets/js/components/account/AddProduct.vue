@@ -97,7 +97,7 @@
                     data: JSON.stringify(this.product),
                     dataType: 'json',
                     success: function(data) {
-                        if(data == true){
+                        if(data){
                             self.newAlert('success', 'Uw instellingen zijn succesvol aangepast!');
                         } else {
                             self.newAlert('error', 'Er is iets fout gegaan');

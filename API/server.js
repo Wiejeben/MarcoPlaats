@@ -2,17 +2,16 @@
 'use strict';
 
 // Configuration
-var config = global.config = require('./config');
+global.config = require('./config');
 
 // Server
-const restify = require('restify');
-
-// Authentication
-var passport = global.passport = require('passport-restify');
+const restify = require('restify'),
+    mongodb = require('mongodb'),
+    passport = global.passport = require('passport-restify');
     require('./auth');
 
 // Restify server
-var server = global.server = restify.createServer(config.Application);
+global.server = restify.createServer(config.Application);
 
 // Allow custom headers
 restify.CORS.ALLOW_HEADERS.push('authorization');
@@ -25,10 +24,14 @@ server.use(restify.fullResponse())
     .use(restify.CORS());
 
 // MongoDB
-require('mongodb').MongoClient.connect(config.Database.Url, { promiseLibrary: Promise }, function(err, _db) {
-    server.locals = {
-        db: _db
-    };
+global.ObjectId = mongodb.ObjectId;
+mongodb.MongoClient.connect(config.Database.Url, { promiseLibrary: Promise }, function(err, _db) {
+    if (err) {
+        console.error('Unable to connect to MongDB.');
+        process.exit();
+    }
+
+    global.db = _db;
 });
 
 require('./routes');

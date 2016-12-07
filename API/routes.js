@@ -5,6 +5,15 @@ var server = global.server,
 
 // Hello World message
 server.get('/', function (req, res, next) {
+
+    var Category = require('./Models/Category');
+
+    var category = new Category();
+
+    category.findById('5848803b5f2aa11608e60670', (success) => {
+        console.log(category.document)
+    });
+
     res.send('NodeJS is up and running!');
 });
 
@@ -22,8 +31,6 @@ server.get('/auth/google/callback',
         res.setHeader('Content-Length', '0');
         res.end();
     });
-
-
 
 var controllers = AutoLoader('Controllers');
 

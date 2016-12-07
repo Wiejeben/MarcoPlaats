@@ -1,4 +1,6 @@
-module.exports = class Category extends require('./Model') {
+const Model = require('./Model');
+
+module.exports = class Category extends Model {
     constructor() {
         super('Categories', schemas.Category);
     }

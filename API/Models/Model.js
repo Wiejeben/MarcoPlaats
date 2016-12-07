@@ -2,6 +2,15 @@ const _ = require('lodash'),
     assert = require('assert');
 
 module.exports = class Model {
+    /**
+     * @property {string} table
+     * @property {Collection} collection
+     * @property {object} schema
+     * @property {object} document
+     *
+     * @param {string} table
+     * @param {object} schema
+     */
     constructor(table, schema) {
         this.table = table;
         this.collection = db.collection(table);
@@ -19,8 +28,8 @@ module.exports = class Model {
     /**
      * Validate whether id is compatible is ObjectId.
      *
-     * @param _id
-     * @return boolean
+     * @param {string} [_id=this.document._id]
+     * @return {boolean}
      */
     validateId(_id) {
         var id = (typeof _id !== 'undefined') ?  _id : this.document._id;
@@ -36,7 +45,7 @@ module.exports = class Model {
     /**
      * Get all documents.
      *
-     * @param callback
+     * @param {function(object[])} callback
      */
     all(callback) {
         this.collection.find({}).toArray(function(err, result) {
@@ -48,15 +57,15 @@ module.exports = class Model {
     /**
      * Get specified document by id.
      *
-     * @param id
-     * @param callback
+     * @param {string} id
+     * @param {function(boolean)} callback
      */
     findById(id, callback) {
         // Clear current document
         this.document = null;
 
         if (!this.validateId(id)) {
-            callback(false, null);
+            callback(false);
             return
         }
 
@@ -70,7 +79,7 @@ module.exports = class Model {
     /**
      * Insert sanitized document.
      *
-     * @param callback
+     * @param {function} callback
      */
     insert(callback) {
         this.sanitize();
@@ -78,31 +87,31 @@ module.exports = class Model {
         this.collection.insertOne(this.document, (err, result) => {
             assert.equal(err, null);
             this.document._id = result.insertedId;
-            callback(this.document)
+            callback()
         })
     }
 
     /**
      * Update/overwrite specified by id document.
      *
-     * @param callback
+     * @param {function(boolean)} callback
      */
     update(callback) {
         if (!this.validateId()) {
-            callback();
+            callback(false);
             return
         }
 
         this.collection.updateOne({ _id: this.document._id }, { $set: this.document }, (err, result) => {
             assert.equal(err, null);
-            callback()
+            callback(true)
         })
     }
 
     /**
      * Permanently delete specified document.
      *
-     * @param callback
+     * @param {function(boolean)} callback
      */
     destroy(callback) {
         if (!this.validateId()) {

@@ -1,33 +1,8 @@
-var User = require('./../Models/User');
-var Product = require('./../Models/Product');
-var Image = require('./../Models/Image');
+const RestfulController = require('./RestfulController'),
+	UserModel = require('./../Models/User');
 
-exports.Index = function (req, res, next) {
-    User.GetAll(this.locals.db, function(collection){
-        res.send(collection)
-    });
-};
-
-exports.Create = function (req, res, next) {
-    User.Insert(this.locals.db, req.body, function(){
-        res.send('Created a user');
-    })
-};
-
-exports.Show = function (req, res, next) {
-    User.FindById(this.locals.db, req.params.id, function(user) {
-        res.send(user);
-    });
-};
-
-exports.Update = function (req, res, next) {
-    User.Update(this.locals.db, req.params.id, req.body, function(test) {
-        res.send(test);
-    })
-};
-
-exports.Delete = function (req, res, next) {
-    User.Delete(this.locals.db, req.params.id, function(deletedCount) {
-        res.send('Deleted accounts: ' + deletedCount);
-    });
+module.exports = class UserController extends RestfulController {
+	constructor() {
+		super(UserModel)
+	}
 };

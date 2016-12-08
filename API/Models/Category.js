@@ -1,65 +1,47 @@
-const Model = require('./Model');
+const Model = require('./Model'),
+	schemas = require('./Schemas.js');
 
 module.exports = class Category extends Model {
-    constructor() {
-        super('Categories', schemas.Category);
-    }
+	constructor() {
+		super('Categories', schemas.Category);
+	}
+
+	/**
+	 * Get specified aggregated (with projects) document by id.
+	 *
+	 * @param {string} id
+	 * @return {Promise}
+	 */
+	findById(id) {
+		// Clear current document
+		this.document = null;
+
+		if (!this.validateId(id)) return Promise.reject(new Error('Invalid ObjectId'));
+
+		return this.collection.aggregate([
+			{ $match: { _id: new ObjectId(id) } },
+			{ $unwind: '$ProductIds' },
+			{
+				$lookup: {
+					from: 'Products',
+					localField: 'ProductIds',
+					foreignField: '_id',
+					as: 'productObjects'
+				}
+			},
+			{ $unwind: '$productObjects' },
+			{
+				$group: {
+					_id: '$_id',
+					Name: { $push: '$Name' },
+					ProductObjects: { $push: '$productObjects' }
+				}
+			},
+			{ $unwind: '$Name' }
+		]).toArray()
+	}
 };
 
-// var Context = require('./../Helpers/Context.js'),
-//     ObjectId = require('mongodb').ObjectID;
-//
-// var Category = function (data) {
-//     this.data = data;
-// };
-//
-// Category.prototype.data = {};
-//
-// Category.prototype.changeName = function (name) {
-//     this.data.name = name;
-// };
-//
-//
-// // get all products from category
-// Category.FindById = function (db, id, callback) {
-//     var collection = db.collection('Categories');
-//     if(id.length == 24){
-//         collection.aggregate([
-//             { $match: { _id: new ObjectId(id) }},
-//
-//             { $unwind: '$ProductIds' },
-//
-//             { $lookup: {
-//                 from: 'Products',
-//                 localField: 'ProductIds',
-//                 foreignField: '_id',
-//                 as: 'productObjects'
-//             }},
-//
-//             { $unwind: '$productObjects' },
-//
-//             { $group: {
-//                 _id: '$_id',
-//                 Name: { $push: '$Name'},
-//                 ProductObjects: { $push: '$productObjects' }
-//             }},
-//             { $unwind: '$Name' }
-//         ], function(err, results){
-//             callback(results[0]);
-//         });
-//     }else{
-//         callback(false);
-//     }
-// };
-//
-// Category.FindBySlug = function(db, slug, callback){
-//     var collection = db.collection('Categories');
-//
-//     collection.find({'Slug':slug}).toArray(function(err, collection){
-//         callback(collection)
-//     });
-// }
-//
 // Category.InsertProduct = function(db, categoryId, productId, callback) {
 //     var collection = db.collection('Categories');
 //
@@ -79,9 +61,5 @@ module.exports = class Category extends Model {
 //                                 callback(r);
 //                             });
 // }
-//
-//
-//
-//
 //
 // module.exports = Category;

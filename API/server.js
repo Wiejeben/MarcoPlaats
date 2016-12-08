@@ -30,9 +30,9 @@ mongodb.MongoClient.connect(config.Database.Url, { promiseLibrary: Promise }, fu
 	}
 
 	global.db = _db;
-});
 
-require('./routes');
+	require('./routes');
+});
 
 global.server.listen(8080, function () {
 	console.log('%s listening at %s', server.name, server.url);

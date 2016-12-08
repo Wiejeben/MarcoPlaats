@@ -1,20 +1,7 @@
-var server = global.server,
-	passport = global.passport,
-	RestRouter = require('./Helpers/RestRouter'),
-	AutoLoader = require('./Helpers/AutoLoader');
+const AutoLoader = require('./Helpers/AutoLoader');
 
 // Hello World message
 server.get('/', function(req, res, next) {
-
-	const Category = require('./Models/Category');
-
-	const category = new Category();
-
-	category.findById('5848803b5f2aa11608e60670')
-		.then(() => {
-			console.log(category.document);
-		});
-
 	res.send('NodeJS is up and running!');
 });
 
@@ -33,9 +20,9 @@ server.get('/auth/google/callback',
 		res.end();
 	});
 
-var controllers = AutoLoader('Controllers');
+const controllers = AutoLoader('Controllers');
 
-var User = require('./Models/User');
+const User = require('./Models/User');
 
 server.get('/auth/user', function(req, res, next) {
 	User.GetByToken(this.locals.db, req.headers.authorization, function(user) {
@@ -44,9 +31,12 @@ server.get('/auth/user', function(req, res, next) {
 
 });
 
-RestRouter(server, 'products', controllers.ProductController);
-RestRouter(server, 'users', controllers.UserController);
-RestRouter(server, 'categories', controllers.CategoryController);
+const RestRouter = require('./Helpers/RestRouter'),
+	RestRouter2 = require('./Helpers/RestRouter2');
+
+RestRouter2(server, 'products', controllers.ProductController);
+RestRouter2(server, 'users', controllers.UserController);
+RestRouter2(server, 'categories', controllers.CategoryController);
 RestRouter(server, 'users/:uid/orders', controllers.OrderController);
 RestRouter(server, 'users/:uid/wishlist', controllers.WishlistController);
 RestRouter(server, 'users/:uid/favourites', controllers.FavouritesController);

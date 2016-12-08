@@ -7,6 +7,8 @@ module.exports = class Model {
 	 * @property {Collection} collection
 	 * @property {object} schema
 	 * @property {object} document
+	 * @property {boolean} hasCreatedAt
+	 * @property {boolean} hasDeletedAt
 	 *
 	 * @param {string} table
 	 * @param {object} schema
@@ -16,6 +18,9 @@ module.exports = class Model {
 		this.collection = db.collection(table);
 		this.schema = schema;
 		this.document = null;
+
+		this.hasCreatedAt = false;
+		this.hasDeletedAt = false; // TODO: Figure out if we still need to implement soft deletes
 	}
 
 	/**
@@ -34,7 +39,11 @@ module.exports = class Model {
 	validateId(id) {
 		id = (typeof id !== 'undefined') ? id : this.document._id;
 
-		return !(typeof id == 'undefined' || !ObjectId.isValid(id));
+		if (typeof typeof id == 'undefined') {
+			return false;
+		}
+
+		return ObjectId.isValid(id)
 	}
 
 	/**
@@ -56,9 +65,7 @@ module.exports = class Model {
 		// Clear current document
 		this.document = null;
 
-		if (!this.validateId(id)) {
-			return Promise.reject('Invalid ObjectId')
-		}
+		if (!this.validateId(id)) return Promise.reject(new Error('Invalid ObjectId'));
 
 		const promise = this.collection.findOne({ _id: new ObjectId(id) });
 
@@ -78,12 +85,13 @@ module.exports = class Model {
 	insert() {
 		this.sanitize();
 
+		if (this.hasCreatedAt) this.document.CreatedAt = Math.floor(new Date() / 1000);
+
 		const promise = this.collection.insertOne(this.document);
 
 		// Apply new document _id
 		promise.then(result => {
-			this.document._id = result.insertedId;
-			callback(true, this.document)
+			this.document._id = result.insertedId
 		});
 
 		return promise
@@ -95,9 +103,7 @@ module.exports = class Model {
 	 * @return {Promise}
 	 */
 	update() {
-		if (!this.validateId()) {
-			return Promise.reject('Invalid ObjectId')
-		}
+		if (!this.validateId()) return Promise.reject(new Error('Invalid ObjectId'));
 
 		return this.collection.updateOne({ _id: this.document._id }, { $set: this.document })
 	}
@@ -108,9 +114,7 @@ module.exports = class Model {
 	 * @return {Promise}
 	 */
 	destroy() {
-		if (!this.validateId()) {
-			return Promise.reject('Invalid ObjectId')
-		}
+		if (!this.validateId()) return Promise.reject(new Error('Invalid ObjectId'));
 
 		return this.collection.deleteOne({ _id: new ObjectId(this.document._id) })
 	}

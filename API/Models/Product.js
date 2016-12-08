@@ -1,30 +1,9 @@
-var Context = require('./../Helpers/Context.js');
-var schemas = require('./Schemas.js');
+const Model = require('./Model'),
+	schemas = require('./Schemas.js');
 
-var Product = function (data) {
-    this.data = data;
+module.exports = class Product extends Model {
+	constructor() {
+		super('Products', schemas.Product);
+		this.hasCreatedAt = true
+	}
 };
-
-Product.prototype.data = {};
-
-Product.prototype.changeName = function (name) {
-    this.data.name = name;
-};
-
-Product.GetAll = function(db, callback) {
-    Context.GetAll(db, 'Products', callback)
-}
-
-Product.Insert = function(db, body, callback) {
-    Context.Insert(db, 'Products', body, callback, schemas.Product);
-}
-
-Product.FindById = function (db, id, callback) {
-    Context.FindById(db, 'Products', id, callback)
-};
-
-Product.Delete = function (db, id, callback) {
-    Context.Delete(db, 'Products', id, callback);
-}
-
-module.exports = Product;

@@ -1,143 +1,117 @@
 const _ = require('lodash'),
-    assert = require('assert');
+	assert = require('assert');
 
 module.exports = class Model {
-    /**
-     * @property {string} table
-     * @property {Collection} collection
-     * @property {object} schema
-     * @property {object} document
-     *
-     * @param {string} table
-     * @param {object} schema
-     */
-    constructor(table, schema) {
-        this.table = table;
-        this.collection = db.collection(table);
-        this.schema = schema;
-        this.document = null;
-    }
+	/**
+	 * @property {string} table
+	 * @property {Collection} collection
+	 * @property {object} schema
+	 * @property {object} document
+	 *
+	 * @param {string} table
+	 * @param {object} schema
+	 */
+	constructor(table, schema) {
+		this.table = table;
+		this.collection = db.collection(table);
+		this.schema = schema;
+		this.document = null;
+	}
 
-    /**
-     * Format input data to keep documents consistent.
-     */
-    sanitize() {
-        this.document = _.pick(_.defaults(this.document, this.schema), _.keys(this.schema));
-    }
+	/**
+	 * Format input data to keep documents consistent.
+	 */
+	sanitize() {
+		this.document = _.pick(_.defaults(this.document, this.schema), _.keys(this.schema));
+	}
 
-    /**
-     * Validate whether id is compatible is ObjectId.
-     *
-     * @param {string} [_id=this.document._id]
-     * @return {boolean}
-     */
-    validateId(_id) {
-        var id = (typeof _id !== 'undefined') ?  _id : this.document._id;
+	/**
+	 * Validate whether id is compatible is ObjectId.
+	 *
+	 * @param {string} [id=this.document._id]
+	 * @return {boolean}
+	 */
+	validateId(id) {
+		id = (typeof id !== 'undefined') ? id : this.document._id;
 
-        if (!ObjectId.isValid(id)) {
-            console.warn('Invalid ObjectId: ' + id);
-            return false;
-        }
+		return !(typeof id == 'undefined' || !ObjectId.isValid(id));
+	}
 
-        return true;
-    }
+	/**
+	 * Get all documents.
+	 *
+	 * @return {Promise}
+	 */
+	all() {
+		return this.collection.find().toArray()
+	}
 
-    /**
-     * Get all documents.
-     *
-     * @param {function(boolean, object[])} callback
-     */
-    all(callback) {
+	/**
+	 * Get specified document by id.
+	 *
+	 * @param {string} id
+	 * @return {Promise}
+	 */
+	findById(id) {
+		// Clear current document
+		this.document = null;
 
-        this.collection.find({}).toArray()
-            .then(results => {
-                callback(true, results)
-            })
-            .catch(error => {
-                callback(false, error)
-            })
-    }
+		if (!this.validateId(id)) {
+			return Promise.reject('Invalid ObjectId')
+		}
 
-    /**
-     * Get specified document by id.
-     *
-     * @param {string} id
-     * @param {function(boolean, object)} callback
-     */
-    findById(id, callback) {
-        // Clear current document
-        this.document = null;
+		const promise = this.collection.findOne({ _id: new ObjectId(id) });
 
-        if (!this.validateId(id)) {
-            callback(false, { message: 'Invalid ObjectId' });
-            return
-        }
+		// Apply results to document
+		promise.then(result => {
+			this.document = result;
+		});
 
-        this.collection.findOne({ _id: new ObjectId(id) })
-            .then(result => {
-                this.document = result;
-                callback((result != null), result)
-            })
-            .catch(error => {
-                callback(false, error)
-            })
-    }
+		return promise
+	}
 
-    /**
-     * Insert sanitized document.
-     *
-     * @param {function(boolean, object)} callback
-     */
-    insert(callback) {
-        this.sanitize();
+	/**
+	 * Insert sanitized document.
+	 *
+	 * @return {Promise}
+	 */
+	insert() {
+		this.sanitize();
 
-        this.collection.insertOne(this.document)
-            .then(result => {
-                this.document._id = result.insertedId;
-                callback(true, this.document)
-            })
-            .catch(error => {
-                callback(false, this.document)
-            })
-    }
+		const promise = this.collection.insertOne(this.document);
 
-    /**
-     * Update/overwrite specified by id document.
-     *
-     * @param {function(boolean, object)} callback
-     */
-    update(callback) {
-        if (!this.validateId()) {
-            callback(false, { message: 'Invalid ObjectId' });
-            return
-        }
+		// Apply new document _id
+		promise.then(result => {
+			this.document._id = result.insertedId;
+			callback(true, this.document)
+		});
 
-        this.collection.updateOne({ _id: this.document._id }, { $set: this.document })
-            .then(() => {
-                callback(true, null)
-            })
-            .catch(error => {
-                callback(false, error)
-            })
-    }
+		return promise
+	}
 
-    /**
-     * Permanently delete specified document.
-     *
-     * @param {function(boolean, object)} callback
-     */
-    destroy(callback) {
-        if (!this.validateId()) {
-            callback(false, { message: 'Invalid ObjectId' });
-            return
-        }
+	/**
+	 * Update/overwrite specified by id document.
+	 *
+	 * @return {Promise}
+	 */
+	update() {
+		if (!this.validateId()) {
+			return Promise.reject('Invalid ObjectId')
+		}
 
-        this.collection.deleteOne({ _id: new ObjectId(this.document._id) })
-            .then(result => {
-                callback((result.deletedCount >= 1), null)
-            })
-            .catch(error => {
-                callback(false, error)
-            })
-    }
+		return this.collection.updateOne({ _id: this.document._id }, { $set: this.document })
+	}
+
+	/**
+	 * Permanently delete specified document.
+	 *
+	 * @return {Promise}
+	 */
+	destroy() {
+		if (!this.validateId()) {
+			return Promise.reject('Invalid ObjectId')
+		}
+
+		return this.collection.deleteOne({ _id: new ObjectId(this.document._id) })
+	}
 };

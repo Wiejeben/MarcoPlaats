@@ -1,25 +1,21 @@
 var server = global.server,
-    passport = global.passport,
-    RestRouter = require('./Helpers/RestRouter'),
-    AutoLoader = require('./Helpers/AutoLoader');
+	passport = global.passport,
+	RestRouter = require('./Helpers/RestRouter'),
+	AutoLoader = require('./Helpers/AutoLoader');
 
 // Hello World message
-server.get('/', function (req, res, next) {
+server.get('/', function(req, res, next) {
 
-    var Category = require('./Models/Category');
+	const Category = require('./Models/Category');
 
-    var category = new Category();
+	const category = new Category();
 
-    // category.findById('5848803b5f2aa11608e60670', (success) => {
-    //     console.log(success);
-    //     console.log(category.document)
-    // });
+	category.findById('5848803b5f2aa11608e60670')
+		.then(() => {
+			console.log(category.document);
+		});
 
-    category.all((success, results) => {
-        console.log(results.length)
-    });
-
-    res.send('NodeJS is up and running!');
+	res.send('NodeJS is up and running!');
 });
 
 // Redirect to Google
@@ -27,24 +23,24 @@ server.get('/auth', passport.authenticate('google', { scope: ['https://www.googl
 
 // Process callback
 server.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/failure', session: false }),
-    function(req, res) {
-        
-        // Send user back to client
-        res.statusCode = 302;
-        res.setHeader('Location', global.config.Misc.ClientUrl + '/account/process.html?token=' + req.user);
-        res.setHeader('Content-Length', '0');
-        res.end();
-    });
+	passport.authenticate('google', { failureRedirect: '/failure', session: false }),
+	function(req, res) {
+
+		// Send user back to client
+		res.statusCode = 302;
+		res.setHeader('Location', global.config.Misc.ClientUrl + '/account/process.html?token=' + req.user);
+		res.setHeader('Content-Length', '0');
+		res.end();
+	});
 
 var controllers = AutoLoader('Controllers');
 
-var User = require('./Models/User')
+var User = require('./Models/User');
 
-server.get('/auth/user', function (req, res, next) {
-    User.GetByToken(this.locals.db, req.headers.authorization, function(user) {
-        res.send(user);
-    });
+server.get('/auth/user', function(req, res, next) {
+	User.GetByToken(this.locals.db, req.headers.authorization, function(user) {
+		res.send(user);
+	});
 
 });
 

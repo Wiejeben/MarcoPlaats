@@ -10,8 +10,13 @@ server.get('/', function (req, res, next) {
 
     var category = new Category();
 
-    category.findById('5848803b5f2aa11608e60670', (success) => {
-        console.log(category.document)
+    // category.findById('5848803b5f2aa11608e60670', (success) => {
+    //     console.log(success);
+    //     console.log(category.document)
+    // });
+
+    category.all((success, results) => {
+        console.log(results.length)
     });
 
     res.send('NodeJS is up and running!');

@@ -1,28 +1,81 @@
 const Model = require('./Model'),
-	crypto = require('crypto');
+    crypto = require('crypto');
 
-module.exports = class Image extends Model {
-	constructor() {
-		super('Users', schemas.User)
-	}
+module.exports = class User extends Model {
+    constructor() {
+        super('Users', schemas.User)
+    }
 
-	encryptToken(value) {
-		let cipher = crypto.createCipher(config.Encryption.algorithm, config.Encryption.password);
+    encryptToken(value) {
+        let cipher = crypto.createCipher(config.Encryption.algorithm, config.Encryption.password);
 
-		return cipher.update(value, 'utf8', 'hex') + cipher.final('hex');
-	}
+        return cipher.update(value, 'utf8', 'hex') + cipher.final('hex');
+    }
 
-	decryptToken(token) {
-		try {
-			let decipher = crypto.createDecipher(global.config.Encryption.algorithm, global.config.Encryption.password);
+    decryptToken(token) {
+        try {
+            let decipher = crypto.createDecipher(global.config.Encryption.algorithm, global.config.Encryption.password);
 
-			return decipher.update(token, 'hex', 'utf8') + decipher.final('utf8');
-		} catch (ex) {
-			return false;
-		}
-	}
+            return decipher.update(token, 'hex', 'utf8') + decipher.final('utf8');
+        } catch (ex) {
+            return false;
+        }
+    }
+
+    insertFromGoogle() {
+
+
+        //User.Exists(db, profile, function(result) {
+        //    if (result.length == 0) {
+        //        var _user = {
+        //            FirstName: profile.name.givenName,
+        //            LastName: profile.name.familyName,
+        //            OAuthId: profile.id,
+        //            Email: profile.emails[0].value,
+        //            Role: 'user'
+        //        }
+        //
+        //        User.Insert(db, _user, function() {
+        //            var encryptedToken = User.encryptToken(profile.id);
+        //            callback(encryptedToken);
+        //        });
+        //    } else {
+        //        if (result[0].Role == 'blocked') {
+        //            callback('blocked');
+        //        } else {
+        //            var encryptedToken = User.encryptToken(result[0].OAuthId);
+        //            callback(encryptedToken);
+        //        }
+        //    }
+        //})
+    }
+
+    /**
+     * Get specified document by id.
+     *
+     * @param {string} token
+     * @return {Promise}
+     */
+    findByToken(token) {
+        // Clear current document
+        this.document = null;
+
+        if (typeof token == 'undefined') return Promise.reject(new Error('Authorization header undefined'));
+
+        let decryptedToken = this.decryptToken(token);
+
+        if (!decryptedToken) return Promise.reject(new Error('Invalid encrypted token'));
+
+        const promise = this.collection.findOne({ OAuthId: decryptedToken });
+
+        // Apply results to document
+        promise.then(result => {
+            this.document = result;
+        });
+
+        return promise
+    }
 };
-
 
 //// require context
 //var Context = require('./../Helpers/Context.js'),

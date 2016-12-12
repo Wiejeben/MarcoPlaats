@@ -1,9 +1,51 @@
 const RestfulController = require('./RestfulController'),
-	ProductModel = require('./../Models/Product');
+	Product = require('./../Models/Product'),
+	Category = require('./../Models/Category');
 
 module.exports = class ProductController extends RestfulController {
 	constructor() {
-		super(ProductModel)
+		super(Product)
+	}
+
+	create(req, res, next) {
+		this.model.document = req.body;
+
+		const category = new Category(),
+			categoryId = req.body.Category.toString();
+
+		category.findById(categoryId)
+			.then(() => {
+				if (category.document == null) {
+					res.statusCode = 500;
+					res.send(new Error('Could not find category ' + categoryId));
+					return
+				}
+
+				this.model.insert()
+					.then(() => {
+						// Apply to current logged in user
+						CurrentUser.relateProduct(this.modle.document);
+
+						res.statusCode = 201;
+						res.send(this.model.document);
+					})
+					.catch(next)
+			})
+			.catch(next);
+
+		Category.relateProduct(this.model.document);
+	}
+
+	create(req, res, next) {
+		var categoryId = req.body.Category;
+
+		Product.Insert(_db, req.body, function(insertedId) {
+			User.InsertProduct(_db, req.headers.authorization, insertedId, function(productId) {
+				Category.InsertProduct(_db, categoryId, productId, function() {
+					res.send("Product is added");
+				});
+			})
+		})
 	}
 };
 

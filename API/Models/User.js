@@ -22,47 +22,67 @@ module.exports = class User extends Model {
         }
     }
 
-    insertFromGoogle() {
+    /**
+     * Process OAuth handshake
+     *
+     * @param {object} profile
+     * @param {function} callback
+     */
+    insertFromGoogle(profile, callback) {
+        this.findByToken(profile.id, false)
+            .then(() => {
+                const token = this.encryptToken(profile.id);
 
+                // If exists
+                if (this.document != null) {
+                    // Role check
+                    if (this.document.Role == 'blocked') return callback('blocked');
 
-        //User.Exists(db, profile, function(result) {
-        //    if (result.length == 0) {
-        //        var _user = {
-        //            FirstName: profile.name.givenName,
-        //            LastName: profile.name.familyName,
-        //            OAuthId: profile.id,
-        //            Email: profile.emails[0].value,
-        //            Role: 'user'
-        //        }
-        //
-        //        User.Insert(db, _user, function() {
-        //            var encryptedToken = User.encryptToken(profile.id);
-        //            callback(encryptedToken);
-        //        });
-        //    } else {
-        //        if (result[0].Role == 'blocked') {
-        //            callback('blocked');
-        //        } else {
-        //            var encryptedToken = User.encryptToken(result[0].OAuthId);
-        //            callback(encryptedToken);
-        //        }
-        //    }
-        //})
+                    return callback(token)
+                }
+
+                // Set document data
+                this.document = {
+                    FirstName: profile.name.givenName,
+                    LastName: profile.name.familyName,
+                    OAuthId: profile.id,
+                    Email: profile.emails[0].value,
+                    // Apply default role
+                    Role: 'user'
+                };
+
+                // Apply to database
+                this.insert()
+                    .then(() => {
+                        return callback(token)
+                    })
+                    .catch(() => {
+                        return callback('undefined')
+                    })
+            })
+            .catch(() => {
+                return callback('undefined')
+            })
     }
 
     /**
      * Get specified document by id.
      *
      * @param {string} token
+     * @param {boolean} [encrypted=true]
      * @return {Promise}
      */
-    findByToken(token) {
+    findByToken(token, encrypted = true) {
         // Clear current document
         this.document = null;
 
         if (typeof token == 'undefined') return Promise.reject(new Error('Authorization header undefined'));
 
-        let decryptedToken = this.decryptToken(token);
+        // Decrypt if needed
+        let decryptedToken = token;
+        if (encrypted) {
+            decryptedToken = this.decryptToken(token)
+        }
 
         if (!decryptedToken) return Promise.reject(new Error('Invalid encrypted token'));
 
@@ -114,55 +134,7 @@ module.exports = class User extends Model {
 //    Context.Insert(db, 'Users', body, callback, schemas.User);
 //}
 //
-//// Create user via Google
-//User.InsertFromGoogle = function(db, profile, callback) {
-//    User.Exists(db, profile, function(result) {
-//        if(result.length == 0) {
-//            var _user = {
-//                FirstName: profile.name.givenName,
-//                LastName: profile.name.familyName,
-//                OAuthId: profile.id,
-//                Email: profile.emails[0].value,
-//                Role: 'user'
-//            }
 //
-//            User.Insert(db, _user, function() {
-//                var encryptedToken = User.encryptToken(profile.id);
-//                callback(encryptedToken);
-//            });
-//        } else {
-//            if(result[0].Role == 'blocked'){
-//                callback('blocked');
-//            }else{
-//                var encryptedToken = User.encryptToken(result[0].OAuthId);
-//                callback(encryptedToken);
-//            }
-//        }
-//    })
-//}
-//
-//User.GetByToken = function (db, OauthId, callback) {
-//    var collection = db.collection('Users'),
-//        decryptedToken = User.decryptToken(OauthId);
-//
-//    // Failed to decrypt token
-//    if (!decryptedToken)
-//    {
-//        callback({});
-//        return;
-//    }
-//
-//    collection.findOne({ OAuthId: decryptedToken }, function(err, collection) {
-//
-//        if (collection == null)
-//        {
-//            callback({});
-//            return;
-//        }
-//
-//        callback(collection);
-//    });
-//}
 //
 //User.Exists = function(db, profile, callback) {
 //    var collection = db.collection('Users');

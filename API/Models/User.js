@@ -77,6 +77,12 @@ module.exports = class User extends Authenticatable {
         ]).toArray()
     }
 
+    /**
+     * Insert product into specified category.
+     *
+     * @param {string} productId
+     * @return {Promise}
+     */
     insertProduct(productId) {
         return this.collection.updateOne(
             { _id: new ObjectId(this.document._id) },
@@ -97,50 +103,6 @@ module.exports = class User extends Authenticatable {
 //
 //var User = function (data) {
 //    this.data = data;
-//};
-//
-//User.prototype.data = {};
-//
-////Encrypt OAuthId
-//User.encryptToken = function(text){
-//    var cipher = crypto.createCipher(global.config.Encryption.algorithm, global.config.Encryption.password),
-//        crypted = cipher.update(text,'utf8','hex') + cipher.final('hex');
-//
-//    return crypted;
-//}
-//
-//// Decrypt OAuthId
-//User.decryptToken = function(text){
-//    try {
-//        var decipher = crypto.createDecipher(global.config.Encryption.algorithm, global.config.Encryption.password);
-//
-//        return decipher.update(text,'hex','utf8') + decipher.final('utf8');
-//    } catch (ex) {
-//        return false;
-//    }
-//}
-//
-//// Create user
-//User.Insert = function(db, body, callback) {
-//    Context.Insert(db, 'Users', body, callback, schemas.User);
-//}
-//
-//
-//
-//User.Exists = function(db, profile, callback) {
-//    var collection = db.collection('Users');
-//
-//    collection.find({OAuthId: profile.id}).toArray(function(err, collection) {
-//            callback(collection);
-//        });
-//}
-//
-//User.GetAll = function(db, callback) {
-//    Context.GetAll(db, 'Users', callback);
-//}
-//
-//User.FindById = function (db, id, callback) {
-//    Context.FindById(db, 'Users', id, callback);
 //};
 //
 //User.Delete = function (db, id, callback) {

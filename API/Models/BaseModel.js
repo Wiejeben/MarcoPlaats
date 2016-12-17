@@ -4,6 +4,7 @@ module.exports = class BaseModel {
      * @property {string} table
      * @property {object} document
      * @property {object} params
+     * @property {boolean} useAggregation
      *
      * @param {string} table
      */
@@ -11,7 +12,8 @@ module.exports = class BaseModel {
         this.table = table;
         this.collection = db.collection(this.table);
         this.document = null;
-        this.params = {}
+        this.params = {};
+        this.useAggregation = false
     }
 
     /**
@@ -72,6 +74,11 @@ module.exports = class BaseModel {
      * @returns {Promise}
      */
     find(filter) {
+        // Use aggregation if setup and enabled
+        if (typeof this.findWithAggregation == 'function' && this.useAggregation) {
+            return this.findWithAggregation(filter)
+        }
+
         return this.collection.find(filter).toArray()
     }
 

@@ -12,7 +12,7 @@ module.exports = class Category extends Model {
      * @param {object} [filter={}]
      * @return {Promise}
      */
-    find2(filter = {}) {
+    findWithAggregation(filter = {}) {
         return this.collection.aggregate([
             { $match: filter },
 
@@ -29,30 +29,47 @@ module.exports = class Category extends Model {
                     foreignField: '_id',
                     as: 'Products'
                 }
+            },
+            {
+                $group: {
+                    _id: '$_id',
+                    Name: { $first: '$Name' },
+                    Products: { $addToSet: '$Products' }
+                }
             }
         ]).toArray()
     }
 
+    /**
+     * Insert product into specified category.
+     *
+     * @param {string} categoryId
+     * @param {string} productId
+     * @return {Promise}
+     */
     insertProduct(categoryId, productId) {
-        return this.collection.updateOne(
+        return this.collection.findOneAndUpdate(
             { _id: new ObjectId(categoryId) },
             {
                 $addToSet: {
                     ProductIds: new ObjectId(productId)
                 }
-            });
+            })
+    }
+
+    /**
+     * Removes product from all categories.
+     *
+     * @param {string} productId
+     * @return {Promise}
+     */
+    deleteProduct(productId) {
+        return this.collection.findOneAndUpdate(
+            { ProductIds: { $in: [new ObjectId(productId)] } },
+            {
+                $pull: {
+                    ProductIds: { $in: [new ObjectId(productId)] }
+                }
+            })
     }
 };
-
-//
-// Category.DeleteProduct = function(db, productId, callback) {
-//     var collection = db.collection('Categories');
-//
-//     collection.findAndModify({ProductIds: {$in: [new ObjectId(productId)]}},
-//                             [],
-//                             { $pull: { ProductIds: { $in: [new ObjectId(productId)]}}}, function(err, r){
-//                                 callback(r);
-//                             });
-// }
-//
-// module.exports = Category;

@@ -9,7 +9,7 @@ module.exports = class Product extends Model {
     }
 
     /**
-     * Insert sanitized document.
+     * Insert and assign to category and user.
      *
      * @return {Promise}
      */
@@ -21,9 +21,11 @@ module.exports = class Product extends Model {
         const promise = super.insert();
 
         promise.then(() => {
+            // Apply to category
             const category = new Category();
             category.insertProduct(categoryId, this.document._id);
 
+            // Apply to logged in user
             if (typeof loggedInUser !== 'undefined') {
                 loggedInUser.insertProduct(this.document._id)
             }

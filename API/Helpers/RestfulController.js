@@ -1,67 +1,77 @@
 module.exports = class RestfulController {
     /**
      * @property {Model} model
+     * @property {object} req
+     * @property {object} res
+     * @property {function} next
+     *
      * @param {function} model
+     * @param {object} req
+     * @param {object} res
+     * @param {function} next
      */
-    constructor(model) {
+    constructor(model, req, res, next) {
         this.model = new model();
+        this.req = req;
+        this.res = res;
+        this.next = next;
     }
 
-    index(req, res, next) {
-        this.model.params = req.params;
+    index() {
+        this.model.params = this.req.params;
 
         this.model.all()
             .then(results => {
-                res.send(results)
+                this.res.send(results)
             })
-            .catch(next)
+            .catch(this.next)
     }
 
-    create(req, res, next) {
-        this.model.params = req.params;
-        this.model.document = req.body;
+    create() {
+        this.model.params = this.req.params;
+        this.model.document = this.req.body;
 
         this.model.insert()
             .then(() => {
-                res.statusCode = 201;
-                res.send(this.model.document);
+                this.res.statusCode = 201;
+                this.res.send(this.model.document);
             })
-            .catch(next)
+            .catch(this.next)
     }
 
-    show(req, res, next) {
-        this.model.params = req.params;
+    show() {
+        this.model.params = this.req.params;
 
-        this.model.findById(req.params.id)
+        this.model.findById(this.req.params.id)
             .then(() => {
-                res.send(this.model.document)
+                this.res.send(this.model.document)
             })
-            .catch(next)
+            .catch(this.next)
     }
 
-    update(req, res, next) {
-        this.model.params = req.params;
+    update() {
+        this.model.params = this.req.params;
 
         this.model.update()
             .then(() => {
-                res.statusCode = 204;
-                res.end()
+                this.res.statusCode = 204;
+                this.res.end()
             })
-            .catch(next)
+            .catch(this.next)
     }
 
-    destroy(req, res, next) {
-        this.model.params = req.params;
+    destroy() {
+        this.model.params = this.req.params;
 
-        this.model.findById(req.params.id)
+        this.model.findById(this.req.params.id)
             .then(() => {
                 this.model.destroy()
                     .then(() => {
-                        res.statusCode = 204;
-                        res.end()
+                        this.res.statusCode = 204;
+                        this.res.end()
                     })
-                    .catch(next)
+                    .catch(this.next)
             })
-            .catch(next)
+            .catch(this.next)
     }
 };

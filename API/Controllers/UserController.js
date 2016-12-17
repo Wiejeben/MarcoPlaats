@@ -3,8 +3,8 @@ const RestfulController = require('./../Helpers/RestfulController'),
     Product = require('./../Models/Product');
 
 module.exports = class UserController extends RestfulController {
-    constructor() {
-        super(User);
+    constructor(req, res, next) {
+        super(User, req, res, next);
     }
 
     static showByToken(req, res, next) {
@@ -23,27 +23,27 @@ module.exports = class UserController extends RestfulController {
             })
     }
 
-    getWishList(req, res, next) {
-        this.model.getForeignProducts(req.params.uid, 'WishlistProductIds')
+    getWishList() {
+        this.model.getForeignProducts(this.req.params.uid, 'WishlistProductIds')
             .then(result => {
-                res.send(result)
+                this.res.send(result)
             })
-            .catch(next)
+            .catch(this.next)
     }
 
-    getFavorites(req, res, next) {
-        this.model.getForeignProducts(req.params.uid, 'FavoriteProductIds')
+    getFavorites() {
+        this.model.getForeignProducts(this.req.params.uid, 'FavoriteProductIds')
             .then(result => {
-                res.send(result)
+                this.res.send(result)
             })
-            .catch(next)
+            .catch(this.next)
     }
 
-    getProducts(req, res, next) {
-        this.model.getForeignProducts(req.params.uid, 'ProductIds')
+    getProducts() {
+        this.model.getForeignProducts(this.req.params.uid, 'ProductIds')
             .then(result => {
-                res.send(result)
+                this.res.send(result)
             })
-            .catch(next)
+            .catch(this.next)
     }
 };

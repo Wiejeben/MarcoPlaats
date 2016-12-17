@@ -9,13 +9,13 @@ server.get('/auth/user', UserController.showByToken);
 
 // Wishlist
 server.get('/users/:uid/wishlist', (req, res, next) => {
-    return new UserController().getWishList(req, res, next)
+    return new UserController(req, res, next).getWishList()
 });
 
 server.get('/users/:uid/products', (req, res, next) => {
-    return new UserController().getProducts(req, res, next)
+    return new UserController(req, res, next).getProducts()
 });
 
 server.get('/users/:uid/favorites', (req, res, next) => {
-    return new UserController().getFavorites(req, res, next)
+    return new UserController(req, res, next).getFavorites()
 });

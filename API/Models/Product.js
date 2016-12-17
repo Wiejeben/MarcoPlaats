@@ -1,4 +1,4 @@
-const Model = require('./Model'),
+const Model = require('./../Helpers/Model'),
     Category = require('./Category'),
     User = require('./User'),
     schemas = require('./Schemas.js');

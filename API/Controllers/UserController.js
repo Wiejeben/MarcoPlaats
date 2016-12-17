@@ -1,4 +1,4 @@
-const RestfulController = require('./RestfulController'),
+const RestfulController = require('./../Helpers/RestfulController'),
     User = require('./../Models/User'),
     Product = require('./../Models/Product');
 

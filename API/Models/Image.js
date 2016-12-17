@@ -1,4 +1,4 @@
-const Model = require('./Model');
+const Model = require('./../Helpers/Model');
 
 module.exports = class Image extends Model {
     constructor() {

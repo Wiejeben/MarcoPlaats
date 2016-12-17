@@ -1,4 +1,4 @@
-const Model = require('./Model'),
+const Model = require('./../Helpers/Model'),
     User = require('./User'),
     crypto = require('crypto');
 

@@ -1,4 +1,4 @@
-const RestfulController = require('./RestfulController'),
+const RestfulController = require('./../Helpers/RestfulController'),
     CategoryModel = require('./../Models/Category');
 
 module.exports = class CategoryController extends RestfulController {

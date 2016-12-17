@@ -1,4 +1,4 @@
-const Model = require('./Model'),
+const Model = require('./../Helpers/Model'),
     schemas = require('./Schemas.js');
 
 module.exports = class Category extends Model {

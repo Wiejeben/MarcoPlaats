@@ -1,99 +1,90 @@
-const Model = require('./Model'),
-    crypto = require('crypto');
+const Authenticatable = require('./Authenticatable');
 
-module.exports = class User extends Model {
+module.exports = class User extends Authenticatable {
     constructor() {
         super('Users', schemas.User)
     }
 
-    encryptToken(value) {
-        let cipher = crypto.createCipher(config.Encryption.algorithm, config.Encryption.password);
-
-        return cipher.update(value, 'utf8', 'hex') + cipher.final('hex');
-    }
-
-    decryptToken(token) {
-        try {
-            let decipher = crypto.createDecipher(global.config.Encryption.algorithm, global.config.Encryption.password);
-
-            return decipher.update(token, 'hex', 'utf8') + decipher.final('utf8');
-        } catch (ex) {
-            return false;
-        }
-    }
-
     /**
-     * Process OAuth handshake
+     * Automatically fill in references.
      *
-     * @param {object} profile
-     * @param {function} callback
-     */
-    insertFromGoogle(profile, callback) {
-        this.findByToken(profile.id, false)
-            .then(() => {
-                const token = this.encryptToken(profile.id);
-
-                // If exists
-                if (this.document != null) {
-                    // Role check
-                    if (this.document.Role == 'blocked') return callback('blocked');
-
-                    return callback(token)
-                }
-
-                // Set document data
-                this.document = {
-                    FirstName: profile.name.givenName,
-                    LastName: profile.name.familyName,
-                    OAuthId: profile.id,
-                    Email: profile.emails[0].value,
-                    // Apply default role
-                    Role: 'user'
-                };
-
-                // Apply to database
-                this.insert()
-                    .then(() => {
-                        return callback(token)
-                    })
-                    .catch(() => {
-                        return callback('undefined')
-                    })
-            })
-            .catch(() => {
-                return callback('undefined')
-            })
-    }
-
-    /**
-     * Get specified document by id.
-     *
-     * @param {string} token
-     * @param {boolean} [encrypted=true]
+     * @param {object} [filter={}]
      * @return {Promise}
      */
-    findByToken(token, encrypted = true) {
-        // Clear current document
-        this.document = null;
+    find2(filter = {}) {
+        return this.collection.aggregate([
+            { $match: filter },
 
-        if (typeof token == 'undefined') return Promise.reject(new Error('Authorization header undefined'));
+            {
+                $unwind: {
+                    path: '$WishlistProductIds',
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $lookup: {
+                    from: 'Products',
+                    localField: 'WishlistProductIds',
+                    foreignField: '_id',
+                    as: 'WishlistProducts'
+                }
+            },
 
-        // Decrypt if needed
-        let decryptedToken = token;
-        if (encrypted) {
-            decryptedToken = this.decryptToken(token)
-        }
+            {
+                $unwind: {
+                    path: '$FavoriteProductIds',
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $lookup: {
+                    from: 'Products',
+                    localField: 'FavoriteProductIds',
+                    foreignField: '_id',
+                    as: 'FavoriteProducts'
+                }
+            },
 
-        if (!decryptedToken) return Promise.reject(new Error('Invalid encrypted token'));
+            {
+                $unwind: {
+                    path: '$ProductIds',
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $lookup: {
+                    from: 'Products',
+                    localField: 'ProductIds',
+                    foreignField: '_id',
+                    as: 'Products'
+                }
+            },
+            {
+                $group: {
+                    _id: '$_id',
+                    FirstName: { $first: '$FirstName' },
+                    LastName: { $first: '$LastName' },
+                    OAuthId: { $first: '$OAuthId' },
+                    Email: { $first: '$Email' },
+                    Role: { $first: '$Role' },
+                    PhuneNumber: { $first: '$PhoneNumber' },
+                    PublicWishList: { $first: '$PublicWishList' },
+                    WishlistProducts: { $push: '$WishlistProducts' },
+                    FavoriteProducts: { $push: '$FavoriteProducts' },
+                    Products: { $push: '$Products' },
+                }
+            }
+        ]).toArray()
+    }
 
-        const promise = this.collection.findOne({ OAuthId: decryptedToken });
-
-        // Apply results to document
-        promise.then(result => {
-            this.document = result;
-        });
-
-        return promise
+    insertProduct(productId) {
+        return this.collection.updateOne(
+            { _id: new ObjectId(this.document._id) },
+            {
+                $addToSet: {
+                    ProductIds: new ObjectId(productId)
+                }
+            })
     }
 };
 

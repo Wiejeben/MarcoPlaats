@@ -1,52 +1,41 @@
 const RestfulController = require('./RestfulController'),
-	Product = require('./../Models/Product'),
-	Category = require('./../Models/Category');
+    Product = require('./../Models/Product'),
+    Category = require('./../Models/Category');
 
 module.exports = class ProductController extends RestfulController {
-	constructor() {
-		super(Product)
-	}
+    constructor() {
+        super(Product)
+    }
 
-	create(req, res, next) {
-		this.model.document = req.body;
+    create2(req, res, next) {
+        this.model.document = req.body;
 
-		const category = new Category(),
-			categoryId = req.body.Category.toString();
+        let category = new Category(),
+            categoryId = req.body.Category.toString();
 
-		category.findById(categoryId)
-			.then(() => {
-				if (category.document == null) {
-					res.statusCode = 500;
-					res.send(new Error('Could not find category ' + categoryId));
-					return
-				}
+        category.findById(categoryId)
+            .then(() => {
+                if (category.document == null) {
+                    res.statusCode = 500;
+                    res.send(new Error('Could not find category ObjectId(\'' + categoryId + '\')'));
+                    return;
+                }
 
-				this.model.insert()
-					.then(() => {
-						// Apply to current logged in user
-						CurrentUser.relateProduct(this.modle.document);
+                this.model.insert()
+                    .then(() => {
+                        // Apply to current logged in user
+                        if (req.user) {
+                            req.user.relateProduct(this.model.document);
+                        }
 
-						res.statusCode = 201;
-						res.send(this.model.document);
-					})
-					.catch(next)
-			})
-			.catch(next);
 
-		Category.relateProduct(this.model.document);
-	}
-
-	create(req, res, next) {
-		var categoryId = req.body.Category;
-
-		Product.Insert(_db, req.body, function(insertedId) {
-			User.InsertProduct(_db, req.headers.authorization, insertedId, function(productId) {
-				Category.InsertProduct(_db, categoryId, productId, function() {
-					res.send("Product is added");
-				});
-			})
-		})
-	}
+                        res.statusCode = 201;
+                        res.send(this.model.document);
+                    })
+                    .catch(next)
+            })
+            .catch(next);
+    }
 };
 
 //var Product = require('./../Models/Product');

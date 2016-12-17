@@ -2,10 +2,10 @@
 global.config = require('./config');
 
 // Server
-const restify = require('restify'),
-    mongodb = require('mongodb'),
+const mongodb = require('mongodb'),
     logger = require('morgan');
 
+global.restify = require('restify');
 global.passport = require('passport-restify');
 
 // Restify server
@@ -17,13 +17,17 @@ restify.CORS.ALLOW_HEADERS.push('authorization');
 // Configure authentication
 require('./auth');
 
+const User = require('./Models/User');
+
 // Implement the following plugins
-server.use(logger('dev'))
+server.pre(restify.pre.sanitizePath())
+    .use(logger('dev'))
     .use(restify.fullResponse())
     .use(restify.bodyParser())
     .use(restify.queryParser())
     .use(passport.initialize())
-    .use(restify.CORS());
+    .use(restify.CORS())
+    .use(User.canBeAuthenticated);
 
 // MongoDB
 global.ObjectId = mongodb.ObjectId;

@@ -19,19 +19,16 @@ server.get('/auth/google/callback',
         res.end()
     });
 
-const controllers = AutoLoader('Controllers');
-
-const User = require('./Models/User');
-
-const RestRouter = require('./Helpers/RestRouter'),
+const controllers = AutoLoader('Controllers'),
+    RestRouter = require('./Helpers/RestRouter'),
     RestRouter2 = require('./Helpers/RestRouter2');
 
-server.get('/auth/user', controllers.UserController.showByToken);
 RestRouter2(server, 'users', controllers.UserController);
+server.get('/auth/user', controllers.UserController.showByToken);
+RestRouter(server, 'users/:uid/orders', controllers.OrderController);
+RestRouter2(server, 'users/:uid/wishlist', controllers.WishlistController);
+RestRouter(server, 'users/:uid/favourites', controllers.FavouritesController);
+RestRouter(server, 'users/:uid/products', controllers.UserProductController);
 
 RestRouter2(server, 'products', controllers.ProductController);
 RestRouter2(server, 'categories', controllers.CategoryController);
-RestRouter(server, 'users/:uid/orders', controllers.OrderController);
-RestRouter(server, 'users/:uid/wishlist', controllers.WishlistController);
-RestRouter(server, 'users/:uid/favourites', controllers.FavouritesController);
-RestRouter(server, 'users/:uid/products', controllers.UserProductController);

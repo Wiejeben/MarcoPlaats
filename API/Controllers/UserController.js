@@ -24,7 +24,7 @@ module.exports = class UserController extends RestfulController {
     }
 
     getWishList() {
-        this.model.getForeignProducts(this.req.params.uid, 'WishlistProductIds')
+        this.model.getForeignProducts(this.req.params.id, 'WishlistProductIds')
             .then(result => {
                 this.res.send(result)
             })
@@ -32,7 +32,7 @@ module.exports = class UserController extends RestfulController {
     }
 
     getFavorites() {
-        this.model.getForeignProducts(this.req.params.uid, 'FavoriteProductIds')
+        this.model.getForeignProducts(this.req.params.id, 'FavoriteProductIds')
             .then(result => {
                 this.res.send(result)
             })
@@ -40,7 +40,7 @@ module.exports = class UserController extends RestfulController {
     }
 
     getProducts() {
-        this.model.getForeignProducts(this.req.params.uid, 'ProductIds')
+        this.model.getForeignProducts(this.req.params.id, 'ProductIds')
             .then(result => {
                 this.res.send(result)
             })

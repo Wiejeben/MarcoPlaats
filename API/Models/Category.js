@@ -1,5 +1,5 @@
 const Model = require('./../Helpers/Model'),
-    schemas = require('./Schemas.js');
+    schemas = require('./../schemas.js');
 
 module.exports = class Category extends Model {
     constructor() {

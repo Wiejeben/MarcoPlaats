@@ -8,14 +8,14 @@ RestRouter(server, 'users', UserController);
 server.get('/auth/user', UserController.showByToken);
 
 // Wishlist
-server.get('/users/:uid/wishlist', (req, res, next) => {
+server.get('/users/:id/wishlist', (req, res, next) => {
     return new UserController(req, res, next).getWishList()
 });
 
-server.get('/users/:uid/products', (req, res, next) => {
+server.get('/users/:id/products', (req, res, next) => {
     return new UserController(req, res, next).getProducts()
 });
 
-server.get('/users/:uid/favorites', (req, res, next) => {
+server.get('/users/:id/favorites', (req, res, next) => {
     return new UserController(req, res, next).getFavorites()
 });

@@ -1,7 +1,7 @@
 const Model = require('./../Helpers/Model'),
     Category = require('./Category'),
     User = require('./User'),
-    schemas = require('./Schemas.js');
+    schemas = require('./../schemas.js');
 
 module.exports = class Product extends Model {
     constructor() {
@@ -54,6 +54,13 @@ module.exports = class Product extends Model {
      * @return {Promise}
      */
     findManyById(productIds) {
-        return this.find({ _id: { $in: productIds } })
+        let objectIds = [];
+
+        // Transform into ObjectIds
+        productIds.forEach(result => {
+            objectIds.push(new ObjectId(result))
+        });
+
+        return this.find({ _id: { $in: objectIds } })
     }
 };

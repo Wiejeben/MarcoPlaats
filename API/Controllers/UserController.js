@@ -1,9 +1,10 @@
 const RestfulController = require('./RestfulController'),
-    User = require('./../Models/User');
+    User = require('./../Models/User'),
+    Product = require('./../Models/Product');
 
 module.exports = class UserController extends RestfulController {
     constructor() {
-        super(User)
+        super(User);
     }
 
     static showByToken(req, res, next) {
@@ -12,7 +13,7 @@ module.exports = class UserController extends RestfulController {
         user.findByToken(req.headers.authorization)
             .then(() => {
                 if (user.document == null) {
-                    return Promise.reject(new Error('Unable to find user with specified authorization header'))
+                    return Promise.reject(new restify.UnprocessableEntityError('Unable to find user with specified authorization header'))
                 }
                 res.send(user.document)
             })
@@ -20,5 +21,29 @@ module.exports = class UserController extends RestfulController {
                 res.statusCode = 422;
                 res.send({ message: err.message })
             })
+    }
+
+    getWishList(req, res, next) {
+        this.model.getForeignProducts(req.params.uid, 'WishlistProductIds')
+            .then(result => {
+                res.send(result)
+            })
+            .catch(next)
+    }
+
+    getFavorites(req, res, next) {
+        this.model.getForeignProducts(req.params.uid, 'FavoriteProductIds')
+            .then(result => {
+                res.send(result)
+            })
+            .catch(next)
+    }
+
+    getProducts(req, res, next) {
+        this.model.getForeignProducts(req.params.uid, 'ProductIds')
+            .then(result => {
+                res.send(result)
+            })
+            .catch(next)
     }
 };

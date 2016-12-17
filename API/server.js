@@ -1,35 +1,27 @@
-// Configuration
-global.config = require('./config');
-
-// Server
 const mongodb = require('mongodb'),
     logger = require('morgan');
 
+global.config = require('./config');
 global.restify = require('restify');
 global.passport = require('passport-restify');
-
-// Restify server
 global.server = restify.createServer(config.Application);
 
-// Allow custom headers
+// Allow custom authorization header
 restify.CORS.ALLOW_HEADERS.push('authorization');
 
 // Configure authentication
 require('./auth');
 
-const User = require('./Models/User');
+// Server setup
+server.pre(restify.pre.sanitizePath());
+server.use(logger('dev'));
+server.use(restify.fullResponse());
+server.use(restify.bodyParser());
+server.use(restify.queryParser());
+server.use(passport.initialize());
+server.use(restify.CORS());
+server.use(require('./Models/User').canBeAuthenticated);
 
-// Implement the following plugins
-server.pre(restify.pre.sanitizePath())
-    .use(logger('dev'))
-    .use(restify.fullResponse())
-    .use(restify.bodyParser())
-    .use(restify.queryParser())
-    .use(passport.initialize())
-    .use(restify.CORS())
-    .use(User.canBeAuthenticated);
-
-// MongoDB
 global.ObjectId = mongodb.ObjectId;
 mongodb.MongoClient.connect(config.Database.Url, { promiseLibrary: Promise }, function(err, _db) {
     if (err) {
@@ -40,7 +32,7 @@ mongodb.MongoClient.connect(config.Database.Url, { promiseLibrary: Promise }, fu
     global.db = _db;
 
     // Init routes
-    require('./routes');
+    require('./routes/bootstrap');
 
     // Open server
     server.listen(8080, function() {

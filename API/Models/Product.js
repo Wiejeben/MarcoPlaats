@@ -1,6 +1,7 @@
 const Model = require('./Model'),
-    schemas = require('./Schemas.js'),
-    Category = require('./Category');
+    Category = require('./Category'),
+    User = require('./User'),
+    schemas = require('./Schemas.js');
 
 module.exports = class Product extends Model {
     constructor() {
@@ -32,5 +33,27 @@ module.exports = class Product extends Model {
         });
 
         return promise
+    }
+
+    destroy() {
+        const promise = super.destroy();
+
+        // Remove from categories and users
+        promise.then(result => {
+            new Category().deleteProduct(this.document._id);
+            new User().deleteProduct(this.document._id)
+        });
+
+        return promise
+    }
+
+    /**
+     * Get array of products based on an array of ObjectIds.
+     *
+     * @param {string[]} productIds
+     * @return {Promise}
+     */
+    findManyById(productIds) {
+        return this.find({ _id: { $in: productIds } })
     }
 };

@@ -40,40 +40,39 @@ module.exports = class BaseModel {
     /**
      * Return and apply the first result.
      *
-     * @param {Promise} filter
+     * @param {object} [filter={}]
      * @return {Promise}
      */
-    findOne(filter) {
+    findOne(filter = {}) {
         // Clear current document
         this.document = null;
 
-        return new Promise((resolve, reject) => {
-            this.find(filter)
-                .then(results => {
-                    if (!results.length) {
-                        return reject(new restify.NotFoundError({ message: { table: this.table, filter: filter } }))
-                    }
+        return this.find(filter)
+            .then(results => {
+                if (!results.length) {
+                    return Promise.reject(new restify.NotFoundError({
+                        message: {
+                            collection: this.table,
+                            filter: filter
+                        }
+                    }))
+                }
 
-                    let result = results[0];
-                    this.document = result;
+                let result = results[0];
+                this.document = result;
 
-                    return resolve(result)
-                })
-                .catch(err => {
-                    return reject(err)
-                })
-        })
-
-
+                return Promise.resolve(result)
+            })
+            .catch(Promise.reject)
     }
 
     /**
      * Generic find that uses this.document.
      *
-     * @param {object} filter
+     * @param {object} [filter={}]
      * @returns {Promise}
      */
-    find(filter) {
+    find(filter = {}) {
         // Use aggregation if setup and enabled
         if (typeof this.findWithAggregation == 'function' && this.useAggregation) {
             return this.findWithAggregation(filter)

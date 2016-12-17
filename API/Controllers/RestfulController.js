@@ -55,12 +55,6 @@ module.exports = class RestfulController {
 
         this.model.findById(req.params.id)
             .then(() => {
-                if (this.model.document == null) {
-                    res.statusCode = 404;
-                    res.end();
-                    return
-                }
-
                 this.model.destroy()
                     .then(() => {
                         res.statusCode = 204;

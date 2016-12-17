@@ -1,5 +1,6 @@
 // Setup Google OAuth strategy
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
 passport.use(new GoogleStrategy(global.config.OAuth,
     function(accessToken, refreshToken, profile, done) {
         const User = require('./Models/User');

@@ -34,10 +34,26 @@ module.exports = class Category extends Model {
                 $group: {
                     _id: '$_id',
                     Name: { $first: '$Name' },
+                    ProductIds: { $push: '$ProductIds' },
                     Products: { $addToSet: '$Products' }
                 }
             }
-        ]).toArray()
+        ]).toArray().then(results => {
+            // Map reduce
+            results.forEach(result => {
+                let products = [];
+
+                result.Products.forEach(product => {
+                    if (product.length) {
+                        products.push(product[0])
+                    }
+                });
+
+                result.Products = products
+            });
+
+            return Promise.resolve(results)
+        }).catch(Promise.reject)
     }
 
     /**
@@ -64,7 +80,7 @@ module.exports = class Category extends Model {
      * @return {Promise}
      */
     deleteProduct(productId) {
-        return this.collection.findOneAndUpdate(
+        return this.collection.updateOne(
             { ProductIds: { $in: [new ObjectId(productId)] } },
             {
                 $pull: {

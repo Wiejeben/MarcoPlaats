@@ -44,9 +44,9 @@
     export default {
         created() {
             self = this;
-            HasRole('user', function(){               
+            HasRole('user', function(){
                 $.get(apiUrl + '/users/' + User._id + '/products', function(_products) {
-                    self.products = _products.productObjects;
+                    self.products = _products;
                 });
             })
         },
@@ -59,10 +59,10 @@
             deleteProduct(product){
                 var self = this;
                 $.ajax({
-                    url: window.apiUrl+'/users/' + User._id + '/products/' + product._id,
+                    url: window.apiUrl + '/products/' + product._id,
                     type: 'DELETE',
-                    success: function(data){
-                        if(data){
+                    success: function(data, status, jqXHR){
+                        if(jqXHR.status == 204){
                             self.products.splice(self.products.indexOf(product), 1);
                             NewAlert('success', 'Product succesvol verwijdert!');
                         } else {

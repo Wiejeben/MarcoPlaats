@@ -64,9 +64,13 @@ module.exports = class Model extends BaseModel {
      * @return {Promise}
      */
     update() {
-        if (!this.validateId()) return Promise.reject(new Error('Invalid ObjectId'));
+        let id = this.params.id;
+        if (!this.validateId(id)) return Promise.reject(new Error('Invalid ObjectId'));
 
-        return super.update({ _id: this.document._id }, { $set: this.document })
+        // Remove _id to prevent it from being altered
+        delete this.document._id;
+
+        return super.update({ _id: new ObjectId(id) }, { $set: this.document })
     }
 
     /**

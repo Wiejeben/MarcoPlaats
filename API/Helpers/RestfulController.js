@@ -51,6 +51,8 @@ module.exports = class RestfulController {
 
     update() {
         this.model.params = this.req.params;
+        this.model.document = this.req.body;
+        this.model.document._id = this.req.params.id;
 
         this.model.update()
             .then(() => {

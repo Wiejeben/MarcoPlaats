@@ -26,7 +26,11 @@ app.get('/users/:userId/favorites', (req, res, next) => {
 });
 
 app.post('/users/:userId/favorites', (req, res, next) => {
-    return new UserController(req, res, next).addWishListItem()
+    return new UserController(req, res, next).addFavorite()
+});
+
+app.del('/users/:userId/favorites/:productId', (req, res, next) => {
+    return new UserController(req, res, next).deleteFavorite()
 });
 
 // Products

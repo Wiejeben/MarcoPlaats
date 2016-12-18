@@ -22,6 +22,7 @@ module.exports = class UserController extends RestfulController {
             .catch(next)
     }
 
+    // WishList
     getWishList() {
         this.model.getForeignProducts(this.req.params.userId, 'WishlistProductIds')
             .then(result => {
@@ -46,6 +47,7 @@ module.exports = class UserController extends RestfulController {
             .catch(this.next)
     }
 
+    // Favorites
     getFavorites() {
         this.model.getForeignProducts(this.req.params.userId, 'FavoriteProductIds')
             .then(result => {
@@ -55,13 +57,22 @@ module.exports = class UserController extends RestfulController {
     }
 
     addFavorite() {
-        //this.model.addForeignProducts(this.req.params.id, 'WishlistProductIds', this.req.body.productId)
-        //    .then(result => {
-        //        this.res.send(result)
-        //    })
-        //    .catch(this.next)
+        this.model.addForeignProduct(this.req.params.userId, 'FavoriteProductIds', this.req.body.ProductId)
+            .then(result => {
+                this.res.send(result)
+            })
+            .catch(this.next)
     }
 
+    deleteFavorite() {
+        this.model.deleteForeignProduct(this.req.params.userId, 'FavoriteProductIds', this.req.params.productId)
+            .then(result => {
+                this.res.send(result)
+            })
+            .catch(this.next)
+    }
+
+    // Products
     getProducts() {
         this.model.getForeignProducts(this.req.params.userId, 'ProductIds')
             .then(result => {

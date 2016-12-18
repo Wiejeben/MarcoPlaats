@@ -7,23 +7,7 @@ module.exports = class User extends Authenticatable {
     }
 
     /**
-     * Insert product into specified user.
-     *
-     * @param {string} productId
-     * @return {Promise}
-     */
-    insertProduct(productId) {
-        return this.collection.updateOne(
-            { _id: new ObjectId(this.document._id) },
-            {
-                $addToSet: {
-                    ProductIds: new ObjectId(productId)
-                }
-            })
-    }
-
-    /**
-     * Removes product from all users.
+     * Removes specified product from all users.
      *
      * @param {string} productId
      * @return {Promise}
@@ -33,7 +17,7 @@ module.exports = class User extends Authenticatable {
             { ProductIds: { $in: [new ObjectId(productId)] } },
             {
                 $pull: {
-                    ProductIds: { $in: [new ObjectId(productId)] }
+                    ProductIds: { $in: [new ObjectId(productId)] },
                 }
             })
     }

@@ -42,18 +42,16 @@ module.exports = class Authenticatable extends Model {
      * @param {function} callback
      */
     insertFromGoogle(profile, callback) {
+        const token = this.encryptToken(profile.id);
+
         this.findByToken(profile.id, false)
             .then(() => {
-                const token = this.encryptToken(profile.id);
+                // Role check
+                if (this.document.Role == 'blocked') return callback('blocked');
 
-                // If exists
-                if (this.document != null) {
-                    // Role check
-                    if (this.document.Role == 'blocked') return callback('blocked');
-
-                    return callback(token)
-                }
-
+                return callback(token)
+            })
+            .catch(err => {
                 // Set document data
                 this.document = {
                     FirstName: profile.name.givenName,
@@ -65,16 +63,13 @@ module.exports = class Authenticatable extends Model {
                 };
 
                 // Apply to database (use ugly callback for Passport)
-                this.insert()
+                return this.insert()
                     .then(() => {
                         return callback(token)
                     })
                     .catch(() => {
                         return callback('undefined')
-                    })
-            })
-            .catch(() => {
-                return callback('undefined')
+                    });
             })
     }
 

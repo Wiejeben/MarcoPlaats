@@ -11,7 +11,7 @@ module.exports = class BaseModel {
     constructor(table) {
         this.table = table;
         this.collection = db.collection(this.table);
-        this.document = null;
+        this.document = {};
         this.params = {};
         this.useAggregation = false
     }
@@ -84,15 +84,15 @@ module.exports = class BaseModel {
     /**
      * Extends insert method from MongoDB.
      *
-     * @param {object} [doc=this.document]
+     * @param {object} [document=this.document]
      * @returns {Promise}
      */
-    insert(doc = this.document) {
-        return this.collection.insertOne(doc)
+    insert(document = this.document) {
+        return this.collection.insertOne(document)
     }
 
     /**
-     * Extends insert method from MongoDB.
+     * Extends updateOne method from MongoDB.
      *
      * @param {object} filter
      * @param {object} update
@@ -102,6 +102,12 @@ module.exports = class BaseModel {
         return this.collection.updateOne(filter, update)
     }
 
+    /**
+     * Permanently deletes document.
+     *
+     * @param {object} filter
+     * @return {Promise}
+     */
     destroy(filter) {
         return this.collection.deleteOne(filter)
     }

@@ -21,6 +21,8 @@ module.exports = class Model extends BaseModel {
 
     /**
      * Format input data to keep documents consistent.
+     *
+     * @return void
      */
     sanitize() {
         this.document = _.pick(_.defaults(this.document, this.schema), _.keys(this.schema));

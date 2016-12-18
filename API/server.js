@@ -4,23 +4,23 @@ const mongodb = require('mongodb'),
 global.config = require('./config');
 global.restify = require('restify');
 global.passport = require('passport-restify');
-global.server = restify.createServer(config.Application);
+global.app = restify.createServer(config.Application);
 
 // Allow custom authorization header
 restify.CORS.ALLOW_HEADERS.push('authorization');
 
 // Configure authentication
-require('./auth');
+require('./passport');
 
 // Server setup
-server.pre(restify.pre.sanitizePath());
-server.use(logger('dev'));
-server.use(restify.fullResponse());
-server.use(restify.bodyParser());
-server.use(restify.queryParser());
-server.use(passport.initialize());
-server.use(restify.CORS());
-server.use(require('./Models/User').canBeAuthenticated);
+app.pre(restify.pre.sanitizePath());
+app.use(logger('dev'));
+app.use(restify.fullResponse());
+app.use(restify.bodyParser());
+app.use(restify.queryParser());
+app.use(passport.initialize());
+app.use(restify.CORS());
+app.use(require('./Models/User').canBeAuthenticated);
 
 global.ObjectId = mongodb.ObjectId;
 mongodb.MongoClient.connect(config.Database.Url, { promiseLibrary: Promise }, function(err, _db) {
@@ -31,11 +31,11 @@ mongodb.MongoClient.connect(config.Database.Url, { promiseLibrary: Promise }, fu
 
     global.db = _db;
 
-    // Init routes
+    // Initialize routes
     require('./routes/bootstrap');
 
-    // Open server
-    server.listen(8080, function() {
-        console.log('%s listening at %s', server.name, server.url);
+    // Start app
+    app.listen(8080, function() {
+        console.log('%s listening at %s', app.name, app.url);
     })
 });

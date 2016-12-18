@@ -3,6 +3,6 @@ require('./categories');
 require('./products');
 require('./auth');
 
-server.get('/', function(req, res, next) {
-    res.send(config.Application.name + ' is up and running!')
+app.get('/', function(req, res, next) {
+    res.send(app.name + ' is up and running!')
 });

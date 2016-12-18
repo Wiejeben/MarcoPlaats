@@ -46,21 +46,4 @@ module.exports = class Product extends Model {
 
         return promise
     }
-
-    /**
-     * Get array of products based on an array of ObjectIds.
-     *
-     * @param {string[]} productIds
-     * @return {Promise}
-     */
-    findManyById(productIds) {
-        let objectIds = [];
-
-        // Transform into ObjectIds
-        productIds.forEach(result => {
-            objectIds.push(new ObjectId(result))
-        });
-
-        return this.find({ _id: { $in: objectIds } })
-    }
 };

@@ -41,6 +41,23 @@ module.exports = class Model extends BaseModel {
     }
 
     /**
+     * Get array of documents based on an array of ObjectIds.
+     *
+     * @param {string[]} productIds
+     * @return {Promise}
+     */
+    findManyById(productIds) {
+        let objectIds = [];
+
+        // Transform into ObjectIds
+        productIds.forEach(result => {
+            objectIds.push(new ObjectId(result))
+        });
+
+        return this.find({ _id: { $in: objectIds } })
+    }
+
+    /**
      * Insert sanitized document.
      *
      * @return {Promise}

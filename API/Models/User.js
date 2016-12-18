@@ -7,7 +7,7 @@ module.exports = class User extends Authenticatable {
     }
 
     /**
-     * Insert product into specified category.
+     * Insert product into specified user.
      *
      * @param {string} productId
      * @return {Promise}
@@ -23,7 +23,7 @@ module.exports = class User extends Authenticatable {
     }
 
     /**
-     * Removes product from all categories.
+     * Removes product from all users.
      *
      * @param {string} productId
      * @return {Promise}

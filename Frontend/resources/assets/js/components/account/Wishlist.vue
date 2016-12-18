@@ -14,7 +14,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="product in wishlist.productObjects">
+                    <tr v-for="product in wishlist">
                         <td>
                             <a href=""><img class="img-responsive" :src="product.Images[0]" alt=""></a>
                         </td>
@@ -54,7 +54,6 @@
         },
         methods:{
             deleteWishlistItem(product) {
-                this.wishlist.productObjects.splice(this.wishlist.productObjects.indexOf(product), 1);
                 var self = this;
 
                 $.ajax({
@@ -62,6 +61,7 @@
                     type: 'DELETE',
                     success: function(data){
                         if(data){
+                            self.wishlist.splice(self.wishlist.indexOf(product), 1);
                             NewAlert('success', 'Product succesvol verwijdert van verlanglijstje!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');

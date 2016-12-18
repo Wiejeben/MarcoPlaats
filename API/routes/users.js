@@ -4,18 +4,32 @@ const RestRouter = require('./../Helpers/RestRouter'),
 // Resourceful routes
 RestRouter('users', UserController);
 
-// Current user
+// Authenticate
 app.get('/auth/user', UserController.showByToken);
 
 // Wishlist
-app.get('/users/:id/wishlist', (req, res, next) => {
+app.get('/users/:userId/wishlist', (req, res, next) => {
     return new UserController(req, res, next).getWishList()
 });
 
-app.get('/users/:id/products', (req, res, next) => {
-    return new UserController(req, res, next).getProducts()
+app.post('/users/:userId/wishlist', (req, res, next) => {
+    return new UserController(req, res, next).addWishListItem()
 });
 
-app.get('/users/:id/favorites', (req, res, next) => {
+app.del('/users/:userId/wishlist/:productId', (req, res, next) => {
+    return new UserController(req, res, next).deleteWishListItem()
+});
+
+// Favorites
+app.get('/users/:userId/favorites', (req, res, next) => {
     return new UserController(req, res, next).getFavorites()
+});
+
+app.post('/users/:userId/favorites', (req, res, next) => {
+    return new UserController(req, res, next).addWishListItem()
+});
+
+// Products
+app.get('/users/:userId/products', (req, res, next) => {
+    return new UserController(req, res, next).getProducts()
 });

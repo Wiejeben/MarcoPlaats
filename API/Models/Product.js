@@ -17,7 +17,7 @@ module.exports = class Product extends Model {
     insert() {
         // Validate category id before inserting product
         const categoryId = this.document.Category;
-        if (!this.validateId(categoryId)) return Promise.reject(new Error('Invalid or missing category ObjectId'));
+        if (!this.validateId(categoryId)) return Promise.reject(new restify.BadRequestError('Invalid or missing category ObjectId'));
 
         const promise = super.insert();
 

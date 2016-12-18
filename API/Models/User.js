@@ -54,4 +54,36 @@ module.exports = class User extends Authenticatable {
             })
             .catch(Promise.reject)
     }
+
+    /**
+     * @param {string} userId
+     * @param {string} property
+     * @param {string} productId
+     * @return {Promise}
+     */
+    addForeignProduct(userId, property, productId) {
+        return this.collection.updateOne(
+            { _id: new ObjectId(userId) },
+            {
+                $addToSet: {
+                    [property]: new ObjectId(productId)
+                }
+            })
+    }
+
+    /**
+     * @param {string} userId
+     * @param {string} property
+     * @param {string} productId
+     * @return {Promise}
+     */
+    deleteForeignProduct(userId, property, productId) {
+        return this.collection.updateOne(
+            { _id: new ObjectId(userId) },
+            {
+                $pull: {
+                    [property]: new ObjectId(productId)
+                }
+            })
+    }
 };

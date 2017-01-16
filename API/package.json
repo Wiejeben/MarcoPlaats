@@ -12,6 +12,7 @@
     "crypto-js": "^3.1.8",
     "lodash": "^4.16.6",
     "mongodb": "^2.2.11",
+    "passport-facebook": "^2.1.1",
     "passport-google-oauth": "^1.0.0",
     "passport-restify": "^1.0.1",
     "restify": "^4.2.0"

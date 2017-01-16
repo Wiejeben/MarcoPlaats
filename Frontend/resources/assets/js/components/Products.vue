@@ -5,7 +5,7 @@
             <div class="product-image-wrapper">
                 <div class="single-products">
                     <div class="productinfo text-center">
-                        <img :src="'http://lorempixel.com/200/300/'" :alt="product.Name" />
+                        <a :href="'/product.html?id=' + product._id"><img :src="'http://lorempixel.com/200/300/'" :alt="product.Name" /></a>
                         <h2>€ {{ product.Price }}</h2>
                         <p>{{ product.Name }}</p>
                         <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>

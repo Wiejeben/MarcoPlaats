@@ -6,6 +6,13 @@ module.exports = class User extends Authenticatable {
         super('Users', schemas.User)
     }
 
+    insertProduct(productId) {
+        return this.collection.update(
+            {_id: this.document._id},
+            {$addToSet: {ProductIds:productId}}
+        )
+    }
+
     /**
      * Removes specified product from all users.
      *
@@ -31,10 +38,9 @@ module.exports = class User extends Authenticatable {
         return this.findById(userId)
             .then(user => {
                 return new Product().findManyById(user[property])
-                    .then(products => {
-                        return Promise.resolve(products)
-                    })
-                    .catch(Promise.reject)
+            })
+            .then(products => {
+                return Promise.resolve(products)
             })
             .catch(Promise.reject)
     }

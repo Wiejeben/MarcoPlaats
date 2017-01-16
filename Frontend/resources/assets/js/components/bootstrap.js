@@ -5,6 +5,7 @@ Vue.component('footer-component', require('./Footer.vue'));
 // Products
 Vue.component('sidebar-component', require('./Sidebar.vue'));
 Vue.component('products-component', require('./Products.vue'));
+Vue.component('product-component', require('./ProductDetail.vue'));
 
 // Account
 Vue.component('account-sidebar-component', require('./account/Sidebar.vue'));

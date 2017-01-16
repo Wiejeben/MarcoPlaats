@@ -4,7 +4,7 @@ const RestfulController = require('./../Helpers/RestfulController'),
 
 module.exports = class UserController extends RestfulController {
     constructor(req, res, next) {
-        super(User, req, res, next);
+        super(User, req, res, next)
     }
 
     static showByToken(req, res, next) {
@@ -13,7 +13,6 @@ module.exports = class UserController extends RestfulController {
         user.findByToken(req.headers.authorization)
             .then(() => {
                 if (user.document == null) {
-                    //noinspection JSUnresolvedFunction
                     return Promise.reject(new restify.UnprocessableEntityError('Unable to find user with specified authorization header'))
                 }
 

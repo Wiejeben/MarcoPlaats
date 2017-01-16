@@ -25,7 +25,7 @@ module.exports = class Model extends BaseModel {
      * @return void
      */
     sanitize() {
-        this.document = _.pick(_.defaults(this.document, this.schema), _.keys(this.schema));
+        this.document = _.pick(_.defaults(this.document, this.schema), _.keys(this.schema))
     }
 
     /**

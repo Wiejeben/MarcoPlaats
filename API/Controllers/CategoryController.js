@@ -8,6 +8,6 @@ module.exports = class CategoryController extends RestfulController {
 
     show() {
         this.model.useAggregation = true;
-        super.show();
+        super.show()
     }
 };

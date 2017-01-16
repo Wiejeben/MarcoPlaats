@@ -28,7 +28,7 @@
             var self = this;
             $.get(apiUrl + '/products', function(products) {
                 self.products = products;
-            });
+            }); 
         },
 
         mounted() {

@@ -12,7 +12,8 @@
         <div class="price-range"><!--price-range-->
             <h2>Prijs</h2>
             <div class="well">
-                <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="priceSlider" ><br />
+                <vue-slider v-model="value"></vue-slider>
+                <!--<input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" @onChange="selectPriceRange()" data-slider-value="[250,450]" id="priceSlider" ><br />-->
                 <b>€ 0</b> <b class="pull-right">€ 600</b>
             </div>
         </div><!--/price-range-->
@@ -21,23 +22,15 @@
 </template>
 
 <script>
+    import vueSlider from 'vue-slider-component';
     require('./../vendor/bootstrap-slider');
 
     export default {
-
+        components: {
+                vueSlider
+        },
         mounted() {
             console.info('Sidebar ready.');
-
-            var priceRange = $('#priceSlider');
-
-            if(priceRange.length) {
-
-                priceRange.slider();
-
-                var RGBChange = function() {
-                    $('#RGB').css('background', 'rgb(' + r.getValue() + ',' + g.getValue() + ',' + b.getValue() + ')')
-                };
-            }
         },
         created() {
             var self = this;
@@ -55,7 +48,14 @@
                 category.active = true;
 
                 eventHub.$emit('filter-category', category);
+            },
+
+            selectPriceRange() {
+                console.log('test');
             }
+
+
+
         },
 
         data() {
@@ -70,6 +70,16 @@
                     // { _id: "ej892uj", name: 'Caravans en Kamperen', active: false },
                     // { _id: "j23893u2", name: 'Caravans en Kamperen', active: false },
                     // { _id: "iu82uet2", name: 'Cd\'s en Dvd\'s', active: false }
+                ],
+                width: "100px",
+                height: 8,
+                dotSize: 20,
+                min: 0,
+                max: 500,
+                interval: 5,
+                value: [
+                0,
+                100
                 ]
             }
         }

@@ -67,7 +67,7 @@ module.exports = class RestfulController {
 
         this.model.findById(this.req.params.id)
             .then(() => {
-                this.model.destroy()
+                return this.model.destroy()
                     .then(() => {
                         this.res.statusCode = 204;
                         this.res.end()

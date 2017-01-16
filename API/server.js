@@ -26,7 +26,7 @@ global.ObjectId = mongodb.ObjectId;
 mongodb.MongoClient.connect(config.Database.Url, { promiseLibrary: Promise }, function(err, _db) {
     if (err) {
         console.error(err.toString());
-        process.exit();
+        process.exit()
     }
 
     global.db = _db;
@@ -36,6 +36,6 @@ mongodb.MongoClient.connect(config.Database.Url, { promiseLibrary: Promise }, fu
 
     // Start app
     app.listen(8080, function() {
-        console.log('%s listening at %s', app.name, app.url);
+        console.log('%s listening at %s', app.name, app.url)
     })
 });

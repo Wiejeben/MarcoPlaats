@@ -4,8 +4,8 @@
         <div class="footer-bottom">
             <div class="container">
                 <div class="row">
-                    <p class="pull-left">© 2016 Hogeschool Rotterdam. Alle rechten voorbehouden.</p>
-                    <p class="pull-right mr15">INF2A Project 2 Groep 2.</p>
+                    <p class="pull-left">© 2016 - 2017 Hogeschool Rotterdam. Alle rechten voorbehouden.</p>
+                    <p class="pull-right mr15">INF2A Project 2 Groep 2</p>
                 </div>
             </div>
         </div>

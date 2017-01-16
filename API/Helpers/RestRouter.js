@@ -1,11 +1,28 @@
-module.exports = function(server, prefix, controller) {
-    var root = ('/%s', prefix);
-    var specific = root + '/:id';
+/**
+ * @param {string} prefix
+ * @param {RestfulController} controller
+ */
+module.exports = function(prefix, controller) {
+    const root = '/' + prefix,
+        specific = root + '/:id';
 
-    // Products Start
-    server.get(root, controller.Index);
-    server.post(root, controller.Create);
-    server.put(specific, controller.Update);
-    server.del(specific, controller.Delete);
-    server.get(specific, controller.Show);
-}
+    app.get(root, (req, res, next) => {
+        new controller(req, res, next).index()
+    });
+
+    app.post(root, (req, res, next) => {
+        new controller(req, res, next).create()
+    });
+
+    app.put(specific, (req, res, next) => {
+        new controller(req, res, next).update()
+    });
+
+    app.del(specific, (req, res, next) => {
+        new controller(req, res, next).destroy()
+    });
+
+    app.get(specific, (req, res, next) => {
+        new controller(req, res, next).show()
+    });
+};

@@ -1,5 +1,5 @@
 schemas = {
-    UserPersonal:{
+    UserPersonal: {
         FirstName: null,
         LastName: null,
         OAuthId: null,
@@ -56,8 +56,7 @@ schemas = {
         Name: null,
         ProductIds: []
     },
-    Order:
-        {
+    Order: {
         OrderLines: [],
         OrderDate: null,
         address: {
@@ -67,9 +66,12 @@ schemas = {
             DeliveryAddress: null,
         }
     },
-    OrderLines:{
+    OrderLines: {
         ProductId: null,
         Amount: null
+    },
+    Image: {
+        Filename: null
     }
 }
 

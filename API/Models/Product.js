@@ -1,30 +1,49 @@
-var Context = require('./../Helpers/Context.js');
-var schemas = require('./Schemas.js');
+const Model = require('./../Helpers/Model'),
+    Category = require('./Category'),
+    User = require('./User'),
+    schemas = require('./../schemas.js');
 
-var Product = function (data) {
-    this.data = data;
+module.exports = class Product extends Model {
+    constructor() {
+        super('Products', schemas.Product);
+        this.hasCreatedAt = true
+    }
+
+    /**
+     * Insert and assign to category and user.
+     *
+     * @return {Promise}
+     */
+    insert() {
+        // Validate category id before inserting product
+        const categoryId = this.document.Category;
+        if (!this.validateId(categoryId)) return Promise.reject(new restify.BadRequestError('Invalid or missing category ObjectId'));
+
+        const promise = super.insert();
+
+        promise.then(() => {
+            // Apply to category
+            const category = new Category();
+            category.insertProduct(categoryId, this.document._id);
+
+            // Apply to logged in user
+            if (typeof loggedInUser !== 'undefined') {
+                loggedInUser.insertProduct(this.document._id)
+            }
+        });
+
+        return promise
+    }
+
+    destroy() {
+        const promise = super.destroy();
+
+        // Remove from categories and users
+        promise.then(result => {
+            new Category().deleteProduct(this.document._id);
+            new User().deleteProduct(this.document._id)
+        });
+
+        return promise
+    }
 };
-
-Product.prototype.data = {};
-
-Product.prototype.changeName = function (name) {
-    this.data.name = name;
-};
-
-Product.GetAll = function(db, callback) {
-    Context.GetAll(db, 'Products', callback)
-}
-
-Product.Insert = function(db, body, callback) {
-    Context.Insert(db, 'Products', body, callback, schemas.Product);
-}
-
-Product.FindById = function (db, id, callback) {
-    Context.FindById(db, 'Products', id, callback)
-};
-
-Product.Delete = function (db, id, callback) {
-    Context.Delete(db, 'Products', id, callback);
-}
-
-module.exports = Product;

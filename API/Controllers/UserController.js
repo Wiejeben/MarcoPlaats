@@ -1,33 +1,83 @@
-var User = require('./../Models/User');
-var Product = require('./../Models/Product');
-var Image = require('./../Models/Image');
+const RestfulController = require('./../Helpers/RestfulController'),
+    User = require('./../Models/User'),
+    Product = require('./../Models/Product');
 
-exports.Index = function (req, res, next) {
-    User.GetAll(this.locals.db, function(collection){
-        res.send(collection)
-    });
-};
+module.exports = class UserController extends RestfulController {
+    constructor(req, res, next) {
+        super(User, req, res, next);
+    }
 
-exports.Create = function (req, res, next) {
-    User.Insert(this.locals.db, req.body, function(){
-        res.send('Created a user');
-    })
-};
+    static showByToken(req, res, next) {
+        let user = new User();
 
-exports.Show = function (req, res, next) {
-    User.FindById(this.locals.db, req.params.id, function(user) {
-        res.send(user);
-    });
-};
+        user.findByToken(req.headers.authorization)
+            .then(() => {
+                if (user.document == null) {
+                    //noinspection JSUnresolvedFunction
+                    return Promise.reject(new restify.UnprocessableEntityError('Unable to find user with specified authorization header'))
+                }
 
-exports.Update = function (req, res, next) {
-    User.Update(this.locals.db, req.params.id, req.body, function(test) {
-        res.send(test);
-    })
-};
+                res.send(user.document)
+            })
+            .catch(next)
+    }
 
-exports.Delete = function (req, res, next) {
-    User.Delete(this.locals.db, req.params.id, function(deletedCount) {
-        res.send('Deleted accounts: ' + deletedCount);
-    });
+    // WishList
+    getWishList() {
+        this.model.getForeignProducts(this.req.params.userId, 'WishlistProductIds')
+            .then(result => {
+                this.res.send(result)
+            })
+            .catch(this.next)
+    }
+
+    addWishListItem() {
+        this.model.addForeignProduct(this.req.params.userId, 'WishlistProductIds', this.req.body.ProductId)
+            .then(result => {
+                this.res.send(result)
+            })
+            .catch(this.next)
+    }
+
+    deleteWishListItem() {
+        this.model.deleteForeignProduct(this.req.params.userId, 'WishlistProductIds', this.req.params.productId)
+            .then(result => {
+                this.res.send(result)
+            })
+            .catch(this.next)
+    }
+
+    // Favorites
+    getFavorites() {
+        this.model.getForeignProducts(this.req.params.userId, 'FavoriteProductIds')
+            .then(result => {
+                this.res.send(result)
+            })
+            .catch(this.next)
+    }
+
+    addFavorite() {
+        this.model.addForeignProduct(this.req.params.userId, 'FavoriteProductIds', this.req.body.ProductId)
+            .then(result => {
+                this.res.send(result)
+            })
+            .catch(this.next)
+    }
+
+    deleteFavorite() {
+        this.model.deleteForeignProduct(this.req.params.userId, 'FavoriteProductIds', this.req.params.productId)
+            .then(result => {
+                this.res.send(result)
+            })
+            .catch(this.next)
+    }
+
+    // Products
+    getProducts() {
+        this.model.getForeignProducts(this.req.params.userId, 'ProductIds')
+            .then(result => {
+                this.res.send(result)
+            })
+            .catch(this.next)
+    }
 };

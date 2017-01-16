@@ -52,7 +52,9 @@
                 self.user = data;
                 $.get(apiUrl + '/categories', function(categories) {
                     self.categories = categories;
-                    self.product.Category = categories[0]._id;
+                    if (categories.length != 0) {
+                        self.product.Category = categories[0]._id;
+                    }
                 });
             });
 

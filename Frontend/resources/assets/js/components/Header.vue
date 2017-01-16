@@ -62,7 +62,6 @@
 <script>
     export default {
         mounted() {
-            console.info('Header ready.');
             eventHub.$on('user-detected', this.setUser)
         },
 

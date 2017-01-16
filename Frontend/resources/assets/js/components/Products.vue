@@ -1,5 +1,6 @@
 <template>
     <div class="items">
+        {{ greatestPrice }}
         <h2 class="title text-center">{{ category.Name }}</h2>
         <div class="col-sm-4" v-for="product in products">
             <div class="product-image-wrapper">
@@ -26,8 +27,14 @@
         created() {
             eventHub.$on('filter-category', this.switchCategory);
             var self = this;
+            self.greatestPrice = 0;
             $.get(apiUrl + '/products', function(products) {
                 self.products = products;
+                for (var i = 0; i < self.products.length; i++) {
+                    if(self.products[i].Price > self.greatestPrice){
+                        self.greatestPrice = self.products[i].Price;
+                    }
+                };
             });
         },
 

@@ -26,14 +26,9 @@
     export default {
 
         mounted() {
-            console.info('Sidebar ready.');
-
             var priceRange = $('#priceSlider');
-
             if(priceRange.length) {
-
                 priceRange.slider();
-
                 var RGBChange = function() {
                     $('#RGB').css('background', 'rgb(' + r.getValue() + ',' + g.getValue() + ',' + b.getValue() + ')')
                 };
@@ -47,13 +42,10 @@
         },
         methods: {
             selectCategory(category) {
-
                 this.categories.forEach(function(category) {
                     category.active = false;
                 });
-
                 category.active = true;
-
                 eventHub.$emit('filter-category', category);
             }
         },

@@ -52,7 +52,6 @@
             HasRole('user', function(){
                 self.user = window.User;
             })
-            console.info('Account profile ready.');
         },
         data() {
             return {

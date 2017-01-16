@@ -1,6 +1,6 @@
 <template>
     <div class="items"><!--features_items-->
-        <h2 class="title text-center">Instellingen</h2>
+        <h2 class="title text-center">Product toevoegen</h2>
 
         <form v-if="user != null" class="row">
 
@@ -99,7 +99,7 @@
                     dataType: 'json',
                     success: function(data) {
                         if(data){
-                            NewAlert('success', 'Uw instellingen zijn succesvol aangepast!');
+                            NewAlert('success', 'Product succesvol toegevoegd!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');
                         }

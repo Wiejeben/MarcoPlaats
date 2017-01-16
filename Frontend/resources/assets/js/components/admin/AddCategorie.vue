@@ -42,7 +42,7 @@
                     dataType: 'json',
                     success: function(data){
                         if(data){
-                            NewAlert('success', 'De categorie is succesvol aangemaakt!');
+                            NewAlert('success', 'Categorie succesvol aangemaakt!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');
                         }

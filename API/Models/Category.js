@@ -1,90 +1,91 @@
-var Context = require('./../Helpers/Context.js'),
-    ObjectId = require('mongodb').ObjectID;
+const Model = require('./../Helpers/Model'),
+    schemas = require('./../schemas.js');
 
-var Category = function (data) {
-    this.data = data;
-};
+module.exports = class Category extends Model {
+    constructor() {
+        super('Categories', schemas.Category);
+    }
 
-Category.prototype.data = {};
+    /**
+     * Automatically fill in references.
+     *
+     * @param {object} [filter={}]
+     * @return {Promise}
+     */
+    findWithAggregation(filter = {}) {
+        return this.collection.aggregate([
+            { $match: filter },
 
-Category.prototype.changeName = function (name) {  
-    this.data.name = name;
-};
+            {
+                $unwind: {
+                    path: '$ProductIds',
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $lookup: {
+                    from: 'Products',
+                    localField: 'ProductIds',
+                    foreignField: '_id',
+                    as: 'Products'
+                }
+            },
+            {
+                $group: {
+                    _id: '$_id',
+                    Name: { $first: '$Name' },
+                    ProductIds: { $push: '$ProductIds' },
+                    Products: { $addToSet: '$Products' }
+                }
+            }
+        ]).toArray().then(results => {
+            // Map reduce
+            results.forEach(result => {
+                let products = [];
 
-Category.GetAll = function(db, callback) {
-    Context.GetAll(db, 'Categories', callback)
-}
+                result.Products.forEach(product => {
+                    if (product.length) {
+                        products.push(product[0])
+                    }
+                });
 
-Category.Insert = function(db, body, callback) {
-    Context.Insert(db, 'Categories', body, callback, schemas.Category);
-}
+                result.Products = products
+            });
 
-Category.Delete = function(db, id, callback) {
-    Context.Delete(db, 'Categories', id, callback);
-}
+            return Promise.resolve(results)
+        }).catch(Promise.reject)
+    }
 
-// get all products from category
-Category.FindById = function (db, id, callback) {
-    var collection = db.collection('Categories');
-    if(id.length == 24){
-        collection.aggregate([
-            { $match: { _id: new ObjectId(id) }},
+    /**
+     * Insert product into specified category.
+     *
+     * @param {string} categoryId
+     * @param {string} productId
+     * @return {Promise}
+     */
+    insertProduct(categoryId, productId) {
+        return this.collection.findOneAndUpdate(
+            { _id: new ObjectId(categoryId) },
+            {
+                $addToSet: {
+                    ProductIds: new ObjectId(productId)
+                }
+            })
+    }
 
-            { $unwind: '$ProductIds' },
-
-            { $lookup: {
-                from: 'Products',
-                localField: 'ProductIds',
-                foreignField: '_id',
-                as: 'productObjects'
-            }},
-
-            { $unwind: '$productObjects' },
-            
-            { $group: {
-                _id: '$_id',
-                Name: { $push: '$Name'},
-                ProductObjects: { $push: '$productObjects' }
-            }},
-            { $unwind: '$Name' }
-        ], function(err, results){
-            callback(results[0]);
-        });
-    }else{
-        callback(false);
+    /**
+     * Removes product from all categories.
+     *
+     * @param {string} productId
+     * @return {Promise}
+     */
+    deleteProduct(productId) {
+        return this.collection.updateOne(
+            { ProductIds: { $in: [new ObjectId(productId)] } },
+            {
+                $pull: {
+                    ProductIds: { $in: [new ObjectId(productId)] }
+                }
+            })
     }
 };
-
-Category.FindBySlug = function(db, slug, callback){
-    var collection = db.collection('Categories');
-    
-    collection.find({'Slug':slug}).toArray(function(err, collection){
-        callback(collection)
-    });
-}
-
-Category.InsertProduct = function(db, categoryId, productId, callback) {
-    var collection = db.collection('Categories');
-
-    collection.update({_id: new ObjectId(categoryId)},
-                        {$addToSet: {ProductIds: new ObjectId(productId)}},
-                        function(err, r){
-                            callback();
-                        });
-}
-
-Category.DeleteProduct = function(db, productId, callback) {
-    var collection = db.collection('Categories');
-
-    collection.findAndModify({ProductIds: {$in: [new ObjectId(productId)]}},
-                            [],
-                            { $pull: { ProductIds: { $in: [new ObjectId(productId)]}}}, function(err, r){
-                                callback(r);
-                            });
-}
-
-
-
-
-
-module.exports = Category;

@@ -1,9 +1,9 @@
-var Config = {
-  Database:{
+module.exports = {
+  Database: {
     Url: 'mongodb://localhost:27017/MarcoPlaats',
   },
   Application: {
-    name: 'Marcoplaats API',
+    name: 'MarcoPlaats API',
     version: '1.0.0'
   },
   OAuth: {
@@ -21,7 +21,3 @@ var Config = {
   },
   Roles: ['user', 'admin', 'blocked']
 };
-
-
-
-module.exports = Config;

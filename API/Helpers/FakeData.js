@@ -9,7 +9,7 @@ User = {
     Email: 'Jacky@hotmail.com',
     Password: 'test123',
     Role: 'Admin',
-    Addresses:{
+    Addresses: {
         Street: 'Wijnhaven',
         City: 'Rotterdam',
         Province: 'Zuid-Holland',
@@ -17,10 +17,10 @@ User = {
         Number: 107,
         DeliveryAddress: true
     },
-    Orders:{
+    Orders: {
         ProductIds: ['58150d65a271881c7601f9b3', '58150d9aa271881c7601f9b4', '58150da3a271881c7601f9b5'],
         OrderDate: 1477920664,
-        address:{
+        address: {
             Street: 'Wijnhaven',
             City: 'Rotterdam',
             Province: 'Zuid-Holland',
@@ -42,6 +42,6 @@ Product = {
     Images: {
         Filename: 'Laptop.png'
     },
-    CreatedAt:1477921387,
+    CreatedAt: 1477921387,
     DeletedAt: 1477921401
 }

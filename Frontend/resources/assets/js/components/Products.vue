@@ -28,18 +28,21 @@
             eventHub.$on('filter-category', this.switchCategory);
             var self = this;
             self.greatestPrice = 0;
-            $.get(apiUrl + '/products', function(products) {
+            self.url = '/products';
+            if (localStorage.getItem('minProductPrice') !== undefined && localStorage.getItem('maxProductPrice') !== undefined) {
+                self.url += '?minPrice='+localStorage.getItem('minProductPrice')+'&maxPrice'+localStorage.getItem('maxProductPrice');
+            }
+            $.get(apiUrl + self.url, function(products) {
                 self.products = products;
                 for (var i = 0; i < self.products.length; i++) {
                     if(self.products[i].Price > self.greatestPrice){
                         self.greatestPrice = self.products[i].Price;
                     }
-                };
+                }
+                if(self.greatestPrice > 0){                
+                    self.updateGreatestPrice();
+                }
             });
-        },
-
-        mounted() {
-            console.info('Products ready.')
         },
 
         data() {
@@ -61,11 +64,20 @@
             switchCategory(category) {
                 var self = this;
                 this.category = category;
-                
                 $.get(apiUrl + '/categories/' + category._id, function(products) {
                     self.products = products.ProductObjects;
-                }); 
+                });
+            },
 
+            updateGreatestPrice(){
+                var self = this;
+                localStorage.setItem('GreatestProductPrice', self.greatestPrice);
+                if (localStorage.getItem('minProductPrice') === null || parseInt(localStorage.getItem('minProductPrice')) > self.greatestPrice) {
+                    localStorage.setItem('minProductPrice', 0); 
+                }
+                if (localStorage.getItem('maxProductPrice') === null || parseInt(localStorage.getItem('maxProductPrice')) > self.greatestPrice) {
+                    localStorage.setItem('maxProductPrice', self.greatestPrice);
+                }
             },
 
             InsertWishlist(id) {

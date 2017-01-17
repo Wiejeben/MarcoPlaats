@@ -26,29 +26,13 @@
     export default {
         created() {
             eventHub.$on('filter-category', this.switchCategory);
-            var self = this;
-            self.greatestPrice = 0;
-            self.url = '/products';
-            if (localStorage.getItem('minProductPrice') !== undefined && localStorage.getItem('maxProductPrice') !== undefined) {
-                self.url += '?minPrice='+localStorage.getItem('minProductPrice')+'&maxPrice'+localStorage.getItem('maxProductPrice');
-            }
-            $.get(apiUrl + self.url, function(products) {
-                self.products = products;
-                for (var i = 0; i < self.products.length; i++) {
-                    if(self.products[i].Price > self.greatestPrice){
-                        self.greatestPrice = self.products[i].Price;
-                    }
-                }
-                if(self.greatestPrice > 0){                
-                    self.updateGreatestPrice();
-                }
-            });
+            eventHub.$on('filter-price', this.filterPrice);
+            this.initProducts();
         },
 
         data() {
             return {
                 category: { Name: 'Alle producten' },
-
                 products: [
                     // { name: 'Easy Polo Black Edition', price: 56, image: 'product7.jpg' },
                     // { name: 'Easy Polo Black Edition', price: 56, image: 'product8.jpg' },
@@ -61,6 +45,28 @@
         },
 
         methods: {
+            filterPrice() {
+                this.initProducts();
+            },
+            initProducts(){
+                var self = this;
+                self.greatestPrice = 0;
+                self.url = '/products';
+                if (localStorage.getItem('minProductPrice') !== undefined && localStorage.getItem('maxProductPrice') !== undefined) {
+                    self.url += '?minPrice='+localStorage.getItem('minProductPrice')+'&maxPrice'+localStorage.getItem('maxProductPrice');
+                }
+                $.get(apiUrl + self.url, function(products) {
+                    self.products = products;
+                    for (var i = 0; i < self.products.length; i++) {
+                        if(self.products[i].Price > self.greatestPrice){
+                            self.greatestPrice = self.products[i].Price;
+                        }
+                    }
+                    if(self.greatestPrice > 0){                
+                        self.updateGreatestPrice();
+                    }
+                });
+            },
             switchCategory(category) {
                 var self = this;
                 this.category = category;
@@ -70,7 +76,6 @@
                 }); 
 
             },
-
             updateGreatestPrice(){
                 var self = this;
                 localStorage.setItem('GreatestProductPrice', self.greatestPrice);

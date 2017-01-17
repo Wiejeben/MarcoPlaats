@@ -82,6 +82,7 @@
                 }
             },
 
+
             InsertWishlist(id) {
                 var self = this;
                 $.ajax({

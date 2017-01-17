@@ -38,8 +38,6 @@
         mixins: [require('./../../mixins/auth')],
 
         created() {
-            console.info('Wishlist account ready.');
-
             var self = this;
              HasRole('user', function(){
                     $.get(apiUrl + '/users/' + User._id + '/wishlist', function(data) {
@@ -55,7 +53,6 @@
         methods:{
             deleteWishlistItem(product) {
                 var self = this;
-
                 $.ajax({
                     url: window.apiUrl+'/users/'+window.User._id + '/wishlist/' + product._id,
                     type: 'DELETE',

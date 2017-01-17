@@ -1,4 +1,4 @@
-<template xmlns="http://www.w3.org/1999/xhtml">
+<template>
     <div>
         <div v-if="product !== false">
             <div class="product-details"><!--product-details-->

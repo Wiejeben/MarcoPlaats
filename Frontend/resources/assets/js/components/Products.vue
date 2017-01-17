@@ -1,5 +1,6 @@
 <template>
     <div class="items">
+        {{ greatestPrice }}
         <h2 class="title text-center">{{ category.Name }}</h2>
         <div class="col-sm-4" v-for="product in products">
             <div class="product-image-wrapper">
@@ -26,13 +27,22 @@
         created() {
             eventHub.$on('filter-category', this.switchCategory);
             var self = this;
-            $.get(apiUrl + '/products', function(products) {
+            self.greatestPrice = 0;
+            self.url = '/products';
+            if (localStorage.getItem('minProductPrice') !== undefined && localStorage.getItem('maxProductPrice') !== undefined) {
+                self.url += '?minPrice='+localStorage.getItem('minProductPrice')+'&maxPrice'+localStorage.getItem('maxProductPrice');
+            }
+            $.get(apiUrl + self.url, function(products) {
                 self.products = products;
-            }); 
-        },
-
-        mounted() {
-            console.info('Products ready.')
+                for (var i = 0; i < self.products.length; i++) {
+                    if(self.products[i].Price > self.greatestPrice){
+                        self.greatestPrice = self.products[i].Price;
+                    }
+                }
+                if(self.greatestPrice > 0){                
+                    self.updateGreatestPrice();
+                }
+            });
         },
 
         data() {
@@ -59,6 +69,17 @@
                     self.products = response.Products;
                 }); 
 
+            },
+
+            updateGreatestPrice(){
+                var self = this;
+                localStorage.setItem('GreatestProductPrice', self.greatestPrice);
+                if (localStorage.getItem('minProductPrice') === null || parseInt(localStorage.getItem('minProductPrice')) > self.greatestPrice) {
+                    localStorage.setItem('minProductPrice', 0); 
+                }
+                if (localStorage.getItem('maxProductPrice') === null || parseInt(localStorage.getItem('maxProductPrice')) > self.greatestPrice) {
+                    localStorage.setItem('maxProductPrice', self.greatestPrice);
+                }
             },
 
             InsertWishlist(id) {

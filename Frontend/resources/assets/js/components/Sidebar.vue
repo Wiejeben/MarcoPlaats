@@ -56,6 +56,7 @@ export default {
         selectPriceRange(minPrice, maxPrice){
             localStorage.setItem('minProductPrice', minPrice);
             localStorage.setItem('maxProductPrice', maxPrice);
+            eventHub.$emit('filter-price')
         }
     },    
     watch: {

@@ -70,9 +70,11 @@
             switchCategory(category) {
                 var self = this;
                 this.category = category;
-                $.get(apiUrl + '/categories/' + category._id, function(products) {
-                    self.products = products.ProductObjects;
-                });
+                
+                $.get(apiUrl + '/categories/' + category._id, function(response) {
+                    self.products = response.Products;
+                }); 
+
             },
             updateGreatestPrice(){
                 var self = this;

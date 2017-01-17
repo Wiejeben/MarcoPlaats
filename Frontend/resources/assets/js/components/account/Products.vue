@@ -13,26 +13,18 @@
             <table class="table table-condensed">
                 <thead>
                     <tr>
-                        <td>Afbeelding</td>
-                        <td>Product</td>
-                        <td>Prijs</td>
-                        <td></td>
+                        <th>Naam</th>
+                        <th>Amount</th>
+                        <th>Price</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="product in products">
-                        <td>
-                            <a href=""><img class="img-responsive" :src="product.Images[0]" alt=""></a>
-                        </td>
-                        <td>
-                            <a href="">{{product.Name}}</a>
-                        </td>
-                        <td>
-                            <p>€{{product.Price}}</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" @click.prevent="deleteProduct(product)" href=""><i class="fa fa-times"></i></a>
-                        </td>
+                        <td>{{ product.Name }}</td>
+                        <td>{{ product.Amount }}</td>
+                        <td>{{ product.Price }}</td>
+                        <td class="table_button"><a :href="'editproduct.html?id=' + product._id"><i class="fa fa-pencil"></i></a></td>
+                        <td class="table_button"><a class="cart_quantity_delete" @click.prevent="deleteProduct(product)"><i class="fa fa-times"></i></a></td>
                     </tr>
                 </tbody>
             </table>

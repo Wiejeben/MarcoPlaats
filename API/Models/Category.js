@@ -30,27 +30,29 @@ module.exports = class Category extends Model {
                     as: 'Products'
                 }
             },
-            {
-                $group: {
-                    _id: '$_id',
-                    Name: { $first: '$Name' },
-                    ProductIds: { $push: '$ProductIds' },
-                    Products: { $addToSet: '$Products' }
-                }
-            }
+            { $unwind: '$Products' },
+
+            { $match: { 'Products.Price': { '$gte' : 500 } } },
+            
+            { $group: {
+                _id: '$_id',
+                Name: { $push: '$Name'},
+                Products: { $push: '$Products' }
+            }},
+            { $unwind: '$Name' }
         ]).toArray().then(results => {
             // Map reduce
-            results.forEach(result => {
-                let products = [];
+            // results.forEach(result => {
+            //     let products = [];
 
-                result.Products.forEach(product => {
-                    if (product.length) {
-                        products.push(product[0])
-                    }
-                });
+            //     result.Products.forEach(product => {
+            //         if (product.length) {
+            //             products.push(product[0])
+            //         }
+            //     });
 
-                result.Products = products
-            });
+            //     result.Products = products
+            // });
 
             return Promise.resolve(results)
         }).catch(Promise.reject)

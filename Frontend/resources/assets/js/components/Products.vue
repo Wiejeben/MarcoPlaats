@@ -52,7 +52,7 @@
                 var self = this;
                 self.greatestPrice = 0;
                 self.url = '/products';
-                if (localStorage.getItem('minProductPrice') !== undefined && localStorage.getItem('maxProductPrice') !== undefined) {
+                if (localStorage.getItem('minProductPrice') !== null && localStorage.getItem('maxProductPrice') !== null) {
                     self.url += '?minPrice='+localStorage.getItem('minProductPrice')+'&maxPrice'+localStorage.getItem('maxProductPrice');
                 }
                 $.get(apiUrl + self.url, function(products) {

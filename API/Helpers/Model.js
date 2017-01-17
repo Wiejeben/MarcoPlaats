@@ -66,7 +66,7 @@ module.exports = class Model extends BaseModel {
         this.sanitize();
 
         if (this.hasCreatedAt) this.document.CreatedAt = Math.floor(new Date() / 1000);
-
+        
         const promise = super.insert();
 
         // Apply new document _id
@@ -88,7 +88,7 @@ module.exports = class Model extends BaseModel {
 
         // Remove _id to prevent it from being altered
         delete this.document._id;
-
+        
         return super.update({ _id: new ObjectId(id) }, { $set: this.document })
     }
 

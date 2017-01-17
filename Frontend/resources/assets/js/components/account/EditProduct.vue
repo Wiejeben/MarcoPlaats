@@ -12,7 +12,7 @@
                 <input class="form-control" placeholder="Amount"  v-model="product.Amount">
                 <textarea name="message" v-model="product.Description" placeholder="Description." rows="9"></textarea>
                 <select v-model="product.Category" id="CategorySelect">
-                    <option v-for="(category, index) in categories" :selected="index === 0" :value="category._id">{{ category.Name }}</option>
+                    <option v-for="category in categories" :selected="category._id === product.Category" :value="category._id">{{ category.Name }}</option>
                 </select>
 
                 <!--<ul>
@@ -50,6 +50,11 @@
 
             eventHub.$on('user-detected', function(data) {
                 self.user = data;
+                self.product._id = location.search.split('id=')[1];
+                $.get(apiUrl + '/products/' + self.product._id, function(product) {
+                    self.product = product
+                });
+                
                 $.get(apiUrl + '/categories', function(categories) {
                     self.categories = categories;
                     if (categories.length != 0) {
@@ -73,7 +78,6 @@
                     DeliveryMethod: null,
                     Category: null
                 },
-                user:null,
                 categories:[]
             }
         },
@@ -94,8 +98,8 @@
                 this.product.Price = parseInt(this.product.Price)
                 this.product.Amount = parseInt(this.product.Amount)
                 $.ajax({
-                    url: window.apiUrl + '/products',
-                    type: 'POST',
+                    url: window.apiUrl + '/products/' + self.product._id,
+                    type: 'PUT',
                     contentType: 'application/json',
                     data: JSON.stringify(this.product),
                     dataType: 'json',

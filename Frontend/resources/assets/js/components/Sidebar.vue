@@ -19,10 +19,8 @@
                 <b>€ {{ sliders.price.min }}</b> <b class="pull-right">€ {{ sliders.price.max }}</b>
             </div>
         </div><!--/price-range-->
-
     </div>
 </template>
-
 <script>
 import vueSlider from 'vue-slider-component';
 export default {

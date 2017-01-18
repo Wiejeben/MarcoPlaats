@@ -5,7 +5,7 @@
             <div class="product-image-wrapper">
                 <div class="single-products">
                     <div class="productinfo text-center">
-                        <a :href="'/product.html?id=' + product._id"><img :src="'http://lorempixel.com/200/300/'" :alt="product.Name" /></a>
+                        <a :href="'/product.html?id=' + product._id"><img :src="'http://placeimg.com/200/300/people'" :alt="product.Name" /></a>
                         <h2>€ {{ product.Price }}</h2>
                         <p>{{ product.Name }}</p>
                         <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
@@ -33,13 +33,8 @@
             return {
                 category: { Name: 'Alle producten' },
                 products: [
-                    // { name: 'Easy Polo Black Edition', price: 56, image: 'product7.jpg' },
-                    // { name: 'Easy Polo Black Edition', price: 56, image: 'product8.jpg' },
-                    // { name: 'Easy Polo Black Edition', price: 56, image: 'product9.jpg' },
-                    // { name: 'Easy Polo Black Edition', price: 56, image: 'product10.jpg' },
-                    // { name: 'Easy Polo Black Edition', price: 56, image: 'product11.jpg' },
-                    // { name: 'Easy Polo Black Edition', price: 56, image: 'product12.jpg' }
-                ]
+                ],
+                url: '/products'
             }
         },
 
@@ -47,21 +42,40 @@
             initProducts(){
                 console.error('message');
                 var self = this;
-                self.url = '/products';
-                if (localStorage.getItem('minProductPrice') !== undefined && localStorage.getItem('maxProductPrice') !== undefined) {
-                    self.url += '?minPrice='+localStorage.getItem('minProductPrice')+'&maxPrice'+localStorage.getItem('maxProductPrice');
-                }
-                $.get(apiUrl + self.url, function(products) {
-                    self.products = products;
+                self.greatestPrice = 0;
+                
+                $.ajax({
+                    url: window.apiUrl + self.url,
+                    type: 'GET',
+                    data: {
+                        minPrice: localStorage.getItem('minProductPrice'),
+                        maxPrice: localStorage.getItem('maxProductPrice')
+                    },
+                    success: function(products){
+                        if(products.Products){
+                            self.products = products.Products
+                        }else{
+                            self.products = products
+                        }
+                        for (var i = 0; i < self.products.length; i++) {
+                            if(self.products[i].Price > self.greatestPrice){
+                                self.greatestPrice = self.products[i].Price;
+                            }
+                        }
+                        if(self.greatestPrice > 0){                
+                            self.updateGreatestPrice();
+                        }
+                    },
+                    error: () => {
+                        self.products = null
+                    }
                 });
             },
             switchCategory(category) {
                 var self = this;
                 this.category = category;
-                $.get(apiUrl + '/categories/' + category._id, function(response) {
-                    self.products = response.Products;
-                }); 
-
+                self.url = '/categories/' + category._id
+                this.initProducts();
             },
             InsertWishlist(id) {
                 var self = this;

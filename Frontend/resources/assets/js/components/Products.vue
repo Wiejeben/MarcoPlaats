@@ -5,7 +5,7 @@
             <div class="product-image-wrapper">
                 <div class="single-products">
                     <div class="productinfo text-center">
-                        <img :src="'http://lorempixel.com/200/300/'" :alt="product.Name" />
+                        <a :href="'/product.html?id=' + product._id"><img :src="'http://placeimg.com/200/300/people'" :alt="product.Name" /></a>
                         <h2>€ {{ product.Price }}</h2>
                         <p>{{ product.Name }}</p>
                         <a href="#" @click.prevent="AddToCart(product._id)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
@@ -25,40 +25,57 @@
     export default {
         created() {
             eventHub.$on('filter-category', this.switchCategory);
-            var self = this;
-            $.get(apiUrl + '/products', function(products) {
-                self.products = products;
-            });
-        },
-
-        mounted() {
-            console.info('Products ready.')
+            eventHub.$on('filter-price', this.initProducts);
+            this.initProducts();
         },
 
         data() {
             return {
                 category: { Name: 'Alle producten' },
-
                 products: [
-                    // { name: 'Easy Polo Black Edition', price: 56, image: 'product7.jpg' },
-                    // { name: 'Easy Polo Black Edition', price: 56, image: 'product8.jpg' },
-                    // { name: 'Easy Polo Black Edition', price: 56, image: 'product9.jpg' },
-                    // { name: 'Easy Polo Black Edition', price: 56, image: 'product10.jpg' },
-                    // { name: 'Easy Polo Black Edition', price: 56, image: 'product11.jpg' },
-                    // { name: 'Easy Polo Black Edition', price: 56, image: 'product12.jpg' }
-                ]
+                ],
+                url: '/products'
             }
         },
 
         methods: {
+            initProducts(){
+                console.error('message');
+                var self = this;
+                self.greatestPrice = 0;
+                
+                $.ajax({
+                    url: window.apiUrl + self.url,
+                    type: 'GET',
+                    data: {
+                        minPrice: localStorage.getItem('minProductPrice'),
+                        maxPrice: localStorage.getItem('maxProductPrice')
+                    },
+                    success: function(products){
+                        if(products.Products){
+                            self.products = products.Products
+                        }else{
+                            self.products = products
+                        }
+                        for (var i = 0; i < self.products.length; i++) {
+                            if(self.products[i].Price > self.greatestPrice){
+                                self.greatestPrice = self.products[i].Price;
+                            }
+                        }
+                        if(self.greatestPrice > 0){                
+                            self.updateGreatestPrice();
+                        }
+                    },
+                    error: () => {
+                        self.products = null
+                    }
+                });
+            },
             switchCategory(category) {
                 var self = this;
                 this.category = category;
-                
-                $.get(apiUrl + '/categories/' + category._id, function(products) {
-                    self.products = products.ProductObjects;
-                }); 
-
+                self.url = '/categories/' + category._id
+                this.initProducts();
             },
             AddToCart(productId){
                 if(localStorage["cart"]){
@@ -75,8 +92,6 @@
                     cart[productId] = 1;
                     localStorage.setItem("cart", JSON.stringify(cart));
                 }
-                //console.log(localStorage["cart"]);
-                //localStorage.removeItem("cart");
             },
             InsertWishlist(id) {
                 var self = this;

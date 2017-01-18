@@ -12,66 +12,113 @@
         <div class="price-range"><!--price-range-->
             <h2>Prijs</h2>
             <div class="well">
-                <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="priceSlider" ><br />
-                <b>€ 0</b> <b class="pull-right">€ 600</b>
+                <div>
+                    <vue-slider ref="priceslider" v-bind="sliders.price" v-model="sliders.price.value"></vue-slider>
+                </div>
+                <!--<input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" @onChange="selectPriceRange()" data-slider-value="[250,450]" id="priceSlider" ><br />-->
+                <b>€ {{ sliders.price.min }}</b> <b class="pull-right">€ {{ sliders.price.max }}</b>
             </div>
         </div><!--/price-range-->
-
     </div>
 </template>
-
 <script>
-    require('./../vendor/bootstrap-slider');
-
-    export default {
-
-        mounted() {
-            console.info('Sidebar ready.');
-
-            var priceRange = $('#priceSlider');
-
-            if(priceRange.length) {
-
-                priceRange.slider();
-
-                var RGBChange = function() {
-                    $('#RGB').css('background', 'rgb(' + r.getValue() + ',' + g.getValue() + ',' + b.getValue() + ')')
-                };
+import vueSlider from 'vue-slider-component';
+export default {
+    beforeCreate() {
+        var self = this;
+        $.get(apiUrl + '/products-heighest-price', function(response) {
+            localStorage.setItem('GreatestProductPrice', response.Price);
+            if (localStorage.getItem('minProductPrice') === undefined || 
+                localStorage.getItem('minProductPrice') === null || 
+                parseInt(localStorage.getItem('minProductPrice')) > response.Price
+            ) {
+                localStorage.setItem('minProductPrice', 0); 
             }
-        },
-        created() {
-            var self = this;
-            $.get(apiUrl + '/categories', function(categories) {
-                self.categories = categories;
+            if (localStorage.getItem('maxProductPrice') === undefined || 
+                localStorage.getItem('maxProductPrice') === null || 
+                parseInt(localStorage.getItem('maxProductPrice')) > response.Price
+            ) {
+                localStorage.setItem('maxProductPrice', response.Price);
+            }
+            /*self.show = true
+            self.$nextTick(() => {
+                self.sliders.price.max = response.Price;
+                self.sliders.price.value[0] = parseInt(localStorage.getItem('minProductPrice'))
+                self.sliders.price.value[1] = parseInt(localStorage.getItem('maxProductPrice'))
+                self.$refs.priceslider.refresh()
+            })*/
+        }); 
+        $.get(apiUrl + '/categories', function(categories) {
+            self.categories = categories;
+        });
+    },    
+    components: {
+        vueSlider
+    },
+    methods: {
+        selectCategory(category) {
+            this.categories.forEach(function(category) {
+                category.active = false
             });
+            category.active = true
+            eventHub.$emit('filter-category', category)
         },
-        methods: {
-            selectCategory(category) {
-
-                this.categories.forEach(function(category) {
-                    category.active = false;
-                });
-
-                category.active = true;
-
-                eventHub.$emit('filter-category', category);
-            }
-        },
-
-        data() {
-            return {
-                categories: [
-                    // { _id: "abc3123", name: 'Antiek en Kunst', active: false },
-                    // { _id: "wejfh3893", name: 'Audio, Tv en Foto', active: false },
-                    // { _id: "3oiu233", name: 'Auto\'s', active: false },
-                    // { _id: "ej23kek", name: 'Auto-onderdelen', active: false },
-                    // { _id: "3iu29ue", name: 'Auto diversen', active: false },
-                    // { _id: "e2i923", name: 'Boeken', active: false },
-                    // { _id: "ej892uj", name: 'Caravans en Kamperen', active: false },
-                    // { _id: "j23893u2", name: 'Caravans en Kamperen', active: false },
-                    // { _id: "iu82uet2", name: 'Cd\'s en Dvd\'s', active: false }
-                ]
+        selectPriceRange(minPrice, maxPrice){
+            localStorage.setItem('minProductPrice', minPrice);
+            localStorage.setItem('maxProductPrice', maxPrice);
+            eventHub.$emit('filter-price')
+        }
+    },    
+    watch: {
+        'sliders.price.value': function(values){
+            this.selectPriceRange(values[0], values[1])
+        }
+    },
+    data() {
+        return {
+            categories: [],
+            sliders: {
+                price: {
+                    width: "100%",
+                    height: 8,
+                    dotSize: 20,
+                    min: 0,
+                    max: 500,
+                    interval: 1,
+                    disabled: false,
+                    show: true,
+                    piecewise: false,
+                    lazy: true,
+                    value: [
+                        0,
+                        500
+                    ],
+                    formatter: "€{value}",
+                    bgStyle: {
+                        "backgroundColor": "#fff",
+                        "boxShadow": "inset 0.5px 0.5px 3px 1px rgba(0,0,0,.36)"
+                    },
+                    tooltipStyle: {
+                        "backgroundColor": "#696763",
+                        "borderColor": "#696763"
+                    },
+                    processStyle: {
+                        "backgroundColor": "#FE980F"
+                    }
+                }
             }
         }
     }
+
+/*    sliders: {
+        price: {
+            min: parseInt(localStorage.getItem('minProductPrice')),
+            max: parseInt(localStorage.getItem('GreatestProductPrice')),
+            value: [
+                parseInt(localStorage.getItem('minProductPrice')),
+                parseInt(localStorage.getItem('maxProductPrice'))
+            ]
+        }
+    }*/
+}
 </script>

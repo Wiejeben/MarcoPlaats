@@ -5,7 +5,6 @@ const app = new Vue({
     el: '#app',
 
     created() {
-
         if (window.LoggedIn)
         {
             $.get(window.apiUrl + '/auth/user', function(data) {
@@ -38,23 +37,19 @@ var feedback = location.search.split('feedback=')[1];
 
 if (typeof feedback != "undefined") {
 
-    if (feedback == 'blocked')
-    {
+    if (feedback == 'blocked') {
         eventHub.$emit('show-alert', { Type: 'danger', Message: 'Uw account is geblokkeerd.' });
     }
 
-    if (feedback == 'token_undefined')
-    {
+    if (feedback == 'token_undefined') {
         eventHub.$emit('show-alert', { Type: 'warning', Message: 'Er is helaas iets is gegaan tijdens het inlogproces met Google, probeer het opnieuw.' });
     }
 
-    if (feedback == 'localstorage')
-    {
+    if (feedback == 'localstorage') {
         eventHub.$emit('show-alert', { Type: 'warning', Message: 'Uw browser ondersteunt geen localStorage, hierdoor kan uw login sessie niet opgeslagen worden.' })
     }
 
-    if (feedback == 'unknown_failure')
-    {
+    if (feedback == 'unknown_failure') {
         eventHub.$emit('show-alert', { Type: 'danger', Message: 'Uw login verzoek kan op dit moment helaas niet verwerkt worden.' })
     }
 }

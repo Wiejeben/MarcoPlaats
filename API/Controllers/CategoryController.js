@@ -7,7 +7,8 @@ module.exports = class CategoryController extends RestfulController {
     }
 
     show() {
+        this.model.params = this.req.params;
         this.model.useAggregation = true;
-        super.show();
+        super.show()
     }
 };

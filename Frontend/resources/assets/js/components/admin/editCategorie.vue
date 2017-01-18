@@ -22,7 +22,12 @@
         mixins: [require('./../../mixins/auth')],
         created() {
             var self = this;
-            HasRole('admin', function(){ return; })
+            self._id = location.search.split('id=')[1];
+            HasRole('admin', function(){ 
+                $.get(apiUrl + '/categories/' + self._id, function(data) {
+                    self.categorie = data;
+                });
+             })
         },
         data() {
             return {
@@ -35,14 +40,14 @@
             submit(){
                 var self = this;
                 $.ajax({
-                    url: window.apiUrl + '/categories',
-                    type: 'POST',
+                    url: window.apiUrl + '/categories/' + self.categorie._id,
+                    type: 'PUT',
                     contentType: 'application/json',
                     data: JSON.stringify(self.categorie),
                     dataType: 'json',
                     success: function(data){
                         if(data){
-                            NewAlert('success', 'Categorie succesvol aangemaakt!');
+                            NewAlert('success', 'De categorie is succesvol aangemaakt!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');
                         }

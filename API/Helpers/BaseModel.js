@@ -77,7 +77,7 @@ module.exports = class BaseModel {
         if (typeof this.findWithAggregation == 'function' && this.useAggregation) {
             return this.findWithAggregation(filter)
         }
-
+        
         return this.collection.find(filter).toArray()
     }
 

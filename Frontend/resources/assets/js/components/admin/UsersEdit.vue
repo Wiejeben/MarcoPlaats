@@ -71,7 +71,7 @@
                     dataType: 'json',
                     success: function(data, status, jqXHR){
                         if(jqXHR.status == 204){
-                            NewAlert('success', 'De gebruiker is succesvol aangepast!');
+                            NewAlert('success', 'Gebruiker succesvol aangepast!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');
                         }

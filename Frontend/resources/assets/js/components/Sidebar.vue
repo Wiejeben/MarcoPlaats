@@ -21,12 +21,13 @@
         </div><!--/price-range-->
     </div>
 </template>
+
 <script>
 import vueSlider from 'vue-slider-component';
 export default {
     beforeCreate() {
         var self = this;
-        $.get(apiUrl + '/products-heighest-price', function(response) {
+        $.get(apiUrl + '/products-highest-price', function(response) {
             localStorage.setItem('GreatestProductPrice', response.Price);
             if (localStorage.getItem('minProductPrice') === undefined || 
                 localStorage.getItem('minProductPrice') === null || 

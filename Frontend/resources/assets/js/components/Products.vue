@@ -40,7 +40,6 @@
 
         methods: {
             initProducts(){
-                console.error('message');
                 var self = this;
                 self.greatestPrice = 0;
                 

@@ -14,24 +14,23 @@
                 <select v-model="product.Category" id="CategorySelect">
                     <option v-for="(category, index) in categories" :selected="index === 0" :value="category._id">{{ category.Name }}</option>
                 </select>
-
-                <!--<ul>
-                <li v-for="image in product.Images">
-                    <div class="Image_item">
-                    <div class="info">
-                        <strong>{{image.name}}</strong>
-                        <p>{{image.size | kb}}</p>
-                    </div>
-                    </div>
-                    <input :id="image-$index" type="image" accept="image/*" @change="upload(Image, $event)" style="display:none">
-                </li>
+                <ul>
+                    <li v-for="(file, index) in files">
+                        <div class="file_item">
+                            <div class="info">
+                                <strong>{{file.name}}</strong>
+                                <p>{{file.size}}kb</p>
+                            </div>
+                        </div>
+                        <input :id="'file-'+index" type="file" accept="image/*" @change="upload(file, $event)" style="display:none">
+                    </li>
                 </ul>
                 <div class="value_btn">
-                <a href="#" v-on:click="addImage" class="add">
-                    <span>Add Image</span>
-                </a>
+                    <a href="#" v-on:click="addImage" class="add">
+                        <span>Add Image</span>
+                    </a>
                 </div>
-            </div>-->
+            </div>
 
             <div class="col-xs-12">
                 <button href="#" class="btn btn-primary" @click.prevent="submit()">Opslaan</button><br><br>
@@ -74,21 +73,34 @@
                     Category: null
                 },
                 user:null,
-                categories:[]
+                categories:[],
+                files:[]
             }
         },
         methods:{
-            // addImage: function(){
-            // this.product.Images.push({ filename: ""})
-            //     this.$nextTick(function () {
-            //         var inputId = "file-" + (this.files.length-1);
-            //         document.getElementById(inputId).click();
-            //     });  
-            // },
-            // upload: function(file, e){
-            // var f = e.target.files[0];
-            // file.name = f.name;
-            // },
+            addImage: function(){
+                var self = this;
+                this.files.push({ 
+                    name: "", size: 0
+                })
+                this.$nextTick(function () {
+                    var inputId = "file-" + (this.files.length-1);
+                    document.getElementById(inputId).click();
+                });  
+            },
+            upload: function(file, e){
+                var self = this;
+                var f = e.target.files[0];
+                file.name = f.name;
+                file.size = (f.size / 1024).toFixed(2);
+                var reader = new FileReader();
+                reader.onload = function () {
+                    var thisImage = reader.result;
+                    self.product.Images.push({Name: f.name, Image: thisImage});
+                };
+                reader.readAsDataURL(f);
+            },
+
             submit() {
                 var self = this;
                 this.product.Price = parseInt(this.product.Price)

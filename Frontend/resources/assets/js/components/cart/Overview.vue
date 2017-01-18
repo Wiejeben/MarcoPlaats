@@ -4,7 +4,7 @@
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
                   <li><a href="/">Home</a></li>
-                  <li class="active">Shopping Cart</li>
+                  <li class="active">Winkelwagen</li>
                 </ol>
             </div>
 
@@ -21,97 +21,40 @@
                             <td class="price">Prijs</td>
                             <td class="quantity">Aantal</td>
                             <td class="total">Totaal</td>
+                            <td class="delete">Verwijderen</td>
                             <td></td>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr v-for="product in cart" v-bind:id="product._id">
                             <td class="cart_product">
                                 <a href=""><img src="/images/cart/one.png" alt=""></a>
                             </td>
                             <td class="cart_description">
-                                <h4><a href="">Colorblock Scuba</a></h4>
-                                <p>Web ID: 1089772</p>
+                                <h4><a href="">{{product.Name}}</a></h4>
                             </td>
                             <td class="cart_price">
-                                <p>€59</p>
+                                <p>{{product.Price}}</p>
                             </td>
                             <td class="cart_quantity">
                                 <div class="cart_quantity_button">
-                                    <a class="cart_quantity_down" href=""> - </a>
-                                    <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                    <a class="cart_quantity_up" href=""> + </a>
+                                    <a class="cart_quantity_down" href="" v-on:click.prevent="RemoveOne(product._id)"> - </a>
+                                    <input class="cart_quantity_input" type="text" name="quantity" v-model="amount[product._id]" v-on:change="updateLocalStorage(product._id)" autocomplete="off" size="2" id="quantity" number>
+                                    <a class="cart_quantity_up" href="" v-on:click.prevent="AddOne(product._id)"> + </a>
                                 </div>
                             </td>
                             <td class="cart_total">
-                                <p class="cart_total_price">€59</p>
+                                <p class="cart_total_price">{{product.Price * amount[product._id]}}</p>
                             </td>
                             <td class="cart_delete">
-                                <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="cart_product">
-                                <a href=""><img src="/images/cart/two.png" alt=""></a>
-                            </td>
-                            <td class="cart_description">
-                                <h4><a href="">Colorblock Scuba</a></h4>
-                                <p>Web ID: 1089772</p>
-                            </td>
-                            <td class="cart_price">
-                                <p>€59</p>
-                            </td>
-                            <td class="cart_quantity">
-                                <div class="cart_quantity_button">
-                                    <a class="cart_quantity_down" href=""> - </a>
-                                    <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                    <a class="cart_quantity_up" href=""> + </a>
-                                </div>
-                            </td>
-                            <td class="cart_total">
-                                <p class="cart_total_price">€59</p>
-                            </td>
-                            <td class="cart_delete">
-                                <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="cart_product">
-                                <a href=""><img src="/images/cart/three.png" alt=""></a>
-                            </td>
-                            <td class="cart_description">
-                                <h4><a href="">Colorblock Scuba</a></h4>
-                                <p>Web ID: 1089772</p>
-                            </td>
-                            <td class="cart_price">
-                                <p>€59</p>
-                            </td>
-                            <td class="cart_quantity">
-                                <div class="cart_quantity_button">
-                                    <a class="cart_quantity_down" href=""> - </a>
-                                    <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                    <a class="cart_quantity_up" href=""> + </a>
-                                </div>
-                            </td>
-                            <td class="cart_total">
-                                <p class="cart_total_price">€59</p>
-                            </td>
-                            <td class="cart_delete">
-                                <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+                                <a class="cart_quantity_delete" href="" @click.prevent="DeleteFromCart(product._id)"><i class="fa fa-times"></i></a>
                             </td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>
                             <td><h4>Sub totaal</h4></td>
                             <td colspan="2">&nbsp;</td>
-                            <td>€59</td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td><h4>BTW</h4></td>
-                            <td colspan="2">&nbsp;</td>
-                            <td>€2</td>
+                            <td>{{sum}}</td>
                         </tr>
                         <tr class="shipping-cost">
                             <td>&nbsp;</td>
@@ -123,7 +66,7 @@
                             <td>&nbsp;</td>
                             <td><h4>Totaal</h4></td>
                             <td colspan="2">&nbsp;</td>
-                            <td><span>€61</span></td>
+                            <td><span>{{sum}}</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -142,7 +85,62 @@
 <script>
     export default {
         mounted() {
-            console.info('Shopping cart ready.')
+            var self = this;
+            console.info('Shopping cart ready.');
+            var storage = JSON.parse(localStorage["cart"]);
+            var keys = Object.keys(storage)
+            for(var i = 0; i < keys.length; i++){
+                $.get(apiUrl + '/products/' + keys[i], function(data) {
+                    self.cart.push(data);
+                });
+            }
+        },
+        data() {
+            return {
+                cart: [],
+                amount: JSON.parse(localStorage["cart"])
+            }
+        },
+        computed:{
+            sum(){
+                var self = this;
+                var subTotal = 0;
+                    this.cart.forEach(function(product){
+                        var price = self.amount[product._id] * parseInt(product.Price);
+                        subTotal += price;
+                    });
+                console.log(this.cart.length);
+                return subTotal;
+            }
+        },
+        methods:{
+            updateStorage(){
+                localStorage.setItem("cart", JSON.stringify(this.amount));
+            },
+            updateLocalStorage(productId){
+                this.amount[productId] = document.getElementById("quantity").value
+                this.updateStorage();
+            },
+            DeleteFromCart(productId){
+                delete this.amount[productId];
+                this.cart.splice(this.cart.findIndex(x => x._id==productId), 1);
+                this.updateStorage()
+            },
+            RemoveOne(productId){
+                if(this.amount[productId] == 1){
+                    delete this.amount[productId];
+                    this.cart.splice(this.cart.findIndex(x => x._id==productId), 1);
+                }else{
+                    this.amount[productId]--;
+                    document.getElementById("quantity").value = this.amount[productId];
+                }
+                this.updateStorage();
+            },
+            AddOne(productId){
+                this.amount[productId]++;
+                document.getElementById("quantity").value = this.amount[productId];
+                this.updateStorage();
+            }
         }
     }
 </script>

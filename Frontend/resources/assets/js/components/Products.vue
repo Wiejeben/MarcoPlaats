@@ -8,7 +8,7 @@
                         <img :src="'http://lorempixel.com/200/300/'" :alt="product.Name" />
                         <h2>€ {{ product.Price }}</h2>
                         <p>{{ product.Name }}</p>
-                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
+                        <a href="#" @click.prevent="AddToCart(product._id)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
                     </div>
                 </div>
                 <div class="choose">
@@ -60,7 +60,24 @@
                 }); 
 
             },
-
+            AddToCart(productId){
+                if(localStorage["cart"]){
+                    var cart = JSON.parse(localStorage["cart"]);
+                    if(cart[productId] === undefined){
+                        cart[productId] = 1;
+                        localStorage.setItem("cart", JSON.stringify(cart));
+                    }else{
+                        cart[productId] += 1;
+                        localStorage.setItem("cart", JSON.stringify(cart));
+                    }
+                }else{
+                    var cart = {};
+                    cart[productId] = 1;
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                }
+                //console.log(localStorage["cart"]);
+                //localStorage.removeItem("cart");
+            },
             InsertWishlist(id) {
                 var self = this;
                 $.ajax({

@@ -30,16 +30,22 @@ export default {
         vueSlider
     },
     mounted() {
-        var priceRange = $('#priceSlider');
-        if(priceRange.length) {
-            priceRange.slider();
-            var RGBChange = function() {
-                $('#RGB').css('background', 'rgb(' + r.getValue() + ',' + g.getValue() + ',' + b.getValue() + ')')
-            };
-        }
-    },
-    created() {
         var self = this;
+        $.get(apiUrl + '/products-heighest-price', function(response) {
+            localStorage.setItem('GreatestProductPrice', response.Price);
+            if (localStorage.getItem('minProductPrice') === undefined || 
+                localStorage.getItem('minProductPrice') === null || 
+                parseInt(localStorage.getItem('minProductPrice')) > response.Price
+            ) {
+                localStorage.setItem('minProductPrice', 0); 
+            }
+            if (localStorage.getItem('maxProductPrice') === undefined || 
+                localStorage.getItem('maxProductPrice') === null || 
+                parseInt(localStorage.getItem('maxProductPrice')) > response.Price
+            ) {
+                localStorage.setItem('maxProductPrice', response.Price);
+            }
+        }); 
         $.get(apiUrl + '/categories', function(categories) {
             self.categories = categories;
         });
@@ -71,18 +77,17 @@ export default {
                     width: "100%",
                     height: 8,
                     dotSize: 20,
-                    // min: (localStorage.getItem('minProductPrice') !== null ? parseInt(localStorage.getItem('minProductPrice'))  : 0),
-                    // max: (localStorage.getItem('GreatestProductPrice') !== null ? parseInt(localStorage.getItem('GreatestProductPrice'))  : 500),
-                    min: 0,
-                    max: 1000,
-                    interval: 5,
+
+                    min: parseInt(localStorage.getItem('minProductPrice')),
+                    max: parseInt(localStorage.getItem('GreatestProductPrice')),
+                    interval: 1,
                     disabled: false,
                     show: true,
                     piecewise: false,
                     lazy: true,
                     value: [
-                        0,
-                        500
+                        parseInt(localStorage.getItem('minProductPrice')),
+                        parseInt(localStorage.getItem('maxProductPrice'))
                     ],
                     formatter: "€{value}",
                     bgStyle: {
@@ -99,10 +104,6 @@ export default {
                 }
             }
         }
-    },
-    ready() {
-        this.$refs['priceslider'].value = [parseInt(localStorage.getItem('minProductPrice')), parseInt(localStorage.getItem('maxProductPrice'))];
-        console.log('pizzapunt');
     }
 }
 </script>

@@ -1,12 +1,11 @@
 <template>
     <div class="items">
-        {{ greatestPrice }}
         <h2 class="title text-center">{{ category.Name }}</h2>
         <div class="col-sm-4" v-for="product in products">
             <div class="product-image-wrapper">
                 <div class="single-products">
                     <div class="productinfo text-center">
-                        <a :href="'/product.html?id=' + product._id"><img :src="'http://lorempixel.com/200/300/'" :alt="product.Name" /></a>
+                        <a :href="'/product.html?id=' + product._id"><img :src="'http://placeimg.com/200/300/people'" :alt="product.Name" /></a>
                         <h2>€ {{ product.Price }}</h2>
                         <p>{{ product.Name }}</p>
                         <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
@@ -26,7 +25,7 @@
     export default {
         created() {
             eventHub.$on('filter-category', this.switchCategory);
-            eventHub.$on('filter-price', this.filterPrice);
+            eventHub.$on('filter-price', this.initProducts);
             this.initProducts();
         },
 
@@ -40,10 +39,8 @@
         },
 
         methods: {
-            filterPrice() {
-                this.initProducts();
-            },
             initProducts(){
+                console.error('message');
                 var self = this;
                 self.greatestPrice = 0;
                 
@@ -55,7 +52,11 @@
                         maxPrice: localStorage.getItem('maxProductPrice')
                     },
                     success: function(products){
-                        self.products = products
+                        if(products.Products){
+                            self.products = products.Products
+                        }else{
+                            self.products = products
+                        }
                         for (var i = 0; i < self.products.length; i++) {
                             if(self.products[i].Price > self.greatestPrice){
                                 self.greatestPrice = self.products[i].Price;
@@ -75,23 +76,7 @@
                 this.category = category;
                 self.url = '/categories/' + category._id
                 this.initProducts();
-                // $.get(apiUrl + '/categories/' + category._id, function(response) {
-                //     self.products = response.Products;
-                // }); 
-
             },
-            updateGreatestPrice(){
-                var self = this;
-                localStorage.setItem('GreatestProductPrice', self.greatestPrice);
-                if (localStorage.getItem('minProductPrice') === null || parseInt(localStorage.getItem('minProductPrice')) > self.greatestPrice) {
-                    localStorage.setItem('minProductPrice', 0); 
-                }
-                if (localStorage.getItem('maxProductPrice') === null || parseInt(localStorage.getItem('maxProductPrice')) > self.greatestPrice) {
-                    localStorage.setItem('maxProductPrice', self.greatestPrice);
-                }
-            },
-
-
             InsertWishlist(id) {
                 var self = this;
                 $.ajax({

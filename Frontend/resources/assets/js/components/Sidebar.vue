@@ -17,7 +17,6 @@
                 </div>
                 <!--<input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" @onChange="selectPriceRange()" data-slider-value="[250,450]" id="priceSlider" ><br />-->
                 <b>€ 0</b> <b class="pull-right">€ 600</b>
-                {{ sliders.price }}
             </div>
         </div><!--/price-range-->
 
@@ -72,15 +71,18 @@ export default {
                     width: "100%",
                     height: 8,
                     dotSize: 20,
-                    min: (localStorage.getItem('minProductPrice') !== null ? parseInt(localStorage.getItem('minProductPrice')) : 0),
-                    max: (localStorage.getItem('GreatestProductPrice') !== null ? parseInt(localStorage.getItem('GreatestProductPrice')) : 500),
-                    interval: 1,
+                    // min: (localStorage.getItem('minProductPrice') !== null ? parseInt(localStorage.getItem('minProductPrice'))  : 0),
+                    // max: (localStorage.getItem('GreatestProductPrice') !== null ? parseInt(localStorage.getItem('GreatestProductPrice'))  : 500),
+                    min: 0,
+                    max: 1000,
+                    interval: 5,
                     disabled: false,
                     show: true,
                     piecewise: false,
+                    lazy: true,
                     value: [
-                        (localStorage.getItem('minProductPrice') !== null ? parseInt(localStorage.getItem('minProductPrice')) : 0),
-                        (localStorage.getItem('maxProductPrice') !== null ? parseInt(localStorage.getItem('maxProductPrice')) : 500)
+                        0,
+                        500
                     ],
                     formatter: "€{value}",
                     bgStyle: {

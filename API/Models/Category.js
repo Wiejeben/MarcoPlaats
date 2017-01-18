@@ -13,13 +13,23 @@ module.exports = class Category extends Model {
      * @return {Promise}
      */
     findWithAggregation(filter = {}) {
+        let priceQuery = {}
+        let minPrice = parseInt(this.params.minPrice)
+        let maxPrice = parseInt(this.params.maxPrice)
+        // if(minPrice != 0 && maxPrice != 0){
+            priceQuery = { 'Products.Price': { $gte : minPrice, $lte: maxPrice } }
+            // console.log(priceQuery)
+        // }
+        console.log(priceQuery)
+        
+        
         return this.collection.aggregate([
             { $match: filter },
 
             {
                 $unwind: {
                     path: '$ProductIds',
-                    preserveNullAndEmptyArrays: true
+                    // preserveNullAndEmptyArrays: true
                 }
             },
             {
@@ -30,10 +40,11 @@ module.exports = class Category extends Model {
                     as: 'Products'
                 }
             },
+
             { $unwind: '$Products' },
 
-            { $match: { 'Products.Price': { '$gte' : 500 } } },
-            
+            { $match: priceQuery },
+
             { $group: {
                 _id: '$_id',
                 Name: { $push: '$Name'},
@@ -41,6 +52,7 @@ module.exports = class Category extends Model {
             }},
             { $unwind: '$Name' }
         ]).toArray().then(results => {
+            console.log(results)
             // Map reduce
             // results.forEach(result => {
             //     let products = [];
@@ -53,7 +65,7 @@ module.exports = class Category extends Model {
 
             //     result.Products = products
             // });
-
+            
             return Promise.resolve(results)
         }).catch(Promise.reject)
     }

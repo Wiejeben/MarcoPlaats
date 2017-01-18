@@ -7,18 +7,26 @@ module.exports = class ProductController extends RestfulController {
         super(Product, req, res, next)
     }
 
+    getHeighestPrice() {
+        this.model.findGreatestPrice()
+        .then(result => {
+            this.res.send(result)
+        })
+        .catch(this.next)
+    }
+
     create() {
         this.model.params = this.req.params;
         this.model.document = this.req.body;
 
         this.model.insert()
-            .then(() => {
+        .then(() => {
 
-            }).then(() => {
+        }).then(() => {
 
-                this.res.statusCode = 201;
-                this.res.send(this.model.document);
-            })
-            .catch(this.next)
+            this.res.statusCode = 201;
+            this.res.send(this.model.document);
+        })
+        .catch(this.next)
     }
 };

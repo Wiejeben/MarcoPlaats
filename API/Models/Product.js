@@ -9,6 +9,30 @@ module.exports = class Product extends Model {
         this.hasCreatedAt = true
     }
 
+    findGreatestPrice(){
+        return this.collection.aggregate([
+            { 
+                $group: { 
+                    '_id':'$_id',
+                    'Price': { 
+                        $max: '$Price' 
+                    } 
+                } 
+            }, 
+            { 
+                $sort: { 
+                    'Price': -1
+                } 
+            }, 
+            { 
+                $limit:1 
+            }
+        ]).toArray().then(results => {
+            console.log(results[0]);
+            return Promise.resolve(results[0])
+        }).catch(Promise.reject)
+    }
+
     /**
      * Insert and assign to category and user.
      *

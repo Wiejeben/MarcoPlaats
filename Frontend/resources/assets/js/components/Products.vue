@@ -1,6 +1,5 @@
 <template>
     <div class="items">
-        {{ greatestPrice }}
         <h2 class="title text-center">{{ category.Name }}</h2>
         <div class="col-sm-4" v-for="product in products">
             <div class="product-image-wrapper">
@@ -26,7 +25,7 @@
     export default {
         created() {
             eventHub.$on('filter-category', this.switchCategory);
-            eventHub.$on('filter-price', this.filterPrice);
+            eventHub.$on('filter-price', this.initProducts);
             this.initProducts();
         },
 
@@ -45,49 +44,25 @@
         },
 
         methods: {
-            filterPrice() {
-                this.initProducts();
-            },
             initProducts(){
+                console.error('message');
                 var self = this;
-                self.greatestPrice = 0;
                 self.url = '/products';
-                if (localStorage.getItem('minProductPrice') !== null && localStorage.getItem('maxProductPrice') !== null) {
+                if (localStorage.getItem('minProductPrice') !== undefined && localStorage.getItem('maxProductPrice') !== undefined) {
                     self.url += '?minPrice='+localStorage.getItem('minProductPrice')+'&maxPrice'+localStorage.getItem('maxProductPrice');
                 }
                 $.get(apiUrl + self.url, function(products) {
                     self.products = products;
-                    for (var i = 0; i < self.products.length; i++) {
-                        if(self.products[i].Price > self.greatestPrice){
-                            self.greatestPrice = self.products[i].Price;
-                        }
-                    }
-                    if(self.greatestPrice > 0){                
-                        self.updateGreatestPrice();
-                    }
                 });
             },
             switchCategory(category) {
                 var self = this;
                 this.category = category;
-                
                 $.get(apiUrl + '/categories/' + category._id, function(response) {
                     self.products = response.Products;
                 }); 
 
             },
-            updateGreatestPrice(){
-                var self = this;
-                localStorage.setItem('GreatestProductPrice', self.greatestPrice);
-                if (localStorage.getItem('minProductPrice') === null || parseInt(localStorage.getItem('minProductPrice')) > self.greatestPrice) {
-                    localStorage.setItem('minProductPrice', 0); 
-                }
-                if (localStorage.getItem('maxProductPrice') === null || parseInt(localStorage.getItem('maxProductPrice')) > self.greatestPrice) {
-                    localStorage.setItem('maxProductPrice', self.greatestPrice);
-                }
-            },
-
-
             InsertWishlist(id) {
                 var self = this;
                 $.ajax({

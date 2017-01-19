@@ -4,7 +4,7 @@
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
                   <li><a href="/">Home</a></li>
-                  <li><a href="/cart">Winkelwagen</a></li>
+                  <li><a href="/cart/">Winkelwagen</a></li>
                   <li class="active">Details</li>
                 </ol>
             </div><!--/breadcrums-->
@@ -24,7 +24,7 @@
                             <p>Accountgegevens</p>
                         </div>
                     </div>
-                    <div class="col-sm-5 clearfix">
+                    <div v-if="user != null" class="col-sm-5 clearfix">
                         <div class="bill-to">
                             <p>Persoonsgegevens</p>
                             <div class="form-one">
@@ -67,9 +67,7 @@
 </template>
 <script>
     export default {
-        mixins: [require('./../../mixins/location.js')],
         mounted() {
-            this.currentLocation = this.getCurrentAdress()
             eventHub.$on('user-detected', this.setUser);
             if(localStorage["messageArea"]){
                 this.messageAreaText = JSON.parse(localStorage["messageArea"]);

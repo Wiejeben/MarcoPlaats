@@ -4,7 +4,7 @@
 			<div class="breadcrumbs">
 				<ol class="breadcrumb">
 				  <li><a href="/">Home</a></li>
-                  <li><a href="/cart">Winkelwagen</a></li>
+                  <li><a href="/cart/">Winkelwagen</a></li>
                   <li><a href="/cart/details.html">Details</a>
                   <li class="active">Bevestiging</li>
 				</ol>
@@ -17,7 +17,7 @@
 			<div class="review-payment">
 				<h2>Bevestiging</h2>
 			</div>
-            <div class="row">
+            <div v-if="this.user != null" class="row">
                 <div class="col-sm-3">
                     <table>
                         <tbody> 
@@ -153,8 +153,8 @@
 		</div>
         <div id="do_action">
             <div class="container">
-                <a class="btn btn-primary" href="">Back</a>
-                <a class="btn btn-primary pull-right" href="">Order products</a>
+                <a class="btn btn-primary" href="">Terug</a>
+                <a class="btn btn-primary pull-right" @click.prevent="Order()" href="">Plaats bestelling</a>
             </div><!--/#do_action-->
         </div>
 	</section> <!--/#cart_items-->
@@ -199,6 +199,9 @@
         methods:{
             setUser(user) {
                 this.user = user;
+            },
+            Order(){
+                
             }
         }
     }

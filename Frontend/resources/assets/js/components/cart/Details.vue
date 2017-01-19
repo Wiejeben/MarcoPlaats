@@ -67,9 +67,9 @@
 </template>
 <script>
     export default {
-        mixins: [require('./../../mixins/location.js')],
+        //mixins: [require('./../../mixins/location.js')],
         mounted() {
-            this.currentLocation = this.getCurrentAdress()
+            // this.currentLocation = this.getCurrentAdress()
             eventHub.$on('user-detected', this.setUser);
             if(localStorage["messageArea"]){
                 this.messageAreaText = JSON.parse(localStorage["messageArea"]);

@@ -82,14 +82,17 @@
                     if(cart[productId] === undefined){
                         cart[productId] = 1;
                         localStorage.setItem("cart", JSON.stringify(cart));
+                        NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
                     }else{
                         cart[productId] += 1;
                         localStorage.setItem("cart", JSON.stringify(cart));
+                        NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
                     }
                 }else{
                     var cart = {};
                     cart[productId] = 1;
                     localStorage.setItem("cart", JSON.stringify(cart));
+                    NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
                 }
             },
             InsertWishlist(id) {

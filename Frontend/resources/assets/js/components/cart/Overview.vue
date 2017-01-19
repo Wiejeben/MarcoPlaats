@@ -22,7 +22,6 @@
                             <td class="quantity">Aantal</td>
                             <td class="total">Totaal</td>
                             <td class="delete">Verwijderen</td>
-                            <td></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,7 +75,8 @@
         <div id="do_action">
             <div class="container">
                 <a class="btn btn-primary" href="/">Terug</a>
-                <a class="btn btn-primary pull-right" href="details.html">Bestellen</a>
+                <a v-if="loggedIn" class="btn btn-primary pull-right" href="details.html">Bestellen</a>
+                <a v-else class="btn btn-primary pull-right" href="http://localhost:8080/auth">Bestellen</a>
             </div>
         </div><!--/#do_action-->
     </section>
@@ -85,6 +85,7 @@
 <script>
     export default {
         mounted() {
+            eventHub.$on('user-detected', this.setUser);
             var self = this;
             console.info('Shopping cart ready.');
             var storage = JSON.parse(localStorage["cart"]);
@@ -98,7 +99,8 @@
         data() {
             return {
                 cart: [],
-                amount: JSON.parse(localStorage["cart"])
+                amount: JSON.parse(localStorage["cart"]),
+                user: null
             }
         },
         computed:{
@@ -109,11 +111,16 @@
                         var price = self.amount[product._id] * parseInt(product.Price);
                         subTotal += price;
                     });
-                console.log(this.cart.length);
                 return subTotal;
+            },
+            loggedIn() {
+                return this.user != null;
             }
         },
         methods:{
+            setUser(user) {
+                this.user = user;
+            },
             updateStorage(){
                 localStorage.setItem("cart", JSON.stringify(this.amount));
             },
@@ -125,11 +132,13 @@
                 delete this.amount[productId];
                 this.cart.splice(this.cart.findIndex(x => x._id==productId), 1);
                 this.updateStorage()
+                NewAlert('success', 'Product succesvol verwijderd van winkelwagen!');
             },
             RemoveOne(productId){
                 if(this.amount[productId] == 1){
                     delete this.amount[productId];
                     this.cart.splice(this.cart.findIndex(x => x._id==productId), 1);
+                    NewAlert('success', 'Product succesvol verwijderd van winkelwagen!');
                 }else{
                     this.amount[productId]--;
                     document.getElementById("quantity").value = this.amount[productId];

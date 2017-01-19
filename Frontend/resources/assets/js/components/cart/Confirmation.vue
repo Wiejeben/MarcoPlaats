@@ -154,7 +154,7 @@
         <div id="do_action">
             <div class="container">
                 <a class="btn btn-primary" href="">Terug</a>
-                <a class="btn btn-primary pull-right" @click.prevent="Order()" href="">Plaats bestelling</a>
+                <a class="btn btn-primary pull-right" @click="Order()" href="/?feedback=successOrder">Plaats bestelling</a>
             </div><!--/#do_action-->
         </div>
 	</section> <!--/#cart_items-->
@@ -201,7 +201,24 @@
                 this.user = user;
             },
             Order(){
-                
+                // var self = this;
+                // $.ajax({
+                //     url: window.apiUrl+'/users/' + window.User._id + '/wishlist',
+                //     type: 'POST',
+                //     contentType: 'application/json',
+                //     data: JSON.stringify({ ProductId: id }),
+                //     dataType: 'Json',
+                //     success: function(data) {
+                //         if(data){
+                //             localStorage.removeItem("cart");
+                //             if(localStorage.removeItem("messageArea")){
+                //                 localStorage.removeItem("messageArea");
+                //             }
+                //         } else {
+                //             NewAlert('error', 'Er is iets fout gegaan');
+                //         }
+                //     }
+                // });
             }
         }
     }

@@ -56,6 +56,18 @@ module.exports = class Product extends Model {
             }
         })
 
+        /* if(this.document.Images.length > 0){
+            var Images = this.document.Images;
+            for (var i = Images.length - 1; i >= 0; i--) {
+                var base64Data = Images[i].Image.replace(/^data:image\/png;base64,/, "");
+
+                require("fs").writeFile('upload/products/'+Images[i].Name, base64Data, 'base64', function(err) {
+                  console.log(err);
+                });
+                console.log(base64Data)
+            };
+        } */
+
         return promise
     }
 

@@ -8,7 +8,7 @@ module.exports = class ProductController extends RestfulController {
     }
 
     index() {
-        if(this.req.params){
+        if(Object.keys(this.req.params).length > 0){
             let minPrice = parseInt(this.req.params.minPrice)
             let maxPrice = parseInt(this.req.params.maxPrice)
             
@@ -23,8 +23,8 @@ module.exports = class ProductController extends RestfulController {
                     this.res.send(results)
                 })
                 .catch(this.next())
-        }else{
-            supert.index()
+        } else {
+            return super.index()
         }
     }
 

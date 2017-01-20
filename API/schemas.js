@@ -59,11 +59,11 @@ schemas = {
     Order: {
         OrderLines: [],
         OrderDate: null,
-        address: {
+        userId: null,
+        Address: {
             Address: null,
             City: null,
             Zipcode: null,
-            DeliveryAddress: null,
         }
     },
     OrderLines: {

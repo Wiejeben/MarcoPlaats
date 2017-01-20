@@ -1,5 +1,5 @@
 <template>
-    <section id="cart_items">
+    <section v-if="cart.length > 0" id="cart_items">
 		<div class="container">
 			<div class="breadcrumbs">
 				<ol class="breadcrumb">
@@ -154,7 +154,7 @@
         <div id="do_action">
             <div class="container">
                 <a class="btn btn-primary" href="">Terug</a>
-                <a class="btn btn-primary pull-right" @click.prevent="Order()" href="">Plaats bestelling</a>
+                <a class="btn btn-primary pull-right" @click.prevent="PlaceOrder()" href="#">Plaats bestelling</a>
             </div><!--/#do_action-->
         </div>
 	</section> <!--/#cart_items-->
@@ -164,13 +164,18 @@
         mounted() {
             eventHub.$on('user-detected', this.setUser);
             var self = this;
-            var storage = JSON.parse(localStorage["cart"]);
-            var keys = Object.keys(storage)
-            for(var i = 0; i < keys.length; i++){
-                $.get(apiUrl + '/products/' + keys[i], function(data) {
-                    self.cart.push(data);
-                });
+            if(localStorage["cart"]){
+                this.amount = JSON.parse(localStorage["cart"])
+                var keys = Object.keys(this.amount)
+
+                for(var i = 0; i < keys.length; i++){
+                    self.Order.OrderLines.push( { ProductId: keys[i],  Amount:self.amount[keys[i]] } );
+                    $.get(apiUrl + '/products/' + keys[i], function(data) {
+                        self.cart.push(data);
+                    });
+                }
             }
+           
             if(localStorage["messageArea"]){
                 this.messageAreaText = JSON.parse(localStorage["messageArea"]);
             }else{
@@ -181,8 +186,16 @@
             return {
                 cart: [],
                 user: null,
-                amount: JSON.parse(localStorage["cart"]),
-                messageAreaText: null
+                amount: [],
+                messageAreaText: null,
+                Order: {
+                    OrderLines: [],
+                    Address: {
+                        Address: '',
+                        City: '',
+                        Zipcode: '',
+                    }
+                }
             }
         },
         computed:{
@@ -198,10 +211,27 @@
         },
         methods:{
             setUser(user) {
-                this.user = user;
+                this.user = user
+                this.Order.Address = this.user.DeliveryAddress
             },
-            Order(){
-                
+            PlaceOrder() {
+                var self = this
+                $.ajax({
+                    url: window.apiUrl+'/orders',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(self.Order),
+                    dataType: 'Json',
+                    success: function(data) {
+                        if(data){
+                            localStorage.removeItem("cart");
+                            localStorage.removeItem("messageArea");
+                            window.location.replace('/?feedback=successOrder');
+                        } else {
+                            NewAlert('error', 'Er is iets fout gegaan');
+                        }
+                    }
+                });
             }
         }
     }

@@ -1,5 +1,5 @@
 <template>
-        <section id="cart_items">
+    <section v-if="cart.length > 0" id="cart_items">
         <div class="container">
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
@@ -29,20 +29,20 @@
                             <p>Persoonsgegevens</p>
                             <div class="form-one">
                                 <form>
-                                    <input type="text" placeholder="Voornaam" :value="this.user.FirstName">
-                                    <input type="text" placeholder="Achternaam" :value="this.user.LastName">
-                                    <input type="text" placeholder="Email" :value="this.user.Email">
-                                    <input type="text" placeholder="Telefoonnummer" :value="this.user.PhoneNumber">
+                                    <input type="text" placeholder="Voornaam" v-model="user.FirstName">
+                                    <input type="text" placeholder="Achternaam" v-model="user.LastName">
+                                    <input type="text" placeholder="Email" v-model="user.Email">
+                                    <input type="text" placeholder="Telefoonnummer" v-model="user.PhoneNumber">
                                 </form>
                             </div>
                             <div class="form-two">
                                 <form>
-                                    <input type="text" placeholder="Adres" :value="this.user.MainAddress.Address">
-                                    <input type="text" placeholder="Postcode" :value="this.user.MainAddress.Zipcode">
-                                    <input type="text" placeholder="Plaats" :value="this.user.MainAddress.City">
-                                    <input type="text" placeholder="Alternatief Adres" :value="this.user.DeliveryAddress.Address">
-                                    <input type="text" placeholder="Alternatieve Postcode" :value="this.user.DeliveryAddress.Zipcode">
-                                    <input type="text" placeholder="Alternatieve Plaats" :value="this.user.DeliveryAddress.City">
+                                    <input type="text" placeholder="Adres" v-model="user.MainAddress.Address">
+                                    <input type="text" placeholder="Postcode" v-model="user.MainAddress.Zipcode">
+                                    <input type="text" placeholder="Plaats" v-model="user.MainAddress.City">
+                                    <input type="text" placeholder="Alternatief Adres" v-model="user.DeliveryAddress.Address">
+                                    <input type="text" placeholder="Alternatieve Postcode" v-model="user.DeliveryAddress.Zipcode">
+                                    <input type="text" placeholder="Alternatieve Plaats" v-model="user.DeliveryAddress.City">
                                 </form>
                             </div>
                         </div>
@@ -60,30 +60,49 @@
         <div id="do_action">
             <div class="container">
                 <a class="btn btn-primary" href="/cart/">Terug</a>
-                <a class="btn btn-primary pull-right" href="confirmation.html">Betaling</a>
+                <a class="btn btn-primary pull-right" @click="UpdateShoppingUser()">Betaling</a>
             </div>
         </div><!--/#do_action-->
     </section> <!--/#cart_items-->
 </template>
 <script>
     export default {
-        //mixins: [require('./../../mixins/location.js')],
         mounted() {
-            // this.currentLocation = this.getCurrentAdress()
             eventHub.$on('user-detected', this.setUser);
             if(localStorage["messageArea"]){
                 this.messageAreaText = JSON.parse(localStorage["messageArea"]);
+            }
+            if(localStorage["cart"]){
+                this.cart.push(JSON.parse(localStorage["cart"]));
             }
         },
         data() {
             return {
                 user: null,
-                messageAreaText: null
+                messageAreaText: null,
+                cart: []
             }
         },
         methods:{
             setUser(user) {
                 this.user = user;
+            },
+            UpdateShoppingUser(){
+                var self = this;
+                $.ajax({
+                    url: window.apiUrl + '/users/' + User._id,
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(this.user),
+                    dataType: 'json',
+                    success: function(data, status, jqXHR) {
+                        if(jqXHR.status == 204){
+                            window.location.href="/cart/confirmation.html";
+                        } else {
+                            NewAlert('error', 'Er is iets fout gegaan');
+                        }
+                    }
+                });
             },
             SaveMessage(){
                 if(localStorage["messageArea"]){

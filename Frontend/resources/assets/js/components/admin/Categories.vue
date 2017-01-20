@@ -7,7 +7,7 @@
                 <h3>Categorieën</h3>
             </div>
             <div class="col-sm-3">
-                <a href="addcategorie.html" class="btn btn-default orange-btn">Categorie toevoegen</a>
+                <a href="add.html" class="btn btn-default orange-btn">Categorie toevoegen</a>
             </div>
         </div>
         <div class="table-responsive">

@@ -113,7 +113,7 @@
                     dataType: 'json',
                     success: function(data) {
                         if(data){
-                            NewAlert('success', 'Uw instellingen zijn succesvol aangepast!');
+                            NewAlert('success', 'Product succesvol aangepast!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');
                         }

@@ -67,6 +67,7 @@
 </template>
 <script>
     export default {
+        // mixins: [require('./../../mixins/location.js')],
         mounted() {
             eventHub.$on('user-detected', this.setUser);
             if(localStorage["messageArea"]){

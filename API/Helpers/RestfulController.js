@@ -30,7 +30,7 @@ module.exports = class RestfulController {
     create() {
         this.model.params = this.req.params;
         this.model.document = this.req.body;
-
+        
         this.model.insert()
             .then(() => {
                 this.res.statusCode = 201;

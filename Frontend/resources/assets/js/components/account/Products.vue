@@ -1,6 +1,6 @@
 <template>
     <div class="items"><!--features_items-->
-        <h2 class="title text-center">Products</h2>
+        <h2 class="title text-center">Product overzicht</h2>
         <div class="row">
             <div class="col-sm-9">
                 <h3>Producten</h3>

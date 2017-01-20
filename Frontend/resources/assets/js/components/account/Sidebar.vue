@@ -23,6 +23,7 @@
                     { name: 'Profiel', url: '/', active: false },
                     { name: 'Verlanglijstje', url: '/wishlist.html', active: false },
                     { name: 'Producten', url: '/products.html', active: false },
+                    { name: 'Orders', url: '/orders.html', active: false },
                     { name: 'Instellingen', url: '/settings.html', active: false }
                 ],
             }

@@ -47,6 +47,8 @@ module.exports = class Model extends BaseModel {
      * @return {Promise}
      */
     findManyById(productIds) {
+        // console.log(productIds)
+        // return this.find( {_id: { $all: _.map(productIds, _.ary(new ObjectId))}})
         let objectIds = [];
 
         // Transform into ObjectIds

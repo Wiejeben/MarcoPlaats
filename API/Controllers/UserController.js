@@ -46,6 +46,15 @@ module.exports = class UserController extends RestfulController {
             .catch(this.next)
     }
 
+    // Orders
+    getOrders() {
+        this.model.getForeignOrders(this.req.params.userId, 'Orders')
+            .then(result => {
+                this.res.send(result)
+            })
+            .catch(this.next)
+    }
+
     // Favorites
     getFavorites() {
         this.model.getForeignProducts(this.req.params.userId, 'FavoriteProductIds')

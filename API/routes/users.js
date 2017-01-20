@@ -20,6 +20,11 @@ app.del('/users/:userId/wishlist/:productId', (req, res, next) => {
     return new UserController(req, res, next).deleteWishListItem()
 });
 
+// Orders
+app.get('/users/:userId/orders', (req, res, next) => {
+    return new UserController(req, res, next).getOrders()
+});
+
 // Favorites
 app.get('/users/:userId/favorites', (req, res, next) => {
     return new UserController(req, res, next).getFavorites()

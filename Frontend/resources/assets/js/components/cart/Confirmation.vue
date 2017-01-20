@@ -153,10 +153,8 @@
 		</div>
         <div id="do_action">
             <div class="container">
-                <!--<a class="btn btn-primary" href="">Terug</a>-->
-                <!--<a class="btn btn-primary pull-right" @click.prevent="PlaceOrder()" href="/?feedback=successOrder">Plaats bestelling</a>-->
-                <a class="btn btn-primary" href="/cart/details.html">Terug</a>
-                <a class="btn btn-primary pull-right" @click="Order()" href="/?feedback=successOrder">Plaats bestelling</a>
+                <a class="btn btn-primary" href="">Terug</a>
+                <a class="btn btn-primary pull-right" @click.prevent="PlaceOrder()" href="/?feedback=successOrder">Plaats bestelling</a>
             </div><!--/#do_action-->
         </div>
 	</section> <!--/#cart_items-->
@@ -226,6 +224,7 @@
                     dataType: 'Json',
                     success: function(data) {
                         if(data){
+                            window.location.replace('/?feedback=successOrder');
                             NewAlert('success', 'Product succesvol toegevoegd aan verlanglijstje!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');

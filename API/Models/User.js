@@ -1,5 +1,6 @@
 const Authenticatable = require('./Authenticatable'),
-    Product = require('./Product');
+    Product = require('./Product'),
+    Order = require('./Order');
 
 module.exports = class User extends Authenticatable {
     constructor() {
@@ -82,5 +83,19 @@ module.exports = class User extends Authenticatable {
                     [property]: new ObjectId(productId)
                 }
             })
+    }
+
+    getForeignOrders(userId, property) {
+        return this.findById(userId)
+            .then(user => {
+                return new Order().collection.aggregate( 
+                    [ { $match: { _id: { $all: user[property] }}} ]
+                ).toArray()
+            })
+            .then(orders => {
+                console.log(orders)
+                return Promise.resolve(orders)
+            })
+            .catch(Promise.reject)
     }
 };

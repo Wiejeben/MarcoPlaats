@@ -1,5 +1,5 @@
 <template>
-    <section id="cart_items">
+    <section v-if="cart.length > 0" id="cart_items">
 		<div class="container">
 			<div class="breadcrumbs">
 				<ol class="breadcrumb">

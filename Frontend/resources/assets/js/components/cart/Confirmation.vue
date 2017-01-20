@@ -153,7 +153,7 @@
 		</div>
         <div id="do_action">
             <div class="container">
-                <a class="btn btn-primary" href="">Terug</a>
+                <a class="btn btn-primary" href="/cart/details.html">Terug</a>
                 <a class="btn btn-primary pull-right" @click="Order()" href="/?feedback=successOrder">Plaats bestelling</a>
             </div><!--/#do_action-->
         </div>

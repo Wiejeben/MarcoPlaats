@@ -14,7 +14,7 @@
                 <div class="choose">
                     <ul class="nav nav-pills nav-justified">
                         <li><a href="#" @click.prevent="InsertWishlist(product._id)"><i class="fa fa-heart"></i>Op verlanglijstje</a></li>
-                        <li><a href="#" @click.prevent="QuickOrder(product._id)"><i class="fa fa-heart"></i>Quick order</a></li>
+                        <!--<li><a href="#" @click.prevent="QuickOrder(product._id)"><i class="fa fa-heart"></i>Quick order</a></li>-->
                     </ul>
                 </div>
             </div>

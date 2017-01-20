@@ -88,9 +88,29 @@ module.exports = class User extends Authenticatable {
     getForeignOrders(userId, property) {
         return this.findById(userId)
             .then(user => {
-                return new Order().collection.aggregate( 
-                    [ { $match: { _id: { $all: user[property] }}} ]
-                ).toArray()
+                return new Order().collection.aggregate([ 
+                    { 
+                        $match: { _id: { $all: user[property] } }
+                    },
+                    {
+                        $unwind: {
+                            path: '$OrderLines',
+                        }
+                    },
+                    {
+                        $unwind: {
+                            path: '$OrderLines',
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: 'Products',
+                            localField: 'ProductId',
+                            foreignField: '_id',
+                            as: 'Products'
+                        }
+                    },
+                ]).toArray()
             })
             .then(orders => {
                 console.log(orders)

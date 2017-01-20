@@ -22,7 +22,8 @@ module.exports = class Order extends Model {
     insert() {
         
         this.document.OrderLines = this.document.OrderLines.map(item => this.sanitize(item, schemas.OrderLines))
-        this.document.OrderDate
+        this.document.OrderLines = this.document.OrderLines.map(item => item.productId = new ObjectId(item.productId))
+        console.log(this.document)
         if (typeof loggedInUser !== 'undefined') {
             this.document.userId = loggedInUser.document._id
         }
@@ -38,7 +39,6 @@ module.exports = class Order extends Model {
         // const proimse =  this.collection.inserOne(this.document)
 
         promise.then(() => {
-            console.log(this.document._id);
             // Apply to logged in user
             if (typeof loggedInUser !== 'undefined') {
                 loggedInUser.insertOrder(this.document._id)

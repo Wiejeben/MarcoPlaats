@@ -5,7 +5,6 @@ const app = new Vue({
     el: '#app',
 
     created() {
-
         if (window.LoggedIn)
         {
             $.get(window.apiUrl + '/auth/user', function(data) {

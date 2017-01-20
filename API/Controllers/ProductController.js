@@ -28,7 +28,7 @@ module.exports = class ProductController extends RestfulController {
         }
     }
 
-    getHeighestPrice() {
+    getHighestPrice() {
         this.model.findGreatestPrice()
         .then(result => {
             this.res.send(result)

@@ -8,7 +8,7 @@
                         <a :href="'/product.html?id=' + product._id"><img :src="'http://placeimg.com/200/300/people'" :alt="product.Name" /></a>
                         <h2>€ {{ product.Price }}</h2>
                         <p>{{ product.Name }}</p>
-                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
+                        <a href="#" @click.prevent="AddToCart(product._id)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
                     </div>
                 </div>
                 <div class="choose">
@@ -54,7 +54,6 @@
 
         methods: {
             initProducts(){
-                console.error('message');
                 var self = this;
                 self.greatestPrice = 0;
                 
@@ -90,6 +89,22 @@
                 this.category = category;
                 self.url = '/categories/' + category._id
                 this.initProducts();
+            },
+            AddToCart(productId){
+                if(localStorage["cart"]){
+                    var cart = JSON.parse(localStorage["cart"]);
+                    if(cart[productId] === undefined){
+                        cart[productId] = 1;
+                        localStorage.setItem("cart", JSON.stringify(cart));
+                    }else{
+                        cart[productId] += 1;
+                        localStorage.setItem("cart", JSON.stringify(cart));
+                    }
+                }else{
+                    var cart = {};
+                    cart[productId] = 1;
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                }
             },
             InsertWishlist(id) {
                 var self = this;

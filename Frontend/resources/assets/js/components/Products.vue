@@ -14,6 +14,7 @@
                 <div class="choose">
                     <ul class="nav nav-pills nav-justified">
                         <li><a href="#" @click.prevent="InsertWishlist(product._id)"><i class="fa fa-heart"></i>Op verlanglijstje</a></li>
+                        <li><a href="#" @click.prevent="QuickOrder(product._id)"><i class="fa fa-heart"></i>Quick order</a></li>
                     </ul>
                 </div>
             </div>
@@ -32,9 +33,22 @@
         data() {
             return {
                 category: { Name: 'Alle producten' },
-                products: [
-                ],
-                url: '/products'
+                products: [],
+                url: '/products',
+                Order: {
+                    OrderLines: [
+                        { ProductId: '587e31e85104067ccf10ebcc', Amount:10 },
+                        { ProductId: '587e31e85104067ccf10ebcc', Amount:10 },
+                        { ProductId: '587e31e85104067ccf10ebcc', Amount:10 },
+                        { ProductId: '587e31e85104067ccf10ebcc', Amount:10 },
+                        { ProductId: '587e31e85104067ccf10ebcc', Amount:10, kaas:10 }
+                        ],
+                    Address: {
+                        Address: 'straat 26',
+                        City: 'Stad',
+                        Zipcode: '1234AS',
+                    }
+                }
             }
         },
 
@@ -84,6 +98,23 @@
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify({ ProductId: id }),
+                    dataType: 'Json',
+                    success: function(data) {
+                        if(data){
+                            NewAlert('success', 'Product succesvol toegevoegd aan verlanglijstje!');
+                        } else {
+                            NewAlert('error', 'Er is iets fout gegaan');
+                        }
+                    }
+                });
+            },
+            QuickOrder(id) {
+                var self = this;
+                $.ajax({
+                    url: window.apiUrl+'/orders/',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(self.Order),
                     dataType: 'Json',
                     success: function(data) {
                         if(data){

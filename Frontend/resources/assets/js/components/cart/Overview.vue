@@ -91,18 +91,21 @@
             eventHub.$on('user-detected', this.setUser);
             var self = this;
             console.info('Shopping cart ready.');
-            var storage = JSON.parse(localStorage["cart"]);
-            var keys = Object.keys(storage)
-            for(var i = 0; i < keys.length; i++){
-                $.get(apiUrl + '/products/' + keys[i], function(data) {
-                    self.cart.push(data);
-                });
+            console.log(localStorage["cart"]);
+            if(localStorage["cart"] !== undefined){
+                this.amount = JSON.parse(localStorage["cart"]);
+                var keys = Object.keys(this.amount)
+                for(var i = 0; i < keys.length; i++){
+                    $.get(apiUrl + '/products/' + keys[i], function(data) {
+                        self.cart.push(data);
+                    });
+                }
             }
         },
         data() {
             return {
                 cart: [],
-                amount: JSON.parse(localStorage["cart"]),
+                amount: [],
                 user: null
             }
         },

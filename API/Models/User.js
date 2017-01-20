@@ -13,6 +13,13 @@ module.exports = class User extends Authenticatable {
         )
     }
 
+    insertOrder(orderId) {
+        return this.collection.update(
+            {_id: this.document._id},
+            {$addToSet: {Orders: orderId}}
+        )
+    }
+
     /**
      * Removes specified product from all users.
      *

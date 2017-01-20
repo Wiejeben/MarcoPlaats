@@ -67,7 +67,7 @@
 </template>
 <script>
     export default {
-        //mixins: [require('./../../mixins/location.js')],
+        // mixins: [require('./../../mixins/location.js')],
         mounted() {
             // this.currentLocation = this.getCurrentAdress()
             eventHub.$on('user-detected', this.setUser);

@@ -154,7 +154,7 @@
         <div id="do_action">
             <div class="container">
                 <a class="btn btn-primary" href="">Terug</a>
-                <a class="btn btn-primary pull-right" @click="Order()" href="/?feedback=successOrder">Plaats bestelling</a>
+                <a class="btn btn-primary pull-right" @click.prevent="PlaceOrder()" href="/?feedback=successOrder">Plaats bestelling</a>
             </div><!--/#do_action-->
         </div>
 	</section> <!--/#cart_items-->
@@ -166,11 +166,16 @@
             var self = this;
             var storage = JSON.parse(localStorage["cart"]);
             var keys = Object.keys(storage)
+
             for(var i = 0; i < keys.length; i++){
+                self.Order.OrderLines.push( { ProductId: keys[i],  Amount:self.amount[keys[i]] } );
                 $.get(apiUrl + '/products/' + keys[i], function(data) {
                     self.cart.push(data);
                 });
             }
+
+
+
             if(localStorage["messageArea"]){
                 this.messageAreaText = JSON.parse(localStorage["messageArea"]);
             }else{
@@ -182,7 +187,15 @@
                 cart: [],
                 user: null,
                 amount: JSON.parse(localStorage["cart"]),
-                messageAreaText: null
+                messageAreaText: null,
+                Order: {
+                    OrderLines: [],
+                    Address: {
+                        Address: '',
+                        City: '',
+                        Zipcode: '',
+                    }
+                }
             }
         },
         computed:{
@@ -198,27 +211,25 @@
         },
         methods:{
             setUser(user) {
-                this.user = user;
+                this.user = user
+                this.Order.Address = this.user.DeliveryAddress
             },
-            Order(){
-                // var self = this;
-                // $.ajax({
-                //     url: window.apiUrl+'/users/' + window.User._id + '/wishlist',
-                //     type: 'POST',
-                //     contentType: 'application/json',
-                //     data: JSON.stringify({ ProductId: id }),
-                //     dataType: 'Json',
-                //     success: function(data) {
-                //         if(data){
-                //             localStorage.removeItem("cart");
-                //             if(localStorage.removeItem("messageArea")){
-                //                 localStorage.removeItem("messageArea");
-                //             }
-                //         } else {
-                //             NewAlert('error', 'Er is iets fout gegaan');
-                //         }
-                //     }
-                // });
+            PlaceOrder() {
+                var self = this
+                $.ajax({
+                    url: window.apiUrl+'/orders',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(self.Order),
+                    dataType: 'Json',
+                    success: function(data) {
+                        if(data){
+                            NewAlert('success', 'Product succesvol toegevoegd aan verlanglijstje!');
+                        } else {
+                            NewAlert('error', 'Er is iets fout gegaan');
+                        }
+                    }
+                });
             }
         }
     }

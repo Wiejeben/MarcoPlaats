@@ -21,29 +21,29 @@ module.exports = class Order extends Model {
      */
     insert() {
         
-        this.document.OrderLines = _.map(this.document.OrderLines, item => this.sanitize(item, schemas.OrderLines))
-        console.log(this.document)
-        
-        this.document = sanitize(doc, schema)
-
-        console.log(this.document)
+        this.document.OrderLines = this.document.OrderLines.map(item => this.sanitize(item, schemas.OrderLines))
+        this.document.OrderDate
+        if (typeof loggedInUser !== 'undefined') {
+            this.document.userId = loggedInUser.document._id
+        }
+        this.document.OrderDate = new Date();
+        this.document = this.sanitize(this.document, schemas.Order)
+        // loggedInUser
+        const promise = this.collection.insertOne(this.document);
 
         // // Validate category id before inserting product
         // const categoryId = this.document.Category
         // if (!this.validateId(categoryId)) return Promise.reject(new restify.BadRequestError('Invalid or missing category ObjectId'))
+        
+        // const proimse =  this.collection.inserOne(this.document)
 
-        // const promise = super.insert()
-
-        // promise.then(() => {
-        //     // Apply to category
-        //     const category = new Category()
-        //     category.insertProduct(categoryId, this.document._id)
-
-        //     // Apply to logged in user
-        //     if (typeof loggedInUser !== 'undefined') {
-        //         loggedInUser.insertProduct(this.document._id)
-        //     }
-        // })
+        promise.then(() => {
+            console.log(this.document._id);
+            // Apply to logged in user
+            if (typeof loggedInUser !== 'undefined') {
+                loggedInUser.insertOrder(this.document._id)
+            }
+        })
 
         return promise
     }

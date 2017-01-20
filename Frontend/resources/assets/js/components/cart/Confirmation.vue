@@ -154,7 +154,7 @@
         <div id="do_action">
             <div class="container">
                 <a class="btn btn-primary" href="">Terug</a>
-                <a class="btn btn-primary pull-right" @click.prevent="PlaceOrder()" href="/?feedback=successOrder">Plaats bestelling</a>
+                <a class="btn btn-primary pull-right" @click.prevent="PlaceOrder()" href="#">Plaats bestelling</a>
             </div><!--/#do_action-->
         </div>
 	</section> <!--/#cart_items-->
@@ -164,18 +164,18 @@
         mounted() {
             eventHub.$on('user-detected', this.setUser);
             var self = this;
-            var storage = JSON.parse(localStorage["cart"]);
-            var keys = Object.keys(storage)
+            if(localStorage["cart"]){
+                this.amount = JSON.parse(localStorage["cart"])
+                var keys = Object.keys(this.amount)
 
-            for(var i = 0; i < keys.length; i++){
-                self.Order.OrderLines.push( { ProductId: keys[i],  Amount:self.amount[keys[i]] } );
-                $.get(apiUrl + '/products/' + keys[i], function(data) {
-                    self.cart.push(data);
-                });
+                for(var i = 0; i < keys.length; i++){
+                    self.Order.OrderLines.push( { ProductId: keys[i],  Amount:self.amount[keys[i]] } );
+                    $.get(apiUrl + '/products/' + keys[i], function(data) {
+                        self.cart.push(data);
+                    });
+                }
             }
-
-
-
+           
             if(localStorage["messageArea"]){
                 this.messageAreaText = JSON.parse(localStorage["messageArea"]);
             }else{
@@ -186,7 +186,7 @@
             return {
                 cart: [],
                 user: null,
-                amount: JSON.parse(localStorage["cart"]),
+                amount: [],
                 messageAreaText: null,
                 Order: {
                     OrderLines: [],
@@ -224,8 +224,9 @@
                     dataType: 'Json',
                     success: function(data) {
                         if(data){
+                            localStorage.removeItem("cart");
+                            localStorage.removeItem("messageArea");
                             window.location.replace('/?feedback=successOrder');
-                            NewAlert('success', 'Product succesvol toegevoegd aan verlanglijstje!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');
                         }

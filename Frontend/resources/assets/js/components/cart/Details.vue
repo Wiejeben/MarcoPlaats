@@ -1,5 +1,5 @@
 <template>
-        <section v-if="cart.length > 0" id="cart_items">
+    <section v-if="cart.length > 0" id="cart_items">
         <div class="container">
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
@@ -67,18 +67,20 @@
 </template>
 <script>
     export default {
-        // mixins: [require('./../../mixins/location.js')],
         mounted() {
             eventHub.$on('user-detected', this.setUser);
             if(localStorage["messageArea"]){
                 this.messageAreaText = JSON.parse(localStorage["messageArea"]);
+            }
+            if(localStorage["cart"]){
+                this.cart.push(JSON.parse(localStorage["cart"]));
             }
         },
         data() {
             return {
                 user: null,
                 messageAreaText: null,
-                cart: JSON.parse(localStorage["cart"])
+                cart: []
             }
         },
         methods:{
@@ -95,7 +97,6 @@
                     dataType: 'json',
                     success: function(data, status, jqXHR) {
                         if(jqXHR.status == 204){
-                            NewAlert('success', 'Uw instellingen zijn succesvol aangepast!');
                             window.location.href="/cart/confirmation.html";
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');

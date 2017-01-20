@@ -2,12 +2,13 @@
     <div>
         <div v-if="product !== false">
             <div class="product-details"><!--product-details-->
-                <div class="col-sm-5">
+                <div class="col-sm-3">
                     <div class="view-product">
-                        <img src="images/product-details/1.jpg" alt="" />
+                        <img v-if="product.Images.length > 0" :src="product.Images[0].Image" :alt="product.Name">
+                        <img v-else src="/images/product-placeholder.jpg" :alt="product.Name" />
                     </div>
                 </div>
-                <div class="col-sm-7">
+                <div class="col-sm-9">
                     <div class="product-information"><!--/product-information-->
                         <h2>{{ product.Name }}</h2>
                         <p>Web ID: {{ product._id }}</p>
@@ -32,7 +33,7 @@
                         <!--<li><a href="#reviews" data-toggle="tab">Reviews (5)</a></li>-->
                     </ul>
                 </div>
-                <div class="tab-content">
+                <div class="tab-content container">
                     <div class="tab-pane fade active in" id="details" >
                         <p>{{ product.Description }}</p>
                     </div>

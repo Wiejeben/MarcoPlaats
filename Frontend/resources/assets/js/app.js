@@ -52,4 +52,8 @@ if (typeof feedback != "undefined") {
     if (feedback == 'unknown_failure') {
         eventHub.$emit('show-alert', { Type: 'danger', Message: 'Uw login verzoek kan op dit moment helaas niet verwerkt worden.' })
     }
+
+    if (feedback == 'successOrder') {
+        eventHub.$emit('show-alert', { Type: 'success', Message: 'Uw bestelling is geplaatst!' });
+    }
 }

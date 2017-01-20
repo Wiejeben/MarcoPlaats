@@ -5,7 +5,10 @@
             <div class="product-image-wrapper">
                 <div class="single-products">
                     <div class="productinfo text-center">
-                        <a :href="'/product.html?id=' + product._id"><img :src="'http://placeimg.com/200/300/people'" :alt="product.Name" /></a>
+                        <a :href="'/product.html?id=' + product._id">
+                            <img v-if="product.Images.length > 0" :src="product.Images[0].Image" alt="">
+                            <img v-else src="/images/product-placeholder.jpg" :alt="product.Name" />
+                        </a>
                         <h2>€ {{ product.Price }}</h2>
                         <p>{{ product.Name }}</p>
                         <a href="#" @click.prevent="AddToCart(product._id)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
@@ -70,14 +73,6 @@
                         }else{
                             self.products = products
                         }
-                        for (var i = 0; i < self.products.length; i++) {
-                            if(self.products[i].Price > self.greatestPrice){
-                                self.greatestPrice = self.products[i].Price;
-                            }
-                        }
-                        if(self.greatestPrice > 0){                
-                            self.updateGreatestPrice();
-                        }
                     },
                     error: () => {
                         self.products = null
@@ -90,20 +85,23 @@
                 self.url = '/categories/' + category._id
                 this.initProducts();
             },
-            AddToCart(productId){
-                if(localStorage["cart"]){
+            AddToCart(productId) {
+                if(localStorage["cart"] !== undefined) {
                     var cart = JSON.parse(localStorage["cart"]);
                     if(cart[productId] === undefined){
                         cart[productId] = 1;
                         localStorage.setItem("cart", JSON.stringify(cart));
-                    }else{
+                        NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
+                    } else {
                         cart[productId] += 1;
                         localStorage.setItem("cart", JSON.stringify(cart));
+                        NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
                     }
-                }else{
+                } else {
                     var cart = {};
                     cart[productId] = 1;
                     localStorage.setItem("cart", JSON.stringify(cart));
+                    NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
                 }
             },
             InsertWishlist(id) {

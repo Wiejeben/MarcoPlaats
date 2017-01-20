@@ -12,7 +12,7 @@
                 <h2>Winkelwagen</h2>
             </div>
 
-            <div class="table-responsive cart_info">
+            <div class="table-responsive cart_info" v-if="cart.length > 0">
                 <table class="table table-condensed">
                     <thead>
                         <tr class="cart_menu">
@@ -22,7 +22,6 @@
                             <td class="quantity">Aantal</td>
                             <td class="total">Totaal</td>
                             <td class="delete">Verwijderen</td>
-                            <td></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,7 +33,7 @@
                                 <h4><a href="">{{product.Name}}</a></h4>
                             </td>
                             <td class="cart_price">
-                                <p>{{product.Price}}</p>
+                                <p>&euro;{{product.Price}}</p>
                             </td>
                             <td class="cart_quantity">
                                 <div class="cart_quantity_button">
@@ -44,7 +43,7 @@
                                 </div>
                             </td>
                             <td class="cart_total">
-                                <p class="cart_total_price">{{product.Price * amount[product._id]}}</p>
+                                <p class="cart_total_price">&euro;{{product.Price * amount[product._id]}}</p>
                             </td>
                             <td class="cart_delete">
                                 <a class="cart_quantity_delete" href="" @click.prevent="DeleteFromCart(product._id)"><i class="fa fa-times"></i></a>
@@ -54,7 +53,7 @@
                             <td>&nbsp;</td>
                             <td><h4>Sub totaal</h4></td>
                             <td colspan="2">&nbsp;</td>
-                            <td>{{sum}}</td>
+                            <td>&euro;{{sum}}</td>
                         </tr>
                         <tr class="shipping-cost">
                             <td>&nbsp;</td>
@@ -66,17 +65,21 @@
                             <td>&nbsp;</td>
                             <td><h4>Totaal</h4></td>
                             <td colspan="2">&nbsp;</td>
-                            <td><span>{{sum}}</span></td>
+                            <td><span>&euro;{{sum}}</span></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <div v-else>Geen producten in uw winkelwagen.</div>
         </div>
 
         <div id="do_action">
             <div class="container">
                 <a class="btn btn-primary" href="/">Terug</a>
-                <a class="btn btn-primary pull-right" href="details.html">Bestellen</a>
+                <div v-if="cart.length > 0">
+                    <a v-if="loggedIn" class="btn btn-primary pull-right" href="details.html">Bestellen</a>
+                    <a v-else class="btn btn-primary pull-right" href="http://localhost:8080/auth">Bestellen</a>
+                </div>
             </div>
         </div><!--/#do_action-->
     </section>
@@ -85,6 +88,7 @@
 <script>
     export default {
         mounted() {
+            eventHub.$on('user-detected', this.setUser);
             var self = this;
             console.info('Shopping cart ready.');
             var storage = JSON.parse(localStorage["cart"]);
@@ -98,7 +102,8 @@
         data() {
             return {
                 cart: [],
-                amount: JSON.parse(localStorage["cart"])
+                amount: JSON.parse(localStorage["cart"]),
+                user: null
             }
         },
         computed:{
@@ -109,11 +114,16 @@
                         var price = self.amount[product._id] * parseInt(product.Price);
                         subTotal += price;
                     });
-                console.log(this.cart.length);
                 return subTotal;
+            },
+            loggedIn() {
+                return this.user != null;
             }
         },
         methods:{
+            setUser(user) {
+                this.user = user;
+            },
             updateStorage(){
                 localStorage.setItem("cart", JSON.stringify(this.amount));
             },
@@ -125,11 +135,13 @@
                 delete this.amount[productId];
                 this.cart.splice(this.cart.findIndex(x => x._id==productId), 1);
                 this.updateStorage()
+                NewAlert('success', 'Product succesvol verwijderd van winkelwagen!');
             },
             RemoveOne(productId){
                 if(this.amount[productId] == 1){
                     delete this.amount[productId];
                     this.cart.splice(this.cart.findIndex(x => x._id==productId), 1);
+                    NewAlert('success', 'Product succesvol verwijderd van winkelwagen!');
                 }else{
                     this.amount[productId]--;
                     document.getElementById("quantity").value = this.amount[productId];

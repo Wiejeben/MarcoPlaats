@@ -3,8 +3,8 @@
         <div class="container">
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">Overzicht</a></li>
+                  <li><a href="/">Home</a></li>
+                  <li><a href="/cart/">Winkelwagen</a></li>
                   <li class="active">Details</li>
                 </ol>
             </div><!--/breadcrums-->
@@ -24,25 +24,25 @@
                             <p>Accountgegevens</p>
                         </div>
                     </div>
-                    <div class="col-sm-5 clearfix">
+                    <div v-if="user != null" class="col-sm-5 clearfix">
                         <div class="bill-to">
                             <p>Persoonsgegevens</p>
                             <div class="form-one">
                                 <form>
-                                    <input type="text" placeholder="Voornaam">
-                                    <input type="text" placeholder="Achternaam">
-                                    <input type="text" placeholder="Email">
-                                    <input type="text" placeholder="Telefoonnummer">
+                                    <input type="text" placeholder="Voornaam" :value="this.user.FirstName">
+                                    <input type="text" placeholder="Achternaam" :value="this.user.LastName">
+                                    <input type="text" placeholder="Email" :value="this.user.Email">
+                                    <input type="text" placeholder="Telefoonnummer" :value="this.user.PhoneNumber">
                                 </form>
                             </div>
                             <div class="form-two">
                                 <form>
-                                    <input type="text" placeholder="Adres" :value="currentLocation.address[0]">
-                                    <input type="text" placeholder="Postcode" :value="currentLocation.address[1]">
-                                    <input type="text" placeholder="Plaats" :value="currentLocation.address[3]">
-                                    <input type="text" placeholder="Alternatief Adres">
-                                    <input type="text" placeholder="Alternatieve Postcode">
-                                    <input type="text" placeholder="Alternatieve Plaats">
+                                    <input type="text" placeholder="Adres" :value="this.user.MainAddress.Address">
+                                    <input type="text" placeholder="Postcode" :value="this.user.MainAddress.Zipcode">
+                                    <input type="text" placeholder="Plaats" :value="this.user.MainAddress.City">
+                                    <input type="text" placeholder="Alternatief Adres" :value="this.user.DeliveryAddress.Address">
+                                    <input type="text" placeholder="Alternatieve Postcode" :value="this.user.DeliveryAddress.Zipcode">
+                                    <input type="text" placeholder="Alternatieve Plaats" :value="this.user.DeliveryAddress.City">
                                 </form>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                     <div class="col-sm-4">
                         <div class="order-message">
                             <p>Extra informatie</p>
-                            <textarea name="message"  placeholder="Speciale notities met betrekking tot de bestelling." rows="9"></textarea>
+                            <textarea name="message" id="messageArea" v-on:change="SaveMessage()" :value="this.messageAreaText" placeholder="Speciale notities met betrekking tot de bestelling." rows="9"></textarea>
                             <label><input type="checkbox"> Gebruik het alternatief adres als bezorg adres.</label>
                         </div>  
                     </div>                  
@@ -60,16 +60,41 @@
         <div id="do_action">
             <div class="container">
                 <a class="btn btn-primary" href="/cart/">Terug</a>
-                <a class="btn btn-primary pull-right" href="">Betaling</a>
+                <a class="btn btn-primary pull-right" href="confirmation.html">Betaling</a>
             </div>
         </div><!--/#do_action-->
     </section> <!--/#cart_items-->
 </template>
 <script>
     export default {
-        mixins: [require('./../../mixins/location.js')],
-        created() {
-            this.currentLocation = this.getCurrentAdress()
+        //mixins: [require('./../../mixins/location.js')],
+        mounted() {
+            // this.currentLocation = this.getCurrentAdress()
+            eventHub.$on('user-detected', this.setUser);
+            if(localStorage["messageArea"]){
+                this.messageAreaText = JSON.parse(localStorage["messageArea"]);
+            }
+        },
+        data() {
+            return {
+                user: null,
+                messageAreaText: null
+            }
+        },
+        methods:{
+            setUser(user) {
+                this.user = user;
+            },
+            SaveMessage(){
+                if(localStorage["messageArea"]){
+                    var messageArea = JSON.parse(localStorage["messageArea"]);
+                    messageArea = document.getElementById("messageArea").value;
+                    localStorage.setItem("messageArea", JSON.stringify(messageArea));
+                }else{
+                    var messageArea = document.getElementById("messageArea").value;
+                    localStorage.setItem("messageArea", JSON.stringify(messageArea));
+                }
+            }
         }
     }
 </script>

@@ -19,6 +19,7 @@ Vue.component('account-editproduct-component', require('./account/EditProduct.vu
 // Cart
 Vue.component('cart-overview-component', require('./cart/Overview.vue'));
 Vue.component('cart-details-component', require('./cart/Details.vue'));
+Vue.component('cart-confirmation-component', require('./cart/confirmation.vue'));
 
 // Admin
 Vue.component('admin-sidebar-component', require('./admin/Sidebar.vue'));

@@ -20,7 +20,6 @@ module.exports = class Category extends Model {
             priceQuery = { 'Products.Price': { $gte : minPrice, $lte: maxPrice } }
             // console.log(priceQuery)
         // }
-        console.log(priceQuery)
         
         
         return this.collection.aggregate([

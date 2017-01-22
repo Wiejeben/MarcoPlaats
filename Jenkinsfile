@@ -7,7 +7,7 @@ node {
     stage('Build') {
         // Run the docker build
         sh 'cd API/ && docker-compose -f docker-compose.yml build'
-        sh 'cd API/ && docker build -t api-ci -f Dockerfile2 .'
+        sh 'cd API/ && docker build -t api-ci -f Dockerfile.test.txt .'
     }
 
     stage('Test') {

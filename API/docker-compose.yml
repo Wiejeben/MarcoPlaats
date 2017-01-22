@@ -4,5 +4,5 @@ web:
   ports:
     - "80:8080"
   links:
-    - db
+    - mongo
   restart: always

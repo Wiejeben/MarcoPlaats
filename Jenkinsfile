@@ -1,13 +1,13 @@
 node {
     stage('Pull') {
         // Pull repository
-        git 'https://github.com/Wiejeben/MarcoPlaats'
+        git([url: 'https://github.com/Wiejeben/MarcoPlaats', branch: 'development'])
     }
 
     stage('Build') {
         // Run the docker build
         sh 'cd API/ && docker-compose -f docker-compose.yml build'
-        sh 'cd API/ && docker build -t api-ci -f Dockerfile.test.txt .'
+        sh 'cd API/ && docker build -t api-ci -f Dockerfile-test .'
     }
 
     stage('Test') {
@@ -18,7 +18,7 @@ node {
         sh 'cd API/ && docker run --name api-server api-ci'
     }
 
-    stage('Run') {
+    stage('Deploy') {
         sh 'cd API/ && docker-compose -f docker-compose.yml stop'
         sh 'cd API/ && docker-compose -f docker-compose.yml rm -f'
         sh 'cd API/ && docker-compose -f docker-compose.yml up -d'

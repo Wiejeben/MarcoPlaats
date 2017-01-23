@@ -4,13 +4,17 @@ node {
         git([url: 'https://github.com/Wiejeben/MarcoPlaats', branch: 'development'])
     }
 
-    stage('Build') {
+    stage('Build API') {
         // Run the docker build
-        sh 'cd API/ && docker-compose -f docker-compose.yml build'
+        sh 'cd API/ && docker-compose build'
         sh 'cd API/ && docker build -t api-ci -f Dockerfile-test .'
     }
 
-    stage('Test') {
+    stage('Build Front-end') {
+        sh 'cd Frontend/ && docker-compose build'
+    }
+
+    stage('Test API') {
         // Remove old instance
         sh 'cd API/ && docker rm api-server || true'
 
@@ -19,8 +23,12 @@ node {
     }
 
     stage('Deploy') {
-        sh 'cd API/ && docker-compose -f docker-compose.yml stop'
-        sh 'cd API/ && docker-compose -f docker-compose.yml rm -f'
-        sh 'cd API/ && docker-compose -f docker-compose.yml up -d'
+        sh 'cd API/ && docker-compose stop'
+        sh 'cd API/ && docker-compose rm -f'
+        sh 'cd API/ && docker-compose up -d'
+
+        sh 'cd Frontend/ && docker-compose stop'
+        sh 'cd Frontend/ && docker-compose rm -f'
+        sh 'cd Frontend/ && docker-compose up -d'
     }
 }

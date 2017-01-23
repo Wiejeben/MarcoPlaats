@@ -10,7 +10,7 @@
                         <td>Afbeelding</td>
                         <td>Product</td>
                         <td>Prijs</td>
-                        <td></td>
+                        <td>&nbsp;</td>
                     </tr>
                 </thead>
                 <tbody>

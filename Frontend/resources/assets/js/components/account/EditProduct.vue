@@ -87,7 +87,6 @@
                 var self = this
                 delete self.product.Images[index];
                 document.getElementById("image-"+index).remove();
-                console.log(self.product.Images);
             },
             upload: function(file, e){
                 var self = this;

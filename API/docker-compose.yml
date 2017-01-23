@@ -1,4 +1,4 @@
-web:
+api:
   build: .
   dockerfile: Dockerfile
   ports:

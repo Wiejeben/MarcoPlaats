@@ -41,6 +41,41 @@
                 </dl>
             </div>
         </div>
+        <div v-if="userProfile.PublicWishlist" class="category-tab shop-details-tab"><!--category-tab-->
+            <div class="col-sm-12">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#details" data-toggle="tab">Wishlist</a></li>
+                </ul>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <td>Afbeelding</td>
+                            <td>Product</td>
+                            <td>Prijs</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="product in wishlist">
+                            <td>
+                                <div class="wishlist img">
+                                    <a href="'/product.html?id=' + product._id">
+                                        <img v-if="product.Images.length > 0" :src="product.Images[0].Image" alt="">
+                                        <img v-else src="/images/product-placeholder.jpg" :alt="product.Name" />
+                                    </a>
+                                </div>
+                            </td>
+                            <td>
+                                <a :href="'/product.html?id=' + product._id">{{product.Name}}</a>
+                            </td>
+                            <td>
+                                <p>€{{product.Price}}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div><!--/category-tab-->
     </div>
     <div v-else>
         <div v-if="found === null">
@@ -64,11 +99,16 @@
             .fail(function() {
                 that.found = false;
             });
+
+            $.get(apiUrl + '/users/' + id + '/wishlist', function(data) {
+                that.wishlist = data;
+            });
         },
         data() {
             return {
                 userProfile: false,
-                found: null
+                found: null,
+                wishlist: []
             }
         }
     }

@@ -63,6 +63,8 @@
                     Price: null,
                     Amount: null,
                     Images: [],
+                    // {Filename}
+                    SellerID: null,
                     CreatedAt: null,
                     DeletedAt: null,
                     DeliveryMethod: null,
@@ -107,6 +109,7 @@
                 var self = this;
                 this.product.Price = parseInt(this.product.Price)
                 this.product.Amount = parseInt(this.product.Amount)
+                this.product.SellerID = this.user._id
                 this.product.Images = this.product.Images.filter(function(n){ return n != undefined })
                 $.ajax({
                     url: window.apiUrl + '/products',

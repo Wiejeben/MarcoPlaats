@@ -48,6 +48,7 @@ schemas = {
         Amount: null,
         Images: [],
         // {filename}
+        SellerID: null,
         CreatedAt: null,
         DeletedAt: null,
         DeliveryMethod: null

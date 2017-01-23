@@ -12,6 +12,7 @@
                     <div class="product-information"><!--/product-information-->
                         <h2>{{ product.Name }}</h2>
                         <p>Web ID: {{ product._id }}</p>
+                        <a :href="'/profile.html?id=' + product.SellerID"><p>Verkooper</p></a>
                         <span>
                             <span>&euro; {{ product.Price }},-</span>
                             <label>Aantal:</label>

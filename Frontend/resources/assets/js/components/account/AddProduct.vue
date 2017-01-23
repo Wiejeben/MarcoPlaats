@@ -6,7 +6,7 @@
 
             <div class="col-sm-6 col-xs-12 shopper-info">
 
-                <h4>Product toevoegen</h4>
+                <h4>Product</h4>
                 <input class="form-control" placeholder="Name"  v-model="product.Name">
                 <input class="form-control" placeholder="Prijs"  v-model="product.Price">
                 <input class="form-control" placeholder="Amount"  v-model="product.Amount">
@@ -15,11 +15,11 @@
                     <option v-for="(category, index) in categories" :selected="index === 0" :value="category._id">{{ category.Name }}</option>
                 </select>
                 <ul>
-                    <li v-for="(file, index) in files">
+                    <li v-for="(file, index) in files" :id="'image-'+index">
                         <div class="file_item">
                             <div class="info">
-                                <strong>{{file.name}}</strong>
-                                <p>{{file.size}}kb</p>
+                                <img :src="file.Image" height="100%" width="100%" alt="">
+                                <strong>{{ file.Name }} <a href="#" @click.prevent="removeImage(index)" class="red" title="">X</a></strong>
                             </div>
                         </div>
                         <input :id="'file-'+index" type="file" accept="image/*" @change="upload(file, $event)" style="display:none">
@@ -40,10 +40,7 @@
 </template>
 <script>
     export default {
-        mixins: [
-            require('./../../mixins/location.js'), 
-            require('./../../mixins/auth')
-        ],
+        mixins: [ require('./../../mixins/auth') ],
         created() {
             var self = this;
 
@@ -67,6 +64,7 @@
                     Amount: null,
                     Images: [],
                     // {Filename}
+                    SellerID: null,
                     CreatedAt: null,
                     DeletedAt: null,
                     DeliveryMethod: null,
@@ -80,24 +78,30 @@
         methods:{
             addImage: function(){
                 var self = this;
-                this.files.push({ 
-                    name: "", size: 0
-                })
+                if(this.files.length == 0){
+                    this.files.push({ 
+                        Name: ""
+                    })
+                }
                 this.$nextTick(function () {
                     var inputId = "file-" + (this.files.length-1);
                     document.getElementById(inputId).click();
                 });  
             },
+            removeImage: function(index) {
+                var self = this
+                delete self.product.Images[index];
+                document.getElementById("image-"+index).remove();
+            },
             upload: function(file, e){
                 var self = this;
                 var f = e.target.files[0];
-                file.name = f.name;
-                file.size = (f.size / 1024).toFixed(2);
                 var reader = new FileReader();
                 reader.onload = function () {
                     var thisImage = reader.result;
                     self.product.Images.push({Name: f.name, Image: thisImage});
-                };
+                    self.files = self.product.Images;
+                }
                 reader.readAsDataURL(f);
             },
 
@@ -105,6 +109,8 @@
                 var self = this;
                 this.product.Price = parseInt(this.product.Price)
                 this.product.Amount = parseInt(this.product.Amount)
+                this.product.SellerID = this.user._id
+                this.product.Images = this.product.Images.filter(function(n){ return n != undefined })
                 $.ajax({
                     url: window.apiUrl + '/products',
                     type: 'POST',

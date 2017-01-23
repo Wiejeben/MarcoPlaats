@@ -22,6 +22,7 @@
                         <table class="table table-condensed">
                             <thead>
                                 <tr class="cart_menu">
+                                    <td></td>
                                     <td class="image">Afbeelding</td>
                                     <td class="description">Product</td>
                                     <td class="price">Prijs</td>
@@ -31,6 +32,10 @@
                             </thead>
                             <tbody>
                                 <tr v-for="product in order.Products">
+                                    <td>
+                                        <a v-if="!inFavorites(product.product._id)" href="#" @click.prevent="InsertFavorites(product.product._id)"><i class="fa fa-star-o"></i></a>
+                                        <a v-else href="#" @click.prevent="DeleteFavorites(product.product._id)"><i class="fa fa-star"></i></a>
+                                    </td>
                                     <td class="cart_product">
                                         <a href=""><img src="/images/cart/one.png" alt=""></a>
                                     </td>
@@ -72,51 +77,11 @@
                 </div>
             </div>
         </div>
-        <!--<div class="table-responsive">
-            <table class="table table-condensed">
-                <thead>
-                    <tr>
-                        <th>Order number</th>
-                        <th>Amount</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody v-for="(order, index) in Orders">
-                    <tr data-toggle="collapse" :data-target="'#demo-' + index" class="accordion-toggle">
-                        <td>{{ index + 1 }}</td>
-                        <td>{{ order.Amount }}</td>
-                        <td>{{ order.TotalPrice }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="6" class="hiddenRow">
-                            <div class="accordion-body collapse" :id="'#demo-' + index">Demo1</div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>-->
-        
-    </div>
     
 </template>
 
 
-<!--
-<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingOne">
-      <h4 class="panel-title">
-        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Collapsible Group Item #1
-        </a>
-      </h4>
-    </div>
-    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-      <div class="panel-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-      </div>
-    </div>
-  </div>-->
+
 
 <script>
     export default {
@@ -126,14 +91,56 @@
                 $.get(apiUrl + '/users/' + User._id + '/orders', function(orders) {
                     self.Orders = orders;
                 });
+
+                self.favorites = User.FavoriteProductIds;
             })
         },
         data() {
             return {
-                Orders: []
+                Orders: [],
+                favorites: []
+
             }
         },
         methods:{
+            inFavorites(id){
+                var self = this;
+                return self.favorites.indexOf(id) > -1 ? true : false;
+            },
+            InsertFavorites(id) {
+                console.log(id)
+                var self = this;
+                $.ajax({
+                    url: window.apiUrl+'/users/' + window.User._id + '/favorites',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ ProductId: id }),
+                    dataType: 'Json',
+                    success: function(data) {
+                        if(data){
+                            self.favorites.push(id);
+                            NewAlert('success', 'Product succesvol toegevoegd aan favorieten!');
+                        } else {
+                            NewAlert('error', 'Er is iets fout gegaan');
+                        }
+                    }
+                });
+            },
+            DeleteFavorites(id) {
+                var self = this;
+                $.ajax({
+                    url: window.apiUrl+'/users/'+window.User._id + '/favorites/' + id,
+                    type: 'DELETE',
+                    success: function(data) {
+                        if(data){
+                            self.favorites.splice(self.favorites.indexOf(id), 1);
+                            NewAlert('success', 'Product succesvol verwijdert uit favorieten!');
+                        } else {
+                            NewAlert('error', 'Er is iets fout gegaan');
+                        }
+                    }
+                });
+            }
         }
     }
 </script>

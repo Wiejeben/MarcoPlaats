@@ -1,12 +1,12 @@
 <template>
     <div class="items"><!--features_items-->
         <h2 class="title text-center">Instellingen</h2>
-
+        <h3>Account</h3>
         <form v-if="user != null" class="row">
 
             <div class="col-sm-6 col-xs-12 shopper-info">
 
-                <h4>Account</h4>
+                <h4>Persoonlijke informatie</h4>
                 <input class="form-control" placeholder="Voornaam"  v-model="user.FirstName">
                 <input class="form-control" placeholder="Achternaam" v-model="user.LastName">
                 <input type="email" class="form-control" placeholder="Email" v-model="user.Email">

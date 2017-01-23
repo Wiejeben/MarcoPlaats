@@ -1,6 +1,6 @@
 <template>
     <div class="items"><!--features_items-->
-        <h2 class="title text-center">Instellingen</h2>
+        <h2 class="title text-center">Profiel</h2>
         <h3>Account</h3>
         
         <div v-if="user != null" class="row">

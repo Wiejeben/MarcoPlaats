@@ -74,15 +74,16 @@ module.exports = class Product extends Model {
     update() {
         const categoryId = this.document.Category,
               productId = this.params.id
-
         if (!this.validateId(categoryId)) return Promise.reject(new restify.BadRequestError('Invalid or missing category ObjectId'))
+        
+        const promise = super.update()
 
-        return super.update().then(() => {
-            return new Category().deleteProduct(productId)
-        }).then(() => {
-            return new Category().insertProduct(categoryId, productId)
+        promise.then(() => {
+            // apply to category
+            new Category().deleteProduct(productId)
+            new Category().insertProduct(categoryId, productId)
         }).catch((err) => {
-            return Promise.reject(err)
+            Promise.reject(err)
         })
     }
 

@@ -1,14 +1,7 @@
-  db:
-    image: mongo
-    ports:
-      - "27017:27017"
-    restart: always
-  web:
-    build: .
-    volumes:
-      - ./:/app
-    ports:
-      - "8080:8080"
-    links:
-      - db
-    command: nodemon /app/server.js
+web:
+  build: .
+  dockerfile: Dockerfile
+  ports:
+    - "8080:8080"
+  restart: always
+  command: [ "npm", "start" ]

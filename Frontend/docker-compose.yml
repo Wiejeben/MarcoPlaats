@@ -1,0 +1,6 @@
+web:
+  build: .
+  dockerfile: Dockerfile
+  ports:
+    - "80:80"
+  restart: always

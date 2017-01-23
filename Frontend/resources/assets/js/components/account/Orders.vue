@@ -6,7 +6,7 @@
                 <h3>Orders</h3>
             </div>
         </div>
-        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div v-if="Orders.length > 0" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             <div class="panel panel-default" v-for="(order, index) in Orders">
                 <div class="panel-heading" role="tab" :id="'heading-' + index">
                 <h4 class="panel-title">
@@ -72,6 +72,9 @@
                 </div>
             </div>
         </div>
+        <p>
+            U heeft geen orders.
+        </p>
         <!--<div class="table-responsive">
             <table class="table table-condensed">
                 <thead>

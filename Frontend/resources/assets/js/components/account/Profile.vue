@@ -40,7 +40,11 @@
                     <dd>{{ user.DeliveryAddress.Zipcode }}</dd>
                 </dl>
             </div>
-
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <a href="settings.html" style="margin-left: 16px;" class="btn btn-primary">Gegevens aanpassen</a><br><br>
+            </div>
         </div>
     </div>
 </template>

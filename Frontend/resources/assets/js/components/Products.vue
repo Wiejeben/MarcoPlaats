@@ -17,8 +17,8 @@
                 <div class="choose">
                     <ul class="nav nav-pills nav-justified">
                         <li>
-                            <a v-if="!inWishlist(product._id)" href="#" @click.prevent="InsertWishlist(product._id)"><i class="fa fa-heart-o"></i>Op verlanglijstje</a>
-                            <a v-else href="#" @click.prevent="DeleteWishlist(product._id)"><i class="fa fa-heart"></i>Van verlanglijstje</a>
+                            <a v-if="!inWishlist(product._id)" href="#" @click.prevent="InsertWishlist(product._id)" class="change-icon"><i class="fa fa-heart-o"></i><i class="fa fa-heart"></i>Op verlanglijstje</a>
+                            <a v-else href="#" @click.prevent="DeleteWishlist(product._id)" class="change-icon"><i class="fa fa-heart"></i><i class="fa fa-heart-o"></i>Van verlanglijstje</a>
                         </li>
                         <!-- <li>
                             <a v-if="!inFavorites(product._id)" href="#" @click.prevent="InsertFavorites(product._id)"><i class="fa fa-star-o"></i>In favorieten</a>
@@ -47,25 +47,9 @@
                 category: { Name: 'Alle producten' },
                 products: [],
                 wishlist: [],
-                favorites: [],
                 url: '/products',
-                Order: {
-                    OrderLines: [
-                        { ProductId: '587e31e85104067ccf10ebcc', Amount:10 },
-                        { ProductId: '587e31e85104067ccf10ebcc', Amount:10 },
-                        { ProductId: '587e31e85104067ccf10ebcc', Amount:10 },
-                        { ProductId: '587e31e85104067ccf10ebcc', Amount:10 },
-                        { ProductId: '587e31e85104067ccf10ebcc', Amount:10, kaas:10 }
-                        ],
-                    Address: {
-                        Address: 'straat 26',
-                        City: 'Stad',
-                        Zipcode: '1234AS',
-                    }
-                }
             }
         },
-
         methods: {
             initProducts(){
                 var self = this;
@@ -117,7 +101,6 @@
             },
             inWishlist(id){
                 var self = this;
-                console.log(self.wishlist);
                 return self.wishlist.indexOf(id) > -1 ? true : false;
             },
             InsertWishlist(id) {
@@ -147,43 +130,6 @@
                         if(data){
                             self.wishlist.splice(self.wishlist.indexOf(id), 1);
                             NewAlert('success', 'Product succesvol verwijdert van verlanglijstje!');
-                        } else {
-                            NewAlert('error', 'Er is iets fout gegaan');
-                        }
-                    }
-                });
-            },
-            inFavorites(id){
-                var self = this;
-                return self.favorites.indexOf(id) > -1 ? true : false;
-            },
-            InsertFavorites(id) {
-                var self = this;
-                $.ajax({
-                    url: window.apiUrl+'/users/' + window.User._id + '/favorites',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(self.Order),
-                    dataType: 'Json',
-                    success: function(data) {
-                        if(data){
-                            self.favorites.push(id);
-                            NewAlert('success', 'Product succesvol toegevoegd aan favorieten!');
-                        } else {
-                            NewAlert('error', 'Er is iets fout gegaan');
-                        }
-                    }
-                });
-            },
-            DeleteFavorites(id) {
-                var self = this;
-                $.ajax({
-                    url: window.apiUrl+'/users/'+window.User._id + '/favorites/' + id,
-                    type: 'DELETE',
-                    success: function(data) {
-                        if(data){
-                            delete this.favorites[this.favorites.indexOf(id)];
-                            NewAlert('success', 'Product succesvol verwijdert uit favorieten!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');
                         }

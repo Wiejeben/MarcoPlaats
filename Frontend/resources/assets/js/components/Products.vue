@@ -40,7 +40,6 @@
             this.initProducts();
             HasRole('user', function(){
                 self.wishlist = window.User.WishlistProductIds;
-                self.favorites = window.user.FavoriteProductIds;
             })
         },
         data() {

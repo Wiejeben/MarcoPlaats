@@ -27,10 +27,16 @@
                     <tbody>
                         <tr v-for="product in cart" v-bind:id="product._id">
                             <td class="cart_product">
-                                <a href=""><img src="/images/cart/one.png" alt=""></a>
+                                <a :href="'/product.html?id=' + product._id">
+                                    <!-- <img :src="product.Images[0].Image" alt=""> -->
+                                </a>
                             </td>
                             <td class="cart_description">
-                                <h4><a href="">{{product.Name}}</a></h4>
+                                <h4>
+                                    <a :href="'/product.html?id=' + product._id">
+                                        {{product.Name}}
+                                    </a>
+                                </h4>
                             </td>
                             <td class="cart_price">
                                 <p>&euro;{{product.Price}}</p>

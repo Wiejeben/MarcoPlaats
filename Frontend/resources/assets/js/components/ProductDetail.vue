@@ -15,7 +15,7 @@
                         <a :href="'/profile.html?id=' + product.SellerID"><p>Verkoper</p></a>
                         <span>
                             <span>&euro; {{ product.Price }},-</span>
-                            <button type="button" class="btn btn-fefault cart">
+                            <button type="button" @click.prevent="AddToCart()" class="btn btn-fefault cart">
                                 <i class="fa fa-shopping-cart"></i>
                                 In winkelwagen
                             </button>
@@ -63,7 +63,7 @@
             </div><!--/category-tab-->
         </div>
         <div v-else>
-            <div v-if="found === null">
+            <div v-if="product === null">
                 <h2>Bezig met laden</h2>
             </div>
             <div v-else>
@@ -96,7 +96,7 @@
         methods:{
             AddToCart() {
                 var self = this;
-                productId = self.product._id;
+                var productId = self.product._id;
                 if(localStorage["cart"] !== undefined) {
                     self.cart = JSON.parse(localStorage["cart"]);
                     if(self.cart[productId] === undefined){

@@ -7,7 +7,7 @@ app.get('/auth/google/callback',
     function(req, res) {
         // Send token back to client
         res.statusCode = 302;
-        res.setHeader('Location', global.config.Misc.ClientUrl + '/account/process.html?token=' + req.user);
+        res.setHeader('Location', process.env.CLIENT_URL + '/account/process.html?token=' + req.user);
         res.setHeader('Content-Length', '0');
         res.end()
     });

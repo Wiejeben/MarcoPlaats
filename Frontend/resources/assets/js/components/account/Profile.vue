@@ -41,10 +41,15 @@
                 </dl>
             </div>
 
+
+
         </div>
     </div>
 </template>
 <script>
+    import { Line } from 'vue-chartjs'
+
+
     export default {
         mixins: [require('./../../mixins/auth')],
         created() {
@@ -55,8 +60,9 @@
         },
         data() {
             return {
-                user: null
+                user: null,
             }
-        }
+        },
+
     }
 </script>

@@ -37,7 +37,6 @@
             var self = this;
             eventHub.$on('filter-category', this.switchCategory);
             eventHub.$on('filter-price', this.initProducts);
-            this.initProducts();
             HasRole('user', function(){
                 self.wishlist = window.User.WishlistProductIds;
             })

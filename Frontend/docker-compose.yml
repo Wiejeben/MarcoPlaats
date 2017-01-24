@@ -7,4 +7,4 @@ web:
   restart: always
 
   environment:
-    - VIRTUAL_HOST=dev.marcoplaats.maarten.co.uk
+    - VIRTUAL_HOST=${API_URL}

@@ -1,6 +1,7 @@
 node {
     stage('Pull') {
         // Pull repository
+        sh 'sort | env'
         git([url: 'https://github.com/Wiejeben/MarcoPlaats', branch: env.NODE_NAME])
     }
 

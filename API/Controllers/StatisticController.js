@@ -94,8 +94,8 @@ module.exports = class StatisticController extends Controller {
             
             { $group: {
                 _id: "$Name",
-                id: "$_id",
-                Products: { $push: '$Products' } 
+                // id: "$_id",
+                count: { $sum: 1 } 
             }},
         ]).toArray()
         .then(results => {

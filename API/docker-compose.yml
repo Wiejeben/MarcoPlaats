@@ -1,8 +1,7 @@
 api:
   build: .
-  dockerfile: Dockerfile
   ports:
-    - "8080:8080"
+    - "${PORT}:${PORT}"
   external_links:
     - mongo:mongodb
   restart: always

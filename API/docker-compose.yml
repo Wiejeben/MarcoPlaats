@@ -1,9 +1,12 @@
 api:
   build: .
-  ports:
-    - "${API_PORT}:${API_PORT}"
+  expose:
+    - "${API_PORT}"
   external_links:
     - mongo:mongodb
   container_name: "${JOB_BASE_NAME}_api"
   restart: always
   command: [ "npm", "start" ]
+  
+  environment:
+    - VIRTUAL_HOST=dev.marcoplaats.maarten.co.uk

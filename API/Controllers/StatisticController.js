@@ -63,11 +63,87 @@ module.exports = class StatisticController extends Controller {
         }
     }
 
+    getProductOrderCount() {
+        new Order().collection.aggregate([ 
+            { 
+                $match: { }
+            },
+            {
+                $unwind: {
+                    path: '$OrderLines',
+                }
+            },
+            {
+                $lookup: {
+                    from: 'Products',
+                    localField: 'OrderLines.ProductId',
+                    foreignField: '_id',
+                    as: 'Products'
+                }
+            },
+            {
+                $unwind: '$Products'
+            },
+            { 
+                $group: {
+                    _id: '$Products',
+                    Amount: { $sum: '$OrderLines.Amount' },
+                }
+            },
+            
+        ]).toArray()
+        .then(results => {
+            this.res.send(results)
+        }).catch(this.next())
+    }
+
+    getCategoryOrderCount() {
+        new Order().collection.aggregate([ 
+            { 
+                $match: { }
+            },
+            {
+                $unwind: {
+                    path: '$OrderLines',
+                }
+            },
+            {
+                $lookup: {
+                    from: 'Categories',
+                    localField: 'OrderLines.ProductId',
+                    foreignField: 'ProductIds',
+                    as: 'Categories'
+                }
+            },
+            {
+                $unwind: '$Categories'
+            },
+            { 
+                $group: {
+                    _id: '$Categories._id',
+                    Name: { $addToSet: '$Categories.Name'},
+                    Amount: { $sum: '$OrderLines.Amount' },
+                }
+            },
+            {
+                $unwind: '$Name'
+            },
+            
+        ]).toArray()
+        .then(results => {
+            this.res.send(results)
+        }).catch(this.next())
+    }
+
     getCategories() {
         let dateQuery = {}
-        let start = parseInt(this.req.params.start)
-        let end = parseInt(this.req.params.end)
-        dateQuery = { 'Products.CreatedAt': { $gte : start, $lte: end } }
+        let priceQuery = {}
+        let start = this.req.params.start ? parseInt(this.req.params.start) : 0
+        let end = this.req.params.end ? parseInt(this.req.params.end) : Number.MAX_SAFE_INTEGER
+
+        let minPrice = this.req.params.minPrice ? parseInt(this.req.params.minPrice) : 0
+        let maxPrice = this.req.params.maxPrice ? parseInt(this.req.params.maxPrice) : Number.MAX_SAFE_INTEGER
+        dateQuery = { 'Products.CreatedAt': { $gte : start, $lte: end }, 'Products.Price': { $gte : minPrice, $lte: maxPrice } }
         
         
         this.Category.collection.aggregate([
@@ -90,11 +166,10 @@ module.exports = class StatisticController extends Controller {
 
             { $unwind: '$Products' },
 
-            { $match: dateQuery },
-            
+            { $match: dateQuery  },
+
             { $group: {
                 _id: "$Name",
-                // id: "$_id",
                 count: { $sum: 1 } 
             }},
         ]).toArray()

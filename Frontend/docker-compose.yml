@@ -2,5 +2,6 @@ web:
   build: .
   dockerfile: Dockerfile
   ports:
-    - "80:80"
+    - "${WEB_PORT}:80"
+  container_name: "${JOB_BASE_NAME}_web"
   restart: always

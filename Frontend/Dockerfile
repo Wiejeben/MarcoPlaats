@@ -24,5 +24,3 @@ RUN npm install
 
 # compile css & js
 RUN gulp --production
-
-EXPOSE 80

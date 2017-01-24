@@ -64,7 +64,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-sm-3">
+                <div v-if="alternativeAddress" class="col-sm-3">
                     <table>
                         <tbody>
                             <tr>
@@ -81,6 +81,27 @@
                             <tr>
                                 <th>Plaats:</th>
                                 <td>{{this.user.DeliveryAddress.City}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div v-else class="col-sm-3">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th><h5>Bezorgadres</h5></th>
+                            </tr>
+                            <tr>
+                                <th>Adres:</th>
+                                <td>{{this.user.MainAddress.Address}}</td>
+                            </tr>
+                            <tr>
+                                <th>Postcode:</th>
+                                <td>{{this.user.MainAddress.Zipcode}}</td>
+                            </tr>
+                            <tr>
+                                <th>Plaats:</th>
+                                <td>{{this.user.MainAddress.City}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -114,7 +135,12 @@
 					<tbody>
 						<tr v-for="product in cart">
                             <td class="cart_product">
-                                <a href=""><img src="/images/cart/one.png" alt=""></a>
+                                <div class="cartOverview img">
+                                    <a :href="'/product.html?id=' + product._id">
+                                        <img v-if="product.Images.length > 0" :src="product.Images[0].Image" alt="">
+                                        <img v-else src="/images/product-placeholder.jpg" :alt="product.Name" />
+                                    </a>
+                                </div>
                             </td>
                             <td class="cart_description">
                                 <h4><a href="">{{product.Name}}</a></h4>
@@ -181,6 +207,10 @@
             }else{
                 this.messageAreaText = "Geen";
             }
+
+            if(localStorage["AlternativeAddress"]){
+                this.alternativeAddress = JSON.parse(localStorage["AlternativeAddress"]);
+            }
         },
         data() {
             return {
@@ -195,7 +225,8 @@
                         City: '',
                         Zipcode: '',
                     }
-                }
+                },
+                alternativeAddress: false
             }
         },
         computed:{
@@ -212,7 +243,11 @@
         methods:{
             setUser(user) {
                 this.user = user
-                this.Order.Address = this.user.DeliveryAddress
+                if(this.alternativeAddress){
+                    this.Order.Address = this.user.DeliveryAddress
+                }else{
+                    this.Order.Address = this.user.MainAddress
+                }
             },
             PlaceOrder() {
                 var self = this

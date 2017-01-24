@@ -81,12 +81,7 @@
             U heeft geen orders.
         </p>
     </div>
-    
 </template>
-
-
-
-
 <script>
     export default {
         created() {
@@ -112,7 +107,6 @@
                 return self.favorites.indexOf(id) > -1 ? true : false;
             },
             InsertFavorites(id) {
-                console.log(id)
                 var self = this;
                 $.ajax({
                     url: window.apiUrl+'/users/' + window.User._id + '/favorites',

@@ -137,7 +137,13 @@
                 localStorage.setItem("cart", JSON.stringify(this.amount));
             },
             updateLocalStorage(productId){
-                this.amount[productId] = document.getElementById("quantity").value
+                if(document.getElementById("quantity").value <= 0){
+                    delete this.amount[productId];
+                    this.cart.splice(this.cart.findIndex(x => x._id==productId), 1);
+                    NewAlert('success', 'Product succesvol verwijderd van winkelwagen!');
+                }else{
+                    this.amount[productId] = document.getElementById("quantity").value
+                }
                 this.updateStorage();
             },
             DeleteFromCart(productId){
@@ -147,7 +153,7 @@
                 NewAlert('success', 'Product succesvol verwijderd van winkelwagen!');
             },
             RemoveOne(productId){
-                if(this.amount[productId] == 1){
+                if(this.amount[productId] <= 1){
                     delete this.amount[productId];
                     this.cart.splice(this.cart.findIndex(x => x._id==productId), 1);
                     NewAlert('success', 'Product succesvol verwijderd van winkelwagen!');

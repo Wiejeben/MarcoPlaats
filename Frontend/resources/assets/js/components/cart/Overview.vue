@@ -27,9 +27,12 @@
                     <tbody>
                         <tr v-for="product in cart" v-bind:id="product._id">
                             <td class="cart_product">
-                                <a :href="'/product.html?id=' + product._id">
-                                    <!-- <img :src="product.Images[0].Image" alt=""> -->
-                                </a>
+                                <div class="cartOverview img">
+                                    <a :href="'/product.html?id=' + product._id">
+                                        <img v-if="product.Images.length > 0" :src="product.Images[0].Image" alt="">
+                                        <img v-else src="/images/product-placeholder.jpg" :alt="product.Name" />
+                                    </a>
+                                </div>
                             </td>
                             <td class="cart_description">
                                 <h4>
@@ -44,7 +47,7 @@
                             <td class="cart_quantity">
                                 <div class="cart_quantity_button">
                                     <a class="cart_quantity_down" href="" v-on:click.prevent="RemoveOne(product._id)"> - </a>
-                                    <input class="cart_quantity_input" type="text" name="quantity" v-model="amount[product._id]" v-on:change="updateLocalStorage(product._id)" autocomplete="off" size="2" id="quantity" number>
+                                    <input class="cart_quantity_input" type="text" name="quantity" v-model="amount[product._id]" v-on:change="updateQuantityInput(product._id)" autocomplete="off" size="2" id="quantity" number>
                                     <a class="cart_quantity_up" href="" v-on:click.prevent="AddOne(product._id)"> + </a>
                                 </div>
                             </td>
@@ -97,7 +100,6 @@
             eventHub.$on('user-detected', this.setUser);
             var self = this;
             console.info('Shopping cart ready.');
-            console.log(localStorage["cart"]);
             if(localStorage["cart"] !== undefined){
                 this.amount = JSON.parse(localStorage["cart"]);
                 var keys = Object.keys(this.amount)
@@ -136,7 +138,7 @@
             updateStorage(){
                 localStorage.setItem("cart", JSON.stringify(this.amount));
             },
-            updateLocalStorage(productId){
+            updateQuantityInput(productId){
                 if(document.getElementById("quantity").value <= 0){
                     delete this.amount[productId];
                     this.cart.splice(this.cart.findIndex(x => x._id==productId), 1);

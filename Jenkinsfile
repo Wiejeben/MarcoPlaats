@@ -1,7 +1,7 @@
 node {
     stage('Pull') {
         // Pull repository
-        git([url: 'https://github.com/Wiejeben/MarcoPlaats', branch: env.BRANCH_NAME])
+        git([url: 'https://github.com/Wiejeben/MarcoPlaats', branch: env.NODE_NAME])
     }
 
     stage('Build API') {

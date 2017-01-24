@@ -10,3 +10,4 @@ api:
   
   environment:
     - VIRTUAL_HOST=dev.marcoplaats.maarten.co.uk
+    - VIRTUAL_PORT=8080

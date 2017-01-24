@@ -7,4 +7,4 @@ web:
   restart: always
 
   environment:
-    - VIRTUAL_HOST=${API_URL}
+    - VIRTUAL_HOST=${WEB_URL}

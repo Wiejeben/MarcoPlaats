@@ -17,8 +17,8 @@
                 <div class="choose">
                     <ul class="nav nav-pills nav-justified">
                         <li>
-                            <a v-if="!inWishlist(product._id)" href="#" @click.prevent="InsertWishlist(product._id)"><i class="fa fa-heart-o"></i>Op verlanglijstje</a>
-                            <a v-else href="#" @click.prevent="DeleteWishlist(product._id)"><i class="fa fa-heart"></i>Van verlanglijstje</a>
+                            <a v-if="!inWishlist(product._id)" href="#" @click.prevent="InsertWishlist(product._id)" class="change-icon"><i class="fa fa-heart-o"></i><i class="fa fa-heart"></i>Op verlanglijstje</a>
+                            <a v-else href="#" @click.prevent="DeleteWishlist(product._id)" class="change-icon"><i class="fa fa-heart"></i><i class="fa fa-heart-o"></i>Van verlanglijstje</a>
                         </li>
                         <!-- <li>
                             <a v-if="!inFavorites(product._id)" href="#" @click.prevent="InsertFavorites(product._id)"><i class="fa fa-star-o"></i>In favorieten</a>
@@ -46,11 +46,9 @@
                 category: { Name: 'Alle producten' },
                 products: [],
                 wishlist: [],
-                favorites: [],
                 url: '/products',
             }
         },
-
         methods: {
             initProducts(){
                 var self = this;
@@ -102,7 +100,6 @@
             },
             inWishlist(id){
                 var self = this;
-                console.log(self.wishlist);
                 return self.wishlist.indexOf(id) > -1 ? true : false;
             },
             InsertWishlist(id) {
@@ -137,7 +134,7 @@
                         }
                     }
                 });
-            },
+            }
         }
     }
 </script>

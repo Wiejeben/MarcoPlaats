@@ -13,7 +13,10 @@
             <h2>Prijs</h2>
             <div class="well">
                 <div>
-                    <vue-slider ref="priceslider" v-bind="sliders.price" v-model="sliders.price.value"></vue-slider>
+                    <vue-slider v-if="ajaxLoaded" ref="priceslider" v-bind="sliders.price" v-model="sliders.price.value"></vue-slider>
+                    <div v-else class="text-center">
+                        <img src="/images/loading.gif" alt="">
+                    </div>
                 </div>
                 <!--<input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" @onChange="selectPriceRange()" data-slider-value="[250,450]" id="priceSlider" ><br />-->
                 <b>€ {{ sliders.price.min }}</b> <b class="pull-right">€ {{ sliders.price.max }}</b>
@@ -42,16 +45,11 @@ export default {
                 localStorage.setItem('maxProductPrice', response.Price);
             }
 
-            /*self.$data.sliders.price.max = response.Price;
+            self.$data.sliders.price.max = response.Price;
             self.$data.sliders.price.value[0] = parseInt(localStorage.getItem('minProductPrice'))
             self.$data.sliders.price.value[1] = parseInt(localStorage.getItem('maxProductPrice'))
-            
-            self.$refs.priceslider.refresh()*/
 
-            //self.$data.sliders.price.max
-            /*self.$nextTick(() => {
-                self.$refs.priceslider.refresh()
-            })*/
+            self.ajaxLoaded = true;
         }); 
         $.get(apiUrl + '/categories', function(categories) {
             self.categories = categories;
@@ -69,9 +67,9 @@ export default {
             eventHub.$emit('filter-category', category)
         },
         selectPriceRange(minPrice, maxPrice){
-            if (minPrice == localStorage.getItem('minProductPrice') && maxPrice == localStorage.getItem('maxProductPrice')) {
+            /*if (minPrice == localStorage.getItem('minProductPrice') && maxPrice == localStorage.getItem('maxProductPrice')) {
                 return;
-            }
+            }*/
             localStorage.setItem('minProductPrice', minPrice);
             localStorage.setItem('maxProductPrice', maxPrice);
             eventHub.$emit('filter-price')
@@ -85,26 +83,22 @@ export default {
     data() {
         return {
             categories: [],
+            ajaxLoaded: false,
             sliders: {
                 price: {
                     width: "100%",
                     height: 8,
                     dotSize: 20,
-                    min: 0,
-                    max: 500,
-                    /*min: (localStorage.getItem('minProductPrice') === undefined || localStorage.getItem('minProductPrice') !== null ? parseInt(localStorage.getItem('minProductPrice')) : 0),
-                    max: (localStorage.getItem('GreatestProductPrice') === undefined || localStorage.getItem('GreatestProductPrice') !== null ? parseInt(localStorage.getItem('GreatestProductPrice')) : 500),*/
+                    min: (localStorage.getItem('minProductPrice') === undefined || localStorage.getItem('minProductPrice') !== null ? parseInt(localStorage.getItem('minProductPrice')) : 0),
+                    max: (localStorage.getItem('GreatestProductPrice') === undefined || localStorage.getItem('GreatestProductPrice') !== null ? parseInt(localStorage.getItem('GreatestProductPrice')) : 500),
                     interval: 1,
                     disabled: false,
                     show: true,
                     piecewise: false,
                     lazy: true,
-                    /*value: [
+                    value: [
                         (localStorage.getItem('minProductPrice') === undefined || localStorage.getItem('minProductPrice') !== null ? parseInt(localStorage.getItem('minProductPrice')) : 0),
                         (localStorage.getItem('maxProductPrice') === undefined || localStorage.getItem('maxProductPrice') !== null ? parseInt(localStorage.getItem('maxProductPrice')) : 500)
-                    ],*/
-                    value: [
-                        0,500
                     ],
                     formatter: "€{value}",
                     bgStyle: {
@@ -122,16 +116,5 @@ export default {
             }
         }
     }
-
-/*    sliders: {
-        price: {
-            min: parseInt(localStorage.getItem('minProductPrice')),
-            max: parseInt(localStorage.getItem('GreatestProductPrice')),
-            value: [
-                parseInt(localStorage.getItem('minProductPrice')),
-                parseInt(localStorage.getItem('maxProductPrice'))
-            ]
-        }
-    }*/
 }
 </script>

@@ -1,7 +1,5 @@
 api:
   build: .
-  dockerfile: Dockerfile
-  env_file: .env
   ports:
     - "${PORT}:${PORT}"
   external_links:

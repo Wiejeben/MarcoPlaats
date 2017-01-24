@@ -37,7 +37,7 @@ mongodb.MongoClient.connect(process.env.DB_STRING, { promiseLibrary: Promise }, 
     require('./routes/bootstrap');
 
     // Start app
-    app.listen(process.env.PORT, function() {
+    app.listen(process.env.API_PORT, function() {
         console.log('%s listening at %s', app.name, app.url)
     })
 });

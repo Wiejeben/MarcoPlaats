@@ -2,14 +2,28 @@
     <div class="items"><!--features_items-->
         <h2 class="title text-center">Beheer</h2>
         <h3>Statistieken</h3>
-        <vue-chart v-if="charts.categories.ajaxLoaded" type="radar" ref="categories" :data="charts.categories" :option="charts.Options"></vue-chart>
-        <div v-else class="text-center">
-            <img src="/images/loading.gif" alt="">
-        </div>
-        <br><br>
-        <vue-chart v-if="charts.productOrder.ajaxLoaded" type="bar" ref="productOrder" :data="charts.productOrder" :option="charts.Options"></vue-chart>
-        <div v-else class="text-center">
-            <img src="/images/loading.gif" alt="">
+
+        <div class="category-tab shop-details-tab"><!--category-tab-->
+            <div class="col-sm-12">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#categorieChartTab" data-toggle="tab">Producten per categorie</a></li>
+                    <li><a href="#productOrderChartTab" data-toggle="tab">Orders per categorie</a></li>
+                </ul>
+            </div>
+            <div class="tab-content container">
+                <div class="tab-pane fade active in" id="categorieChartTab" >
+                    <vue-chart v-if="charts.categories.ajaxLoaded" type="radar" ref="categories" :data="charts.categories" :option="charts.Options"></vue-chart>
+                    <div v-else class="text-center">
+                        <img src="/images/loading.gif" alt="">
+                    </div>
+                </div>
+                <div class="tab-pane" id="productOrderChartTab">
+                    <vue-chart v-if="charts.productOrder.ajaxLoaded" type="bar" ref="productOrder" :data="charts.productOrder" :option="charts.Options"></vue-chart>
+                    <div v-else class="text-center">
+                        <img src="/images/loading.gif" alt="">
+                    </div>
+                </div>
+            </div>
         </div>
         <br><br>
     </div>

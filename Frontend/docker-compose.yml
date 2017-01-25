@@ -1,8 +1,8 @@
 web:
+  container_name: "${JOB_BASE_NAME}_web"
+  image: "${JOB_BASE_NAME}_web"
   build: .
   dockerfile: Dockerfile
-  image: "${JOB_BASE_NAME}_web"
-  container_name: "${JOB_BASE_NAME}_web"
   expose:
     - "80"
   restart: always

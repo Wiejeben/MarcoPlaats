@@ -1,7 +1,7 @@
 api:
-  build: .
   image: "${JOB_BASE_NAME}_api"
   container_name: "${JOB_BASE_NAME}_api"
+  build: .
   ports:
     - "${API_PORT}:${API_PORT}"
   external_links:

@@ -1,9 +1,13 @@
-web:
-  build: .
-  container_name: "${JOB_BASE_NAME}_web"
-  dockerfile: Dockerfile
-  expose:
-    - "80"
-  restart: always
-  environment:
-    - VIRTUAL_HOST=${WEB_URL}
+version: "2"
+
+services:
+  api:
+    build: .
+    image: "${JOB_BASE_NAME}_api"
+    container_name: "${JOB_BASE_NAME}_web"
+    dockerfile: Dockerfile
+    expose:
+      - "80"
+    restart: always
+    environment:
+      - VIRTUAL_HOST=${WEB_URL}

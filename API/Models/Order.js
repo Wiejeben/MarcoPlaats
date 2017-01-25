@@ -20,9 +20,12 @@ module.exports = class Order extends Model {
      * @return {Promise}
      */
     insert() {
-        
+
         this.document.OrderLines = this.document.OrderLines.map(item => this.sanitize(item, schemas.OrderLines))
-        this.document.OrderLines = this.document.OrderLines.map(item => { item.ProductId = new ObjectId(item.ProductId); return item } )
+        this.document.OrderLines = this.document.OrderLines.map(item => {
+            item.ProductId = new ObjectId(item.ProductId);
+            return item
+        })
 
         if (typeof loggedInUser !== 'undefined') {
             this.document.userId = loggedInUser.document._id
@@ -36,7 +39,7 @@ module.exports = class Order extends Model {
         // // Validate category id before inserting product
         // const categoryId = this.document.Category
         // if (!this.validateId(categoryId)) return Promise.reject(new restify.BadRequestError('Invalid or missing category ObjectId'))
-        
+
         // const proimse =  this.collection.inserOne(this.document)
 
         promise.then(() => {

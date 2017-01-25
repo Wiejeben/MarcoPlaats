@@ -26,7 +26,7 @@ if (localStorage.getItem('apiUrl') != null) { // You may overwrite the API url b
     location = localStorage.getItem('apiUrl');
 }
 
-window.apiUrl = 'http://' + location + ':8080';
+window.apiUrl = 'http://' + location + ':' + process.env.API_PORT;
 
 window.LoggedIn = false;
 

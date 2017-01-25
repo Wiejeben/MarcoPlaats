@@ -9,15 +9,15 @@ module.exports = class User extends Authenticatable {
 
     insertProduct(productId) {
         return this.collection.update(
-            {_id: this.document._id},
-            {$addToSet: {ProductIds:productId}}
+            { _id: this.document._id },
+            { $addToSet: { ProductIds: productId } }
         )
     }
 
     insertOrder(orderId) {
         return this.collection.update(
-            {_id: this.document._id},
-            {$addToSet: {Orders:orderId}}
+            { _id: this.document._id },
+            { $addToSet: { Orders: orderId } }
         )
     }
 
@@ -88,11 +88,14 @@ module.exports = class User extends Authenticatable {
     getForeignOrders(userId, property) {
         return this.findById(userId)
             .then(user => {
-                let objectIds = user.Orders.map(item => {item = new ObjectId(item); return item})
+                let objectIds = user.Orders.map(item => {
+                    item = new ObjectId(item);
+                    return item
+                })
                 // return new Order().collection.find({_id: { "$in":objectIds }}).toArray();
 
-                return new Order().collection.aggregate([ 
-                    { 
+                return new Order().collection.aggregate([
+                    {
                         // $match: { _id: { $in: user[property] } }
                         $match: { _id: { $in: objectIds } }
                     },
@@ -114,22 +117,22 @@ module.exports = class User extends Authenticatable {
                             path: '$Products',
                         }
                     },
-                    { 
+                    {
                         $group: {
                             _id: '$_id',
                             Amount: { $sum: '$OrderLines.Amount' },
                             TotalPrice: { $sum: { $multiply: ['$Products.Price', '$OrderLines.Amount'] } },
-                            Products: { 
+                            Products: {
                                 $push: {
-                                    'product': '$Products', 
-                                    'amount': '$OrderLines.Amount', 
+                                    'product': '$Products',
+                                    'amount': '$OrderLines.Amount',
                                     'basePrice': '$Products.Price',
                                     'totalPrice': { $multiply: ['$Products.Price', '$OrderLines.Amount'] }
-                                } 
+                                }
                             },
                         }
                     },
-                    
+
                 ]).toArray()
             })
             .then(orders => {

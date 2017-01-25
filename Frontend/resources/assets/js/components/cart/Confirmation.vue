@@ -261,6 +261,7 @@
                         if(data){
                             localStorage.removeItem("cart");
                             localStorage.removeItem("messageArea");
+                            localStorage.removeItem("AlternativeAddress");
                             window.location.replace('/?feedback=successOrder');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');

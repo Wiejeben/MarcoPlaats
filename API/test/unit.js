@@ -29,7 +29,7 @@ describe('Unit tests', () => {
     it('Check decryption', () => {
         const model = new Authenticatable("mock", {});
 
-        test.string(model.decryptToken("054923")).is("abc")
+        test.string(model.decryptToken("054923")).is("abc");
     });
 
     it('Test sanitizer', () => {

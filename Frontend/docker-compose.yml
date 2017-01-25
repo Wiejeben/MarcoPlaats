@@ -5,7 +5,6 @@ services:
     build: .
     image: "${JOB_BASE_NAME}_api"
     container_name: "${JOB_BASE_NAME}_web"
-    dockerfile: Dockerfile
     expose:
       - "80"
     restart: always

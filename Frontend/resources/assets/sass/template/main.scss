@@ -2551,3 +2551,26 @@ h2.title {
 .mr15 {
   margin-right: 15px;
 }
+
+/*************************
+*******User Profile CSS******
+**************************/
+.wishlist img{
+  width: 100px;
+}
+
+.change-icon > .fa + .fa,
+.change-icon:hover > .fa {
+  display: none;
+}
+.change-icon:hover > .fa + .fa {
+  display: inline-block;
+}
+
+/*************************
+*******Cart CSS******
+**************************/
+
+.cartOverview img{
+  width: 100px;
+}

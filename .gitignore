@@ -1,5 +1,6 @@
 node_modules
 API/.vscode/launch.json
 MarcoPlaatsAPI/MarcoPlaatsAPI.xproj
-API/config.js
+npm-debug.log
 npm-debug.log.*
+.env

@@ -14,7 +14,7 @@ module.exports = class Authenticatable extends Model {
      * @return {string}
      */
     encryptToken(value) {
-        let cipher = crypto.createCipher(config.Encryption.algorithm, config.Encryption.password);
+        let cipher = crypto.createCipher('aes-256-ctr', process.env.APP_KEY);
 
         return cipher.update(value, 'utf8', 'hex') + cipher.final('hex');
     }
@@ -27,7 +27,7 @@ module.exports = class Authenticatable extends Model {
      */
     decryptToken(token) {
         try {
-            let decipher = crypto.createDecipher(global.config.Encryption.algorithm, global.config.Encryption.password);
+            let decipher = crypto.createDecipher('aes-256-ctr', process.env.APP_KEY);
 
             return decipher.update(token, 'hex', 'utf8') + decipher.final('utf8');
         } catch (ex) {

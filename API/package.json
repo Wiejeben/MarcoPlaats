@@ -5,12 +5,15 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "start-dev": "nodemon server.js"
+    "start-dev": "nodemon server.js",
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chai": "^3.5.0",
     "crypto-js": "^3.1.8",
+    "dotenv": "^4.0.0",
     "lodash": "^4.16.6",
     "mongodb": "^2.2.11",
     "morgan": "^1.7.0",

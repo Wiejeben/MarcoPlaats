@@ -87,7 +87,6 @@
                 var self = this
                 delete self.product.Images[index];
                 document.getElementById("image-"+index).remove();
-                console.log(self.product.Images);
             },
             upload: function(file, e){
                 var self = this;
@@ -113,7 +112,7 @@
                     dataType: 'json',
                     success: function(data) {
                         if(data){
-                            NewAlert('success', 'Uw instellingen zijn succesvol aangepast!');
+                            NewAlert('success', 'Product succesvol aangepast!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');
                         }

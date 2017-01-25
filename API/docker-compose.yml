@@ -1,14 +1,9 @@
-  db:
-    image: mongo
-    ports:
-      - "27017:27017"
-    restart: always
-  web:
-    build: .
-    volumes:
-      - ./:/app
-    ports:
-      - "8080:8080"
-    links:
-      - db
-    command: nodemon /app/server.js
+api:
+  build: .
+  ports:
+    - "${API_PORT}:${API_PORT}"
+  external_links:
+    - mongo:mongodb
+  container_name: "${JOB_BASE_NAME}_api"
+  restart: always
+  command: [ "npm", "start" ]

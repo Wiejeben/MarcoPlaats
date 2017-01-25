@@ -11,17 +11,15 @@
                 <div class="col-sm-9">
                     <div class="product-information"><!--/product-information-->
                         <h2>{{ product.Name }}</h2>
-                        <p>Web ID: {{ product._id }}</p>
+                        <p><b>Aantal:</b> {{ product.Amount }}</p>
+                        <a :href="'/profile.html?id=' + product.SellerID"><p>Verkoper</p></a>
                         <span>
                             <span>&euro; {{ product.Price }},-</span>
-                            <label>Aantal:</label>
-                            <input type="number" value="1" />
-                            <button type="button" class="btn btn-fefault cart">
+                            <button type="button" @click.prevent="AddToCart()" class="btn btn-fefault cart">
                                 <i class="fa fa-shopping-cart"></i>
                                 In winkelwagen
                             </button>
                         </span>
-                        <p><b>Beschikbaarheid:</b> {{ product.Amount }}</p>
                     </div><!--/product-information-->
                 </div>
             </div><!--/product-details-->
@@ -65,7 +63,7 @@
             </div><!--/category-tab-->
         </div>
         <div v-else>
-            <div v-if="found === null">
+            <div v-if="product === null">
                 <h2>Bezig met laden</h2>
             </div>
             <div v-else>
@@ -75,27 +73,44 @@
     </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
     export default {
-        mounted() {
-            console.info('Product detail ready.');
-
-            var that = this,
-                id = location.search.split('id=')[1];
+        created() {
+            var self = this
+            var id = location.search.split('id=')[1];
 
             $.get(apiUrl + '/products/' + id, function(product) {
-                that.found = true;
-                that.product = product;
+                self.product = product;
             })
             .fail(function() {
-                that.found = false;
+                NewAlert('error', 'Er is iets fout gegaan!');
             });
         },
 
         data() {
             return {
                 product: false,
-                found: null
+                cart: []
+            }
+        },
+        methods:{
+            AddToCart() {
+                var self = this;
+                var productId = self.product._id;
+                if(localStorage["cart"] !== undefined) {
+                    self.cart = JSON.parse(localStorage["cart"]);
+                    if(self.cart[productId] === undefined){
+                        self.cart[productId] = 1;
+                        NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
+                    } else {
+                        self.cart[productId] += 1;
+                        NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
+                    }
+                } else {
+                    self.cart[productId] = 1;
+                    NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
+                }
+                localStorage.setItem("cart", JSON.stringify(self.cart));
             }
         }
     }

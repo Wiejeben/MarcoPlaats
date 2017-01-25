@@ -1,4 +1,6 @@
-module.exports = class RestfulController {
+const Controller = require('./../Helpers/Controller')
+
+module.exports = class RestfulController extends Controller {
     /**
      * @property {Model} model
      * @property {object} req
@@ -11,10 +13,8 @@ module.exports = class RestfulController {
      * @param {function} next
      */
     constructor(model, req, res, next) {
-        this.model = new model();
-        this.req = req;
-        this.res = res;
-        this.next = next;
+        super(req, res, next)
+        this.model = new model()
     }
 
     index() {

@@ -10,13 +10,13 @@
                         <td>Afbeelding</td>
                         <td>Product</td>
                         <td>Prijs</td>
-                        <td></td>
+                        <td>&nbsp;</td>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="product in wishlist">
-                        <td>
-                            <a href=""><img class="img-responsive" :src="product.Images[0]" alt=""></a>
+                    <tr v-if="wishlist.length > 0" v-for="product in wishlist">
+                        <td width="35%">
+                            <a href=""><img class="img-responsive" width="100%" :src="product.Images[0].Image" alt=""></a>
                         </td>
                         <td>
                             <a href="">{{product.Name}}</a>
@@ -28,6 +28,7 @@
                             <a class="cart_quantity_delete" @click.prevent="deleteWishlistItem(product)" href=""><i class="fa fa-times"></i></a>
                         </td>
                     </tr>
+                    <tr><td>Geen producten in uw verlanglijstje.</td></tr>
                 </tbody>
             </table>
         </div>

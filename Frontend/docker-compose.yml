@@ -1,0 +1,10 @@
+web:
+  build: .
+  dockerfile: Dockerfile
+  expose:
+    - "80"
+  container_name: "${JOB_BASE_NAME}_web"
+  restart: always
+
+  environment:
+    - VIRTUAL_HOST=${WEB_URL}

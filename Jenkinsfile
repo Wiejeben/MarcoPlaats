@@ -31,4 +31,10 @@ node {
         sh 'cd Frontend/ && docker-compose rm -f'
         sh 'cd Frontend/ && docker-compose up -d'
     }
+
+    stage('Clean') {
+        // Remove unused images and containers
+        sh 'docker rm -v $(docker ps -a -q -f status=exited)'
+        sh 'docker rmi $(docker images -f "dangling=true" -q)'
+    }
 }

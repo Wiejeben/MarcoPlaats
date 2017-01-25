@@ -38,9 +38,13 @@
             eventHub.$on('filter-category', this.switchCategory);
             eventHub.$on('filter-price', this.initProducts);
             this.initProducts()
-            HasRole('user', function(){
+            
+            eventHub.$once('user-undefined', function() {
                 self.wishlist = window.User.WishlistProductIds;
-            })
+            });
+/*            HasRole('user', function(){
+                self.wishlist = window.User.WishlistProductIds;
+            })*/
         },
         data() {
             return {

@@ -63,7 +63,6 @@ module.exports = class BaseModel {
 
                 return Promise.resolve(result)
             })
-            .catch(Promise.reject)
     }
 
     /**

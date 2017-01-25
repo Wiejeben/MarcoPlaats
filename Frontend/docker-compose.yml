@@ -3,7 +3,7 @@ version: "2"
 services:
   web:
     build: .
-    image: "${JOB_BASE_NAME}_api"
+    image: "${JOB_BASE_NAME}_web"
     container_name: "${JOB_BASE_NAME}_web"
     expose:
       - "80"

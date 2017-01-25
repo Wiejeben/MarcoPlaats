@@ -8,15 +8,15 @@ module.exports = class ProductController extends RestfulController {
     }
 
     index() {
-        if(Object.keys(this.req.params).length > 0){
+        if (Object.keys(this.req.params).length > 0) {
             let minPrice = parseInt(this.req.params.minPrice)
             let maxPrice = parseInt(this.req.params.maxPrice)
-            
+
             this.model.find(
-                { 
-                    Price: { 
-                        $gte: minPrice, 
-                        $lte: maxPrice 
+                {
+                    Price: {
+                        $gte: minPrice,
+                        $lte: maxPrice
                     }
                 })
                 .then(results => {
@@ -30,10 +30,10 @@ module.exports = class ProductController extends RestfulController {
 
     getHighestPrice() {
         this.model.findGreatestPrice()
-        .then(result => {
-            this.res.send(result)
-        })
-        .catch(this.next)
+            .then(result => {
+                this.res.send(result)
+            })
+            .catch(this.next)
     }
 
     create() {
@@ -41,11 +41,11 @@ module.exports = class ProductController extends RestfulController {
         this.model.document = this.req.body;
 
         this.model.insert()
-        .then(() => {
-            this.res.statusCode = 201;
-            this.res.send(this.model.document)
-        })
-        .catch(this.next)
+            .then(() => {
+                this.res.statusCode = 201;
+                this.res.send(this.model.document)
+            })
+            .catch(this.next)
 
     }
 };

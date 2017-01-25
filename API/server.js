@@ -3,6 +3,12 @@ const mongodb = require('mongodb'),
 
 require('dotenv').config();
 
+if (typeof global.integration == "undefined") {
+    global.integration = false;
+}
+
+
+
 global.config = require('./config');
 global.restify = require('restify');
 global.passport = require('passport-restify');
@@ -16,7 +22,9 @@ require('./passport');
 
 // Server setup
 app.pre(restify.pre.sanitizePath());
-app.use(logger('dev'));
+if (!global.integration) {
+    app.use(logger('dev'));
+}
 app.use(restify.fullResponse());
 app.use(restify.bodyParser());
 app.use(restify.queryParser());
@@ -37,7 +45,9 @@ mongodb.MongoClient.connect(process.env.DB_STRING, { promiseLibrary: Promise }, 
     require('./routes/bootstrap');
 
     // Start app
-    app.listen(process.env.API_PORT, function() {
-        console.log('%s listening at %s', app.name, app.url)
-    })
+    if (!global.integration) {
+        app.listen(process.env.API_PORT, function() {
+            console.log('%s listening at %s', app.name, app.url)
+        })
+    }
 });

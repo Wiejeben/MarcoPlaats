@@ -1,8 +1,8 @@
-const Product = require('./../Models/Product'), 
-      Category = require('./../Models/Category'),
-      User = require('./../Models/User'),
-      Order = require('./../Models/Order'),
-      Controller = require('./../Helpers/Controller');
+const Product = require('./../Models/Product'),
+    Category = require('./../Models/Category'),
+    User = require('./../Models/User'),
+    Order = require('./../Models/Order'),
+    Controller = require('./../Helpers/Controller');
 
 module.exports = class StatisticController extends Controller {
     constructor(req, res, next) {
@@ -13,15 +13,15 @@ module.exports = class StatisticController extends Controller {
     }
 
     index() {
-        if(Object.keys(this.req.params).length > 0){
+        if (Object.keys(this.req.params).length > 0) {
             let minPrice = parseInt(this.req.params.minPrice)
             let maxPrice = parseInt(this.req.params.maxPrice)
-            
+
             this.model.find(
-                { 
-                    Price: { 
-                        $gte: minPrice, 
-                        $lte: maxPrice 
+                {
+                    Price: {
+                        $gte: minPrice,
+                        $lte: maxPrice
                     }
                 })
                 .then(results => {
@@ -34,39 +34,39 @@ module.exports = class StatisticController extends Controller {
     }
 
     getProducts() {
-        if(Object.keys(this.req.params).length > 0){
+        if (Object.keys(this.req.params).length > 0) {
             let start = parseInt(this.req.params.start)
             let end = parseInt(this.req.params.end)
             this.Product.collection.aggregate([
                 {
                     $match: {
-                        CreatedAt: { 
-                            $gte: start, 
-                            $lte: end 
+                        CreatedAt: {
+                            $gte: start,
+                            $lte: end
                         }
                     }
                 },
-               { $group: { _id: null, count: { $sum: 1 } } }
-                ]).toArray()
+                { $group: { _id: null, count: { $sum: 1 } } }
+            ]).toArray()
                 .then(results => {
                     this.res.send(results[0])
                 })
                 .catch(this.next())
         } else {
             this.Product.collection.aggregate([
-                { $group: { _id: null, count: {$sum:1 } } }
+                { $group: { _id: null, count: { $sum: 1 } } }
             ]).toArray()
-            .then(results => {
-                this.res.send(results[0])
-            })
-            .catch(this.next())
+                .then(results => {
+                    this.res.send(results[0])
+                })
+                .catch(this.next())
         }
     }
 
     getProductOrderCount() {
-        new Order().collection.aggregate([ 
-            { 
-                $match: { }
+        new Order().collection.aggregate([
+            {
+                $match: {}
             },
             {
                 $unwind: {
@@ -84,23 +84,23 @@ module.exports = class StatisticController extends Controller {
             {
                 $unwind: '$Products'
             },
-            { 
+            {
                 $group: {
                     _id: '$Products',
                     Amount: { $sum: '$OrderLines.Amount' },
                 }
             },
-            
+
         ]).toArray()
-        .then(results => {
-            this.res.send(results)
-        }).catch(this.next())
+            .then(results => {
+                this.res.send(results)
+            }).catch(this.next())
     }
 
     getCategoryOrderCount() {
-        new Order().collection.aggregate([ 
-            { 
-                $match: { }
+        new Order().collection.aggregate([
+            {
+                $match: {}
             },
             {
                 $unwind: {
@@ -118,21 +118,21 @@ module.exports = class StatisticController extends Controller {
             {
                 $unwind: '$Categories'
             },
-            { 
+            {
                 $group: {
                     _id: '$Categories._id',
-                    Name: { $addToSet: '$Categories.Name'},
+                    Name: { $addToSet: '$Categories.Name' },
                     Amount: { $sum: '$OrderLines.Amount' },
                 }
             },
             {
                 $unwind: '$Name'
             },
-            
+
         ]).toArray()
-        .then(results => {
-            this.res.send(results)
-        }).catch(this.next())
+            .then(results => {
+                this.res.send(results)
+            }).catch(this.next())
     }
 
     getCategories() {
@@ -143,9 +143,12 @@ module.exports = class StatisticController extends Controller {
 
         let minPrice = this.req.params.minPrice ? parseInt(this.req.params.minPrice) : 0
         let maxPrice = this.req.params.maxPrice ? parseInt(this.req.params.maxPrice) : Number.MAX_SAFE_INTEGER
-        dateQuery = { 'Products.CreatedAt': { $gte : start, $lte: end }, 'Products.Price': { $gte : minPrice, $lte: maxPrice } }
-        
-        
+        dateQuery = {
+            'Products.CreatedAt': { $gte: start, $lte: end },
+            'Products.Price': { $gte: minPrice, $lte: maxPrice }
+        }
+
+
         this.Category.collection.aggregate([
             { $match: {} },
 
@@ -166,17 +169,19 @@ module.exports = class StatisticController extends Controller {
 
             { $unwind: '$Products' },
 
-            { $match: dateQuery  },
+            { $match: dateQuery },
 
-            { $group: {
-                _id: "$Name",
-                count: { $sum: 1 } 
-            }},
+            {
+                $group: {
+                    _id: "$Name",
+                    count: { $sum: 1 }
+                }
+            },
         ]).toArray()
-        .then(results => {
-            this.res.send(results)
-        })
-        .catch(this.next())
-        
+            .then(results => {
+                this.res.send(results)
+            })
+            .catch(this.next())
+
     }
 };

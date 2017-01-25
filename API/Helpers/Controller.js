@@ -4,4 +4,4 @@ module.exports = class Controller {
         this.res = res;
         this.next = next;
     }
-}
+};

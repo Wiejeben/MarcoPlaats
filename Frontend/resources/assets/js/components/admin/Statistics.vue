@@ -2,7 +2,6 @@
     <div class="items"><!--features_items-->
         <h2 class="title text-center">Beheer</h2>
         <h3>Statistieken</h3>
-
         <div class="category-tab shop-details-tab"><!--category-tab-->
             <div class="col-sm-12">
                 <ul class="nav nav-tabs">

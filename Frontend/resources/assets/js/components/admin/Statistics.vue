@@ -9,7 +9,7 @@
                     <li><a href="#productOrderChartTab" data-toggle="tab">Orders per categorie</a></li>
                 </ul>
             </div>
-            <div class="tab-content container">
+            <div class="tab-content col-sm-11">
                 <div class="tab-pane fade active in" id="categorieChartTab" >
                     <vue-chart v-if="charts.categories.ajaxLoaded" type="radar" ref="categories" :data="charts.categories" :option="charts.Options"></vue-chart>
                     <div v-else class="text-center">

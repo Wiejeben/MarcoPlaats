@@ -1,5 +1,6 @@
 const test = require('unit.js'),
-    BaseModel = require("./../Helpers/BaseModel"),
+    BaseModel = require('./../Helpers/BaseModel'),
+    Model = require('./../Helpers/Model'),
     Authenticatable = require('./../Models/Authenticatable');
 
 // Define globals
@@ -32,7 +33,48 @@ describe('Unit tests', () => {
     });
 
     it('Test sanitizer', () => {
-        // Test if sanitizer does its job right
+        const schema = {
+            Name: null,
+            Description: null,
+            Price: null,
+            Amount: null,
+            Images: [],
+            SellerID: null,
+            CreatedAt: null,
+            DeletedAt: null,
+            DeliveryMethod: null
+        };
+
+        const model = new Model("mock", schema);
+
+        // Values
+        model.document = {
+            Name: "Bike",
+            Description: "New bike",
+            Price: 300,
+            Amount: 1,
+            SellerID: "58208d29f62ed51b5c78f2a1",
+            CreatedAt: null,
+            DeletedAt: null,
+            DeliveryMethod: null
+        };
+
+        // Expected after sanitation
+        const expected = {
+            Name: "Bike",
+            Description: "New bike",
+            Price: 300,
+            Amount: 1,
+            Images: [],
+            SellerID: "58208d29f62ed51b5c78f2a1",
+            CreatedAt: null,
+            DeletedAt: null,
+            DeliveryMethod: null
+        };
+
+        model.sanitize();
+
+        test.object(model.document).match(expected)
     });
 
 });

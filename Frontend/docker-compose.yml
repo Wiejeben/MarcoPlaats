@@ -1,7 +1,6 @@
 web:
-  container_name: "${JOB_BASE_NAME}_web"
-  image: "${JOB_BASE_NAME}_web"
   build: .
+  container_name: "${JOB_BASE_NAME}_web"
   dockerfile: Dockerfile
   expose:
     - "80"

@@ -1,7 +1,7 @@
 version: "2"
 
 services:
-  api:
+  web:
     build: .
     image: "${JOB_BASE_NAME}_api"
     container_name: "${JOB_BASE_NAME}_web"

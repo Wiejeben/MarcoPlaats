@@ -17,11 +17,11 @@ module.exports = class Category extends Model {
         let minPrice = parseInt(this.params.minPrice)
         let maxPrice = parseInt(this.params.maxPrice)
         // if(minPrice != 0 && maxPrice != 0){
-            priceQuery = { 'Products.Price': { $gte : minPrice, $lte: maxPrice } }
-            // console.log(priceQuery)
+        priceQuery = { 'Products.Price': { $gte: minPrice, $lte: maxPrice } }
+        // console.log(priceQuery)
         // }
-        
-        
+
+
         return this.collection.aggregate([
             { $match: filter },
 
@@ -44,11 +44,13 @@ module.exports = class Category extends Model {
 
             { $match: priceQuery },
 
-            { $group: {
-                _id: '$_id',
-                Name: { $push: '$Name'},
-                Products: { $push: '$Products' }
-            }},
+            {
+                $group: {
+                    _id: '$_id',
+                    Name: { $push: '$Name' },
+                    Products: { $push: '$Products' }
+                }
+            },
             { $unwind: '$Name' }
         ]).toArray().then(results => {
             console.log(results)
@@ -64,7 +66,7 @@ module.exports = class Category extends Model {
 
             //     result.Products = products
             // });
-            
+
             return Promise.resolve(results)
         }).catch(Promise.reject)
     }

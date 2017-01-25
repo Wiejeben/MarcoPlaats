@@ -3,9 +3,6 @@ const Controller = require('./../Helpers/Controller')
 module.exports = class RestfulController extends Controller {
     /**
      * @property {Model} model
-     * @property {object} req
-     * @property {object} res
-     * @property {function} next
      *
      * @param {function} model
      * @param {object} req
@@ -13,7 +10,7 @@ module.exports = class RestfulController extends Controller {
      * @param {function} next
      */
     constructor(model, req, res, next) {
-        super(req, res, next)
+        super(req, res, next);
         this.model = new model()
     }
 
@@ -30,7 +27,7 @@ module.exports = class RestfulController extends Controller {
     create() {
         this.model.params = this.req.params;
         this.model.document = this.req.body;
-        
+
         this.model.insert()
             .then(() => {
                 this.res.statusCode = 201;
@@ -68,11 +65,12 @@ module.exports = class RestfulController extends Controller {
         this.model.findById(this.req.params.id)
             .then(() => {
                 return this.model.destroy()
-                    .then(() => {
-                        this.res.statusCode = 204;
-                        this.res.end()
-                    })
+
                     .catch(this.next)
+            })
+            .then(() => {
+                this.res.statusCode = 204;
+                this.res.end()
             })
             .catch(this.next)
     }

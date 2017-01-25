@@ -90,7 +90,7 @@
         data() {
             return {
                 product: false,
-                cart: []
+                cart: {}
             }
         },
         methods:{

@@ -1,5 +1,4 @@
 const Model = require('./../Helpers/Model'),
-    User = require('./User'),
     crypto = require('crypto');
 
 module.exports = class Authenticatable extends Model {

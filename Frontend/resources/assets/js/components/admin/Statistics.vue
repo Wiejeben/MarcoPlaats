@@ -2,7 +2,7 @@
     <div class="items"><!--features_items-->
         <h2 class="title text-center">Beheer</h2>
         <h3>Statistieken</h3>
-        <vue-chart v-if="charts.categories.ajaxLoaded" type="radar" ref="categories" :data="charts.categories"></vue-chart>
+        <vue-chart :options="options" v-if="charts.categories.ajaxLoaded" type="radar" ref="categories" :data="charts.categories"></vue-chart>
         <div v-else class="text-center">
             <img src="/images/loading.gif" alt="">
         </div>
@@ -31,6 +31,12 @@ import VueChart from 'vue-chart';
         data() {
             return {
                charts: {
+                   options: {
+                        vAxis: {
+                            minValue: 0,
+                        },
+
+                   },
                     categories: {
                         ajaxLoaded: false,
                         labels: [],
@@ -58,13 +64,6 @@ import VueChart from 'vue-chart';
                                 spanGaps: false,
                             }
                         ]
-                    },
-                    test: {
-                        labels: ["September", "Oktober", "November", "December", "Januari"],
-                        datasets: [{
-                            backgroundColor: ["#36A2EB", "#FF6384"],
-                            data: [1, 1, 5, 10, 15]
-                        }]
                     }
                }
             }

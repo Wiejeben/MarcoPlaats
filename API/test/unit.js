@@ -56,7 +56,8 @@ describe('Unit tests', () => {
             SellerID: "58208d29f62ed51b5c78f2a1",
             CreatedAt: null,
             DeletedAt: null,
-            DeliveryMethod: null
+            DeliveryMethod: null,
+            fake: null
         };
 
         // Expected after sanitation

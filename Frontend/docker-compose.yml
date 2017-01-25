@@ -1,12 +1,13 @@
 version: '2'
 
-web:
-  build: .
-  dockerfile: Dockerfile
-  image: "${JOB_BASE_NAME}_web"
-  container_name: "${JOB_BASE_NAME}_web"
-  expose:
-    - "80"
-  restart: always
-  environment:
-    - VIRTUAL_HOST=${WEB_URL}
+services:
+  web:
+    build: .
+    dockerfile: Dockerfile
+    image: "${JOB_BASE_NAME}_web"
+    container_name: "${JOB_BASE_NAME}_web"
+    expose:
+      - "80"
+    restart: always
+    environment:
+      - VIRTUAL_HOST=${WEB_URL}

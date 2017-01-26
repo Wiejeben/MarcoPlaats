@@ -14,6 +14,9 @@ mongodb.MongoClient.connect(result + "/MarcoPlaatsIntegrationDB", function(err, 
         throw new Error(err);
     }
 
+    // Initialize routes
+    require('./routes/bootstrap');
+
     global.db = db_;
     
     describe('Integration tests', function () {

@@ -12,4 +12,5 @@ RUN npm install -g mocha
 # Bundle app source
 COPY . /usr/src/app
 
+CMD [ "cat", "/etc/hosts" ]
 CMD [ "npm", "test" ]

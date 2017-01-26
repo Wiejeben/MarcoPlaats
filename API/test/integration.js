@@ -53,7 +53,10 @@ describe('Integration tests', () => {
                     "FavoriteProductIds": []
                 }).then(() => {
                     done()
-                })
+                }).catch(() => {
+                    console.error('Unable to prepare database:');
+                    throw new Error(err);
+                });
             })
         })
     });

@@ -15,7 +15,7 @@ node {
         sh 'cd API/ && docker rm api-server || true'
 
         // Run test
-        sh 'cd API/ && docker run --name --network mongodb api-server api-ci'
+        sh 'cd API/ && docker run --name api-server --network mongodb api-ci'
     }
 
     stage('Build Front-end') {

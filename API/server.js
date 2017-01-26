@@ -1,5 +1,4 @@
-const mongodb = require('mongodb'),
-    logger = require('morgan');
+const logger = require('morgan');
 
 require('dotenv').config();
 
@@ -32,22 +31,6 @@ app.use(passport.initialize());
 app.use(restify.CORS());
 app.use(require('./Models/User').canBeAuthenticated);
 
-global.ObjectId = mongodb.ObjectId;
-mongodb.MongoClient.connect(process.env.DB_STRING, { promiseLibrary: Promise }, function(err, _db) {
-    if (err) {
-        console.error(err.toString());
-        process.exit(1)
-    }
-
-    global.db = _db;
-
-    // Initialize routes
-    require('./routes/bootstrap');
-
-    // Start app
-    if (!global.integration) {
-        app.listen(process.env.API_PORT, function() {
-            console.log('%s listening at %s', app.name, app.url)
-        })
-    }
-});
+if (!global.integration) {
+    require('./bootstrap_db');
+}

@@ -23,12 +23,35 @@ module.exports = class Category extends Model {
 
 
         return this.collection.aggregate([
+            // { $match: filter },
+
+            // {
+            //     $unwind:
+            //         '$ProductIds'
+            // },
+            // {
+            //     $lookup: {
+            //         from: 'Products',
+            //         localField: 'ProductIds',
+            //         foreignField: '_id',
+            //         as: 'Products'
+            //     }
+            // },
+
+            // { 
+            //     $unwind: {
+            //         path: "$Products",
+            //         preserveNullAndEmptyArrays: true 
+            //     }
+            // },
+
+            // { $match: priceQuery },
             { $match: filter },
 
             {
                 $unwind: {
                     path: '$ProductIds',
-                    // preserveNullAndEmptyArrays: true
+                    preserveNullAndEmptyArrays: true
                 }
             },
             {
@@ -39,36 +62,31 @@ module.exports = class Category extends Model {
                     as: 'Products'
                 }
             },
-
-            { $unwind: '$Products' },
-
-            { $match: priceQuery },
-
+            // { $match: priceQuery },
             {
                 $group: {
                     _id: '$_id',
-                    Name: { $push: '$Name' },
-                    Products: { $push: '$Products' }
+                    Name: { $first: '$Name' },
+                    ProductIds: { $push: '$ProductIds' },
+                    Products: { $addToSet: '$Products' }
                 }
-            },
-            { $unwind: '$Name' }
+            }
         ]).toArray().then(results => {
-            console.log(results)
             // Map reduce
-            // results.forEach(result => {
-            //     let products = [];
+            results.forEach(result => {
+                let products = [];
 
-            //     result.Products.forEach(product => {
-            //         if (product.length) {
-            //             products.push(product[0])
-            //         }
-            //     });
+                result.Products.forEach(product => {
+                    if (product.length && product[0].Price >= minPrice && product[0].Price <= maxPrice) {
+                        products.push(product[0])
+                    }
+                });
 
-            //     result.Products = products
-            // });
+                result.Products = products
+            });
 
             return Promise.resolve(results)
-        }).catch(Promise.reject)
+        })
     }
 
     /**

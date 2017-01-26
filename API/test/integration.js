@@ -15,17 +15,17 @@ mongodb.MongoClient.connect(result + "/MarcoPlaatsIntegrationDB", function(err, 
     }
 
     // Initialize routes
-    require('./routes/bootstrap');
+    require('./../routes/bootstrap');
 
     global.db = db_;
+
+    // Clear old collections
+    db.collection('Users').drop();
     
     describe('Integration tests', function () {
         describe('/users endpoint', function () {
-            before(function() {
-                db.collection('Users').drop();
-            });
 
-            it('Insert first user', function (done) {
+            it('POST /users', function (done) {
                 hippie(app)
                     .json()
                     .post('/users')
@@ -41,7 +41,7 @@ mongodb.MongoClient.connect(result + "/MarcoPlaatsIntegrationDB", function(err, 
                     })
             });
 
-            it('Insert first user', function (done) {
+            it('POST /users', function (done) {
                 hippie(app)
                     .json()
                     .post('/users')
@@ -57,7 +57,7 @@ mongodb.MongoClient.connect(result + "/MarcoPlaatsIntegrationDB", function(err, 
                     })
             });
 
-            it('returns all users', function (done) {
+            it('GET /users', function (done) {
                 hippie(app)
                     .json()
                     .get('/users')
@@ -67,14 +67,14 @@ mongodb.MongoClient.connect(result + "/MarcoPlaatsIntegrationDB", function(err, 
                         done();
                     });
             });
-            //
+            // TODO: Find a way to use the generated ObjectId
             //it('returns a user based on the id', function (done) {
             //    hippie(app)
             //        .json()
             //        .get('/users/588863a05c23f611e97ce9b2')
             //        .expectStatus(200)
             //        .expectHeader('Content-Type', 'application/json')
-            //        .expectValue('FirstName', 'Maarten')
+            //        .expectValue('FirstName', 'John')
             //        .end(function(err, res, body) {
             //            if (err) throw err;
             //            done();

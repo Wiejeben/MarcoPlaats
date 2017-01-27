@@ -93,13 +93,13 @@ describe('Integration tests', () => {
             orders.drop(() => {
                 orders.insertOne({
                     "_id": ObjectId("588751a9f902b42a38c2de87"),
-                    "OrderLines":[{
+                    "OrderLines": [{
                         "ProductId": ObjectId("588b1ad78ef1aa111cef1c09"),
                         "Amount": 1
                     }],
                     "OrderDate": null,
                     "userId": ObjectId("5889f94a70e0b10f738762de"),
-                    "Address":{
+                    "Address": {
                         "Address": 'Marcoplein 1',
                         "City": 'Rotterdam',
                         "Zipcode": '3000AA'
@@ -114,228 +114,66 @@ describe('Integration tests', () => {
         })
     });
 
-    describe('/orders', () => {
-        it('POST /orders', done => {
-            hippie(app)
-                .json()
-                .post('/orders')
-                .send({
-                    "OrderLines":[{
-                        "ProductId": ObjectId("588b1ad78ef1aa111cef1c09"),
-                        "Amount": 1
-                    }],
-                    "OrderDate": null,
-                    "userId": ObjectId("5889f94a70e0b10f738762de"),
-                    "Address":{
-                        "Address": 'Wijnhaven 107',
-                        "City": 'Rotterdam',
-                        "Zipcode": '3011AC'
-                    }
-                })
-                .expectStatus(201)
-                .end(function(err, res, body) {
-                    if (err) throw err;
-                    done()
-                })
-        });
-
-        it('GET /orders', done =>{
-            hippie(app)
-                .json()
-                .get('/products')
-                .expectStatus(200)
-                .end(function(err, res, body) {
-                    if (err) throw err;
-                    done()
-                })
-        });
-
-        it('GET /orders/588751a9f902b42a38c2de87', done => {
-            hippie(app)
-                .json()
-                .get('/orders/588751a9f902b42a38c2de87')
-                .expectStatus(200)
-                .expectHeader('Content-Type', 'application/json')
-                .expectValue('Address.Address', 'Marcoplein 1')
-                .expectValue('Address.City', 'Rotterdam')
-                .expectValue('Address.Zipcode', '3000AA')
-                .end((err, res, body) => {
-                    if (err) throw err;
-                    done()
-                })
-        });
-
-         it('PUT /orders/588751a9f902b42a38c2de87', done => {
-            hippie(app)
-                .json()
-                .put('/orders/588751a9f902b42a38c2de87')
-                .send({
-                    "Address.Address": 'Wijnhaven 99'
-                })
-                .expectStatus(204)
-                .end((err, res, body) => {
-                    if (err) throw err;
-                    done()
-                })
-        });
-
-        it('DELETE /orders/588751a9f902b42a38c2de87', done => {
-            hippie(app)
-                .json()
-                .del('/orders/588751a9f902b42a38c2de87')
-                .expectStatus(204)
-                .end((err, res, body) => {
-                    if (err) throw err;
-                    done()
-                })
-        });
-
+    restfultest('orders', {
+        _id: '588751a9f902b42a38c2de87',
+        key: 'Address.Address',
+        value: 'Marcoplein 1'
+    }, {
+        "OrderLines": [{
+            "ProductId": ObjectId("588b1ad78ef1aa111cef1c09"),
+            "Amount": 1
+        }],
+        "OrderDate": null,
+        "userId": ObjectId("5889f94a70e0b10f738762de"),
+        "Address": {
+            "Address": 'Wijnhaven 107',
+            "City": 'Rotterdam',
+            "Zipcode": '3011AC'
+        }
+    }, {
+        "Address.Address": 'Wijnhaven 99'
     });
 
-    describe('/products', () => {
-        it('POST /products', done => {
-            hippie(app)
-                .json()
-                .post('/products')
-                .send({
-                    "Name": 'Fiets',
-                    "Description": 'Race fiets',
-                    "Price": 1200,
-                    "Amount": 1,
-                    "Images": [],
-                    "SellerID": '5889f94a70e0b10f738762de',
-                    "Category": '5887510ef902b42a38c2de84',
-                    "CreatedAt": null,
-                    "DeleteAt": null,
-                    "DeliveryMethod": null
-                })
-                .expectStatus(201)
-                .end(function(err, res, body) {
-                    if (err) throw err;
-                    done()
-                })
-        });
-
-        it('GET /products', done => {
-            hippie(app)
-                .json()
-                .get('/products')
-                .expectStatus(200)
-                .end(function(err, res, body) {
-                    if (err) throw err;
-                    done()
-                })
-        });
-
-        it('GET /products/588b1ad78ef1aa111cef1c09', done => {
-            hippie(app)
-                .json()
-                .get('/products/588b1ad78ef1aa111cef1c09')
-                .expectStatus(200)
-                .expectHeader('Content-Type', 'application/json')
-                .expectValue('Name', 'Auto')
-                .expectValue('Price', 25000)
-                .end((err, res, body) => {
-                    if (err) throw err;
-                    done()
-                })
-        });
-
-        it('PUT /products/588b1ad78ef1aa111cef1c09', done => {
-            hippie(app)
-                .json()
-                .put('/products/588b1ad78ef1aa111cef1c09')
-                .send({
-                    Name: 'Bus',
-                    Price: 100000
-                })
-                .expectStatus(204)
-                .end((err, res, body) => {
-                    if (err) throw err;
-                    done()
-                })
-        });
-
-        it('DELETE /products/588b1ad78ef1aa111cef1c09', done => {
-            hippie(app)
-                .json()
-                .del('/products/588b1ad78ef1aa111cef1c09')
-                .expectStatus(204)
-                .end((err, res, body) => {
-                    if (err) throw err;
-                    done()
-                })
-        });
+    restfultest('products', {
+        _id: '588b1ad78ef1aa111cef1c09',
+        key: 'Name',
+        value: 'Auto'
+    }, {
+        Name: 'Fiets',
+        Description: 'Race fiets',
+        Price: 1200,
+        Amount: 1,
+        Images: [],
+        SellerID: '5889f94a70e0b10f738762de',
+        Category: '5887510ef902b42a38c2de84',
+        CreatedAt: null,
+        DeleteAt: null,
+        DeliveryMethod: null
+    }, {
+        Name: 'Bus',
+        Price: 100000
     });
 
-    describe('/categories', () => {
-        it('POST /categories', done => {
-            hippie(app)
-                .json()
-                .post('/categories')
-                .send({
-                    Name: 'Computers'
-                })
-                .expectStatus(201)
-                .end(function(err, res, body) {
-                    if (err) throw err;
-                    done()
-                })
-        });
-
-        it('GET /categories', done => {
-            hippie(app)
-                .json()
-                .get('/categories')
-                .expectStatus(200)
-                .end(function(err, res, body) {
-                    if (err) throw err;
-                    done()
-                })
-        });
-
-        it('GET /categories/5887510ef902b42a38c2de84', done => {
-            hippie(app)
-                .json()
-                .get('/categories/5887510ef902b42a38c2de84')
-                .expectStatus(200)
-                .expectHeader('Content-Type', 'application/json')
-                .expectValue('Name', 'Vervoer')
-                .end((err, res, body) => {
-                    if (err) throw err;
-                    done()
-                })
-        });
-
-        it('PUT /categories/5887510ef902b42a38c2de84', done => {
-            hippie(app)
-                .json()
-                .put('/categories/5887510ef902b42a38c2de84')
-                .send({
-                    Name: 'Audio'
-                })
-                .expectStatus(204)
-                .end((err, res, body) => {
-                    if (err) throw err;
-                    done()
-                })
-        });
-
-        it('DELETE /categories/5887510ef902b42a38c2de84', done => {
-            hippie(app)
-                .json()
-                .del('/categories/5887510ef902b42a38c2de84')
-                .expectStatus(204)
-                .end((err, res, body) => {
-                    if (err) throw err;
-                    done()
-                })
-        });
+    restfultest('categories', {
+        _id: '5887510ef902b42a38c2de84',
+        key: 'Name',
+        value: 'Vervoer'
+    }, {
+        Name: 'Computers'
+    }, {
+        Name: 'Audio'
     });
 
-    restfultest('users', '5889f94a70e0b10f738762de', {
+    restfultest('users', {
+        _id: '5889f94a70e0b10f738762de',
+        key: 'FirstName',
+        value: 'Jan'
+    }, {
         FirstName: 'John',
         LastName: 'Doe',
         Email: 'john@doe.com'
+    }, {
+        FirstName: 'Robert',
+        LastName: 'Rutte'
     })
 });

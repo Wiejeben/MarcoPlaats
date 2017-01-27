@@ -1,13 +1,13 @@
 const hippie = require('hippie');
 
-module.exports = (route, initialId, testingData) => {
+module.exports = (route, expectedValue, insertData, updateData) => {
     describe(`/${route} endpoint`, () => {
 
         it(`POST /${route}`, done => {
             hippie(app)
                 .json()
                 .post(`/${route}`)
-                .send(testingData)
+                .send(insertData)
                 .expectStatus(201)
                 .end(function(err, res, body) {
                     if (err) throw err;
@@ -26,28 +26,25 @@ module.exports = (route, initialId, testingData) => {
                 })
         });
 
-        it(`GET /${route}/${initialId}`, done => {
+        it(`GET /${route}/${expectedValue._id}`, done => {
             hippie(app)
                 .json()
-                .get(`/${route}/${initialId}`)
+                .get(`/${route}/${expectedValue._id}`)
                 .expectStatus(200)
                 .expectHeader('Content-Type', 'application/json')
-                .expectValue('FirstName', 'Jan')
-                .expectValue('LastName', 'Jansen')
+                .expectValue('_id', expectedValue._id)
+                .expectValue(expectedValue.key, expectedValue.value)
                 .end((err, res, body) => {
                     if (err) throw err;
                     done()
                 })
         });
 
-        it(`PUT /${route}/${initialId}`, done => {
+        it(`PUT /${route}/${expectedValue._id}`, done => {
             hippie(app)
                 .json()
-                .put(`/${route}/${initialId}`)
-                .send({
-                    FirstName: 'Robert',
-                    LastName: 'Rutte'
-                })
+                .put(`/${route}/${expectedValue._id}`)
+                .send(updateData)
                 .expectStatus(204)
                 .end((err, res, body) => {
                     if (err) throw err;
@@ -55,10 +52,10 @@ module.exports = (route, initialId, testingData) => {
                 })
         });
 
-        it(`DELETE /${route}/${initialId}`, done => {
+        it(`DELETE /${route}/${expectedValue._id}`, done => {
             hippie(app)
                 .json()
-                .del(`/${route}/${initialId}`)
+                .del(`/${route}/${expectedValue._id}`)
                 .expectStatus(204)
                 .end((err, res, body) => {
                     if (err) throw err;

@@ -25,91 +25,88 @@ describe('Integration tests', () => {
             require('./../routes/bootstrap');
 
             // Initial data
-            const users = db.collection('Users');
-            users.drop(() => {
-                users.insertOne({
-                    "_id": ObjectId("5889f94a70e0b10f738762de"),
-                    "FirstName": "Jan",
-                    "LastName": "Jansen",
-                    "OAuthId": null,
-                    "Email": "jan@jansen.com",
-                    "Role": null,
-                    "PhoneNumber": null,
-                    "PublicWishlist": false,
-                    "MainAddress": {
-                        "Address": null,
-                        "City": null,
-                        "Zipcode": null
-                    },
-                    "DeliveryAddress": {
-                        "Address": null,
-                        "City": null,
-                        "Zipcode": null
-                    },
-                    "Orders": [],
-                    "ProductIds": [],
-                    "WishlistProductIds": [],
-                    "FavoriteProductIds": []
-                }).catch(() => {
-                    console.error('Unable to prepare database:');
-                    throw new Error(err)
-                })
-            });
-
-            const category = db.collection('Categories');
-            category.drop(() => {
-                category.insertOne({
-                    "_id": ObjectId("5887510ef902b42a38c2de84"),
-                    "Name": "Vervoer",
-                    "ProductIds": []
-                }).catch(() => {
-                    console.error('Unable to prepare database:');
-                    throw new Error(err)
-                })
-            });
-
-            const products = db.collection('Products');
-            products.drop(() => {
-                products.insertOne({
-                    "_id": ObjectId("588b1ad78ef1aa111cef1c09"),
-                    "Name": 'Auto',
-                    "Description": 'BMW',
-                    "Price": 25000,
-                    "Amount": 1,
-                    "Images": [],
-                    "SellerID": '5889f94a70e0b10f738762de',
-                    "Category": '5887510ef902b42a38c2de84',
-                    "CreatedAt": null,
-                    "DeleteAt": null,
-                    "DeliveryMethod": null
-                }).catch(() => {
-                    console.error('Unable to prepare database:');
-                    throw new Error(err);
-                });
-            });
-
-            const orders = db.collection('Orders');
-            orders.drop(() => {
-                orders.insertOne({
-                    "_id": ObjectId("588751a9f902b42a38c2de87"),
-                    "OrderLines": [{
-                        "ProductId": ObjectId("588b1ad78ef1aa111cef1c09"),
-                        "Amount": 1
-                    }],
-                    "OrderDate": null,
-                    "userId": ObjectId("5889f94a70e0b10f738762de"),
-                    "Address": {
-                        "Address": 'Marcoplein 1',
-                        "City": 'Rotterdam',
-                        "Zipcode": '3000AA'
-                    }
+            const users = db.collection('Users'),
+                category = db.collection('Categories'),
+                products = db.collection('Products'),
+                orders = db.collection('Orders');
+            users.drop()
+                .then(() => {
+                    return users.insertOne({
+                        "_id": ObjectId("5889f94a70e0b10f738762de"),
+                        "FirstName": "Jan",
+                        "LastName": "Jansen",
+                        "OAuthId": null,
+                        "Email": "jan@jansen.com",
+                        "Role": null,
+                        "PhoneNumber": null,
+                        "PublicWishlist": false,
+                        "MainAddress": {
+                            "Address": null,
+                            "City": null,
+                            "Zipcode": null
+                        },
+                        "DeliveryAddress": {
+                            "Address": null,
+                            "City": null,
+                            "Zipcode": null
+                        },
+                        "Orders": [],
+                        "ProductIds": [],
+                        "WishlistProductIds": [],
+                        "FavoriteProductIds": []
+                    })
                 }).then(() => {
+                    return category.drop()
+                }).then(() => {
+                    return category.insertOne({
+                        "_id": ObjectId("5887510ef902b42a38c2de84"),
+                        "Name": "Vervoer",
+                        "ProductIds": []
+                    })
+                }).then(() => {
+                    return products.drop();
+                }).then(() => {
+                    return products.insertOne({
+                        "_id": ObjectId("588b1ad78ef1aa111cef1c09"),
+                        "Name": 'Auto',
+                        "Description": 'BMW',
+                        "Price": 25000,
+                        "Amount": 1,
+                        "Images": [],
+                        "SellerID": '5889f94a70e0b10f738762de',
+                        "Category": '5887510ef902b42a38c2de84',
+                        "CreatedAt": null,
+                        "DeleteAt": null,
+                        "DeliveryMethod": null
+                    }).catch(() => {
+                        console.error('Unable to prepare database:');
+                        throw new Error(err);
+                    });
+                }).then(() => {
+                    return orders.drop();
+                }).then(() => {
+                    return orders.insertOne({
+                        "_id": ObjectId("588751a9f902b42a38c2de87"),
+                        "OrderLines": [{
+                            "ProductId": ObjectId("588b1ad78ef1aa111cef1c09"),
+                            "Amount": 1
+                        }],
+                        "OrderDate": null,
+                        "userId": ObjectId("5889f94a70e0b10f738762de"),
+                        "Address": {
+                            "Address": 'Marcoplein 1',
+                            "City": 'Rotterdam',
+                            "Zipcode": '3000AA'
+                        }
+                    })
+                })
+                .then(() => {
                     done()
-                }).catch(() => {
+                })
+                .catch(() => {
                     console.error('Unable to prepare database:');
                     throw new Error(err)
                 })
-            })
         })
     });
 
@@ -175,4 +172,5 @@ describe('Integration tests', () => {
         FirstName: 'Robert',
         LastName: 'Rutte'
     })
-});
+})
+;

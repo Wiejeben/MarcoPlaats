@@ -7,7 +7,7 @@ node {
     stage('Build API') {
         // Run the docker build
         sh 'cd API/ && docker-compose build'
-        sh 'cd API/ && docker build -t api-ci -f Dockerfile-test .'
+        sh 'cd API/ && docker build -t api-ci -f Dockerfile.test .'
     }
 
     stage('Test API') {
@@ -15,7 +15,7 @@ node {
         sh 'cd API/ && docker rm api-server || true'
 
         // Run test
-        sh 'cd API/ && docker run --name api-server api-ci'
+        sh 'cd API/ && docker run --network=mongodb --name api-server api-ci'
     }
 
     stage('Build Front-end') {

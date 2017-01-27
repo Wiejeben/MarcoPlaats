@@ -16,7 +16,7 @@ describe('Integration tests', () => {
         mongodb.MongoClient.connect(result + "/MarcoPlaatsIntegrationDB", (err, db_) => {
             if (err) {
                 console.error('Unable to connect to MongDB:');
-                throw new Error(err);
+                throw new Error(err)
             }
 
             // Initialize routes
@@ -55,9 +55,9 @@ describe('Integration tests', () => {
                     "FavoriteProductIds": []
                 }).catch(() => {
                     console.error('Unable to prepare database:');
-                    throw new Error(err);
-                });
-            })
+                    throw new Error(err)
+                })
+            });
 
             category.drop(() => {
                 category.insertOne({
@@ -66,9 +66,9 @@ describe('Integration tests', () => {
                     "ProductIds": []
                 }).catch(() => {
                     console.error('Unable to prepare database:');
-                    throw new Error(err);
-                });
-            })
+                    throw new Error(err)
+                })
+            });
 
             products.drop(() => {
                 products.insertOne({
@@ -87,8 +87,8 @@ describe('Integration tests', () => {
                     done()
                 }).catch(() => {
                     console.error('Unable to prepare database:');
-                    throw new Error(err);
-                });
+                    throw new Error(err)
+                })
             })
         })
     });
@@ -117,7 +117,7 @@ describe('Integration tests', () => {
                 })
         });
 
-        it('GET /products', done =>{
+        it('GET /products', done => {
             hippie(app)
                 .json()
                 .get('/products')
@@ -126,10 +126,8 @@ describe('Integration tests', () => {
                     if (err) throw err;
                     done()
                 })
-        });
-
-    })
-
+        })
+    });
 
     describe('/users endpoint', () => {
         it('POST /users', done => {
@@ -171,7 +169,7 @@ describe('Integration tests', () => {
                     if (err) throw err;
                     done()
                 })
-        })
+        });
 
         it('PUT /users/5889f94a70e0b10f738762de', done => {
             hippie(app)
@@ -186,7 +184,7 @@ describe('Integration tests', () => {
                     if (err) throw err;
                     done()
                 })
-        })
+        });
 
         it('DELETE /users/5889f94a70e0b10f738762de', done => {
             hippie(app)
@@ -198,6 +196,5 @@ describe('Integration tests', () => {
                     done()
                 })
         })
-
     })
 });

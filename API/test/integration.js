@@ -16,7 +16,7 @@ describe('Integration tests', () => {
         mongodb.MongoClient.connect(result + "/MarcoPlaatsIntegrationDB", (err, db_) => {
             if (err) {
                 console.error('Unable to connect to MongDB:');
-                throw new Error(err);
+                throw new Error(err)
             }
 
             // Initialize routes
@@ -56,9 +56,9 @@ describe('Integration tests', () => {
                     "FavoriteProductIds": []
                 }).catch(() => {
                     console.error('Unable to prepare database:');
-                    throw new Error(err);
-                });
-            })
+                    throw new Error(err)
+                })
+            });
 
             category.drop(() => {
                 category.insertOne({
@@ -67,9 +67,9 @@ describe('Integration tests', () => {
                     "ProductIds": []
                 }).catch(() => {
                     console.error('Unable to prepare database:');
-                    throw new Error(err);
-                });
-            })
+                    throw new Error(err)
+                })
+            });
 
             products.drop(() => {
                 products.insertOne({
@@ -108,8 +108,8 @@ describe('Integration tests', () => {
                     done()
                 }).catch(() => {
                     console.error('Unable to prepare database:');
-                    throw new Error(err);
-                });
+                    throw new Error(err)
+                })
             })
         })
     });
@@ -216,7 +216,7 @@ describe('Integration tests', () => {
                 })
         });
 
-        it('GET /products', done =>{
+        it('GET /products', done => {
             hippie(app)
                 .json()
                 .get('/products')

@@ -29,6 +29,7 @@ describe('Integration tests', () => {
                 category = db.collection('Categories'),
                 products = db.collection('Products'),
                 orders = db.collection('Orders');
+
             users.drop()
                 .then(() => {
                     return users.insertOne({
@@ -64,7 +65,7 @@ describe('Integration tests', () => {
                         "ProductIds": []
                     })
                 }).then(() => {
-                    return products.drop();
+                    return products.drop()
                 }).then(() => {
                     return products.insertOne({
                         "_id": ObjectId("588b1ad78ef1aa111cef1c09"),
@@ -78,10 +79,7 @@ describe('Integration tests', () => {
                         "CreatedAt": null,
                         "DeleteAt": null,
                         "DeliveryMethod": null
-                    }).catch(() => {
-                        console.error('Unable to prepare database:');
-                        throw new Error(err);
-                    });
+                    })
                 }).then(() => {
                     return orders.drop();
                 }).then(() => {

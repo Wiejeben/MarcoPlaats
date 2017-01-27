@@ -1,18 +1,18 @@
 const hippie = require('hippie'),
-    mongodb = require('mongodb');
+    mongodb = require('mongodb'),
+    restfultest = require('./helpers/restfultest');
 
 require('dotenv').config();
 global.integration = true;
+global.ObjectId = mongodb.ObjectId;
 
 let str = process.env.DB_STRING;
 let result = str.substring(0, str.lastIndexOf("/"));
 
 require('./../server');
-
 describe('Integration tests', () => {
 
     before(done => {
-        //global.ObjectId = mongodb.ObjectId;
         mongodb.MongoClient.connect(result + "/MarcoPlaatsIntegrationDB", (err, db_) => {
             if (err) {
                 console.error('Unable to connect to MongDB:');
@@ -129,72 +129,9 @@ describe('Integration tests', () => {
         })
     });
 
-    describe('/users endpoint', () => {
-        it('POST /users', done => {
-            hippie(app)
-                .json()
-                .post('/users')
-                .send({
-                    FirstName: 'John',
-                    LastName: 'Doe',
-                    Email: 'john@doe.com'
-                })
-                .expectStatus(201)
-                .end(function(err, res, body) {
-                    if (err) throw err;
-                    done()
-                })
-        });
-
-        it('GET /users', done => {
-            hippie(app)
-                .json()
-                .get('/users')
-                .expectStatus(200)
-                .end(function(err, res, body) {
-                    if (err) throw err;
-                    done()
-                })
-        });
-
-        it('GET /users/5889f94a70e0b10f738762de', done => {
-            hippie(app)
-                .json()
-                .get('/users/5889f94a70e0b10f738762de')
-                .expectStatus(200)
-                .expectHeader('Content-Type', 'application/json')
-                .expectValue('FirstName', 'Jan')
-                .expectValue('LastName', 'Jansen')
-                .end((err, res, body) => {
-                    if (err) throw err;
-                    done()
-                })
-        });
-
-        it('PUT /users/5889f94a70e0b10f738762de', done => {
-            hippie(app)
-                .json()
-                .put('/users/5889f94a70e0b10f738762de')
-                .send({
-                    FirstName: 'Robert',
-                    LastName: 'Rutte'
-                })
-                .expectStatus(204)
-                .end((err, res, body) => {
-                    if (err) throw err;
-                    done()
-                })
-        });
-
-        it('DELETE /users/5889f94a70e0b10f738762de', done => {
-            hippie(app)
-                .json()
-                .del('/users/5889f94a70e0b10f738762de')
-                .expectStatus(204)
-                .end((err, res, body) => {
-                    if (err) throw err;
-                    done()
-                })
-        })
+    restfultest('users', '5889f94a70e0b10f738762de', {
+        FirstName: 'John',
+        LastName: 'Doe',
+        Email: 'john@doe.com'
     })
 });

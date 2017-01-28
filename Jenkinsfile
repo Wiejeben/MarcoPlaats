@@ -1,28 +1,28 @@
 node {
-    stage("Pull") {
+    stage('Pull') {
         // Pull repository
-        git([url: "https://github.com/Wiejeben/MarcoPlaats", branch: env.BRANCH_NAME])
+        git([url: 'https://github.com/Wiejeben/MarcoPlaats', branch: env.BRANCH_NAME])
     }
 
-    stage("Build API") {
+    stage('Build API') {
         // Run the docker build
         sh "cd API/ && docker-compose -p ${env.JOB_BASE_NAME} build"
-        sh "cd API/ && docker build -t api-ci -f Dockerfile.test ."
+        sh 'cd API/ && docker build -t api-ci -f Dockerfile.test .'
     }
 
-    stage("Test API") {
+    stage('Test API') {
         // Remove old instance
-        sh "cd API/ && docker rm api-server || true"
+        sh 'cd API/ && docker rm api-server || true'
 
         // Run test
-        sh "cd API/ && docker run --network=database --name api-server api-ci"
+        sh 'cd API/ && docker run --network=database --name api-server api-ci'
     }
 
-    stage("Build Front-end") {
+    stage('Build Front-end') {
         sh "cd Frontend/ && docker-compose -p ${env.JOB_BASE_NAME} build"
     }
 
-    stage("Deploy") {
+    stage('Deploy') {
         sh "cd API/ && docker-compose -p ${env.JOB_BASE_NAME} stop"
         sh "cd API/ && docker-compose -p ${env.JOB_BASE_NAME} rm -f"
         sh "cd API/ && docker-compose -p ${env.JOB_BASE_NAME} up -d"
@@ -32,9 +32,9 @@ node {
         sh "cd Frontend/ && docker-compose -p ${env.JOB_BASE_NAME} up -d"
     }
 
-    stage("Clean") {
+    stage('Clean') {
         // Remove unused images and containers
-        sh "docker rm -v $(docker ps -a -q -f status=exited)"
-        sh "docker rmi $(docker images -f 'dangling=true' -q) || true"
+        sh 'docker rm -v $(docker ps -a -q -f status=exited)'
+        sh 'docker rmi $(docker images -f "dangling=true" -q) || true'
     }
 }

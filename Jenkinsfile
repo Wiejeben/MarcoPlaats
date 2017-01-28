@@ -6,7 +6,7 @@ node {
 
     stage('Build API') {
         // Run the docker build
-        sh 'cd API/ && docker-compose build -p ${env.JOB_BASE_NAME}'
+        sh 'cd API/ && docker-compose -p ${env.JOB_BASE_NAME} build'
         sh 'cd API/ && docker build -t api-ci -f Dockerfile.test .'
     }
 
@@ -19,17 +19,17 @@ node {
     }
 
     stage('Build Front-end') {
-        sh 'cd Frontend/ && docker-compose build'
+        sh 'cd Frontend/ && docker-compose -p ${env.JOB_BASE_NAME} build'
     }
 
     stage('Deploy') {
-        sh 'cd API/ && docker-compose stop -p ${env.JOB_BASE_NAME}'
-        sh 'cd API/ && docker-compose rm -f -p ${env.JOB_BASE_NAME}'
-        sh 'cd API/ && docker-compose up -d -p ${env.JOB_BASE_NAME}'
+        sh 'cd API/ && docker-compose -p ${env.JOB_BASE_NAME} stop'
+        sh 'cd API/ && docker-compose -p ${env.JOB_BASE_NAME} rm -f'
+        sh 'cd API/ && docker-compose -p ${env.JOB_BASE_NAME} up -d'
 
-        sh 'cd Frontend/ && docker-compose stop -p ${env.JOB_BASE_NAME}'
-        sh 'cd Frontend/ && docker-compose rm -f -p ${env.JOB_BASE_NAME}'
-        sh 'cd Frontend/ && docker-compose up -d -p ${env.JOB_BASE_NAME}'
+        sh 'cd Frontend/ && docker-compose -p ${env.JOB_BASE_NAME} stop'
+        sh 'cd Frontend/ && docker-compose -p ${env.JOB_BASE_NAME} rm -f'
+        sh 'cd Frontend/ && docker-compose -p ${env.JOB_BASE_NAME} up -d'
     }
 
     stage('Clean') {

@@ -35,6 +35,6 @@ node {
     stage("Clean") {
         // Remove unused images and containers
         sh "docker rm -v $(docker ps -a -q -f status=exited)"
-        sh "docker rmi $(docker images -f "dangling=true" -q) || true"
+        sh "docker rmi $(docker images -f 'dangling=true' -q) || true"
     }
 }

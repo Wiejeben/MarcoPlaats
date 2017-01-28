@@ -10,3 +10,8 @@ services:
     restart: always
     environment:
       - VIRTUAL_HOST=${WEB_URL}
+
+networks:
+  default:
+    external:
+      name: nginx-proxy

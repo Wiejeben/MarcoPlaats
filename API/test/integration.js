@@ -30,7 +30,7 @@ describe('Integration tests', () => {
                 products = db.collection('Products'),
                 orders = db.collection('Orders');
 
-            users.drop()
+            users.remove()
                 .then(() => {
                     return users.insertOne({
                         "_id": ObjectId("5889f94a70e0b10f738762de"),
@@ -57,7 +57,7 @@ describe('Integration tests', () => {
                         "FavoriteProductIds": []
                     })
                 }).then(() => {
-                    return category.drop()
+                    return category.remove()
                 }).then(() => {
                     return category.insertOne({
                         "_id": ObjectId("5887510ef902b42a38c2de84"),
@@ -65,7 +65,7 @@ describe('Integration tests', () => {
                         "ProductIds": []
                     })
                 }).then(() => {
-                    return products.drop()
+                    return products.remove()
                 }).then(() => {
                     return products.insertOne({
                         "_id": ObjectId("588b1ad78ef1aa111cef1c09"),
@@ -81,7 +81,7 @@ describe('Integration tests', () => {
                         "DeliveryMethod": null
                     })
                 }).then(() => {
-                    return orders.drop();
+                    return orders.remove();
                 }).then(() => {
                     return orders.insertOne({
                         "_id": ObjectId("588751a9f902b42a38c2de87"),

@@ -8,8 +8,8 @@
                 <thead>
                     <tr>
                         <th>Naam</th>
-                        <th>Amount</th>
-                        <th>Price</th>
+                        <th>Aantal</th>
+                        <th>Prijs</th>
                     </tr>
                 </thead>
                 <tbody>

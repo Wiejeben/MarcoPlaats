@@ -7,10 +7,10 @@
             <div class="col-sm-6 col-xs-12 shopper-info">
 
                 <h4>Product</h4>
-                <input class="form-control" placeholder="Name"  v-model="product.Name">
+                <input class="form-control" placeholder="Naam"  v-model="product.Name">
                 <input class="form-control" placeholder="Prijs"  v-model="product.Price">
-                <input class="form-control" placeholder="Amount"  v-model="product.Amount">
-                <textarea name="message" v-model="product.Description" placeholder="Description." rows="9"></textarea>
+                <input type="number" class="form-control" placeholder="Quantiteit"  v-model="product.Amount">
+                <textarea name="message" v-model="product.Description" placeholder="Omschrijving" rows="9"></textarea>
                 <select v-model="product.Category" id="CategorySelect">
                     <option v-for="(category, index) in categories" :selected="index === 0" :value="category._id">{{ category.Name }}</option>
                 </select>
@@ -27,7 +27,7 @@
                 </ul>
                 <div class="value_btn">
                     <a href="#" v-on:click="addImage" class="add">
-                        <span>Add Image</span>
+                        <span>Afbeelding toevoegen</span>
                     </a>
                 </div>
             </div>

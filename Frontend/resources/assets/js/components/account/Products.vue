@@ -18,15 +18,19 @@
                         <th>Price</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr v-if="products.length > 0" v-for="product in products">
+                <tbody v-if="products.length > 0">
+                    <tr v-for="product in products">
                         <td>{{ product.Name }}</td>
                         <td>{{ product.Amount }}</td>
                         <td>{{ product.Price }}</td>
                         <td class="table_button"><a :href="'editproduct.html?id=' + product._id"><i class="fa fa-pencil"></i></a></td>
                         <td class="table_button"><a class="cart_quantity_delete" @click.prevent="deleteProduct(product)"><i class="fa fa-times"></i></a></td>
                     </tr>
-                    <tr><td>U heeft geen producten.</td></tr>
+                </tbody>
+                <tbody v-else>
+                    <tr>
+                        <td>U heeft geen producten.</td>
+                    </tr>
                 </tbody>
             </table>
         </div>

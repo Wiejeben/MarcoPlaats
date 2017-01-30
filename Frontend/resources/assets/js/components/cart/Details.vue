@@ -53,7 +53,7 @@
                         <div class="order-message">
                             <p>Extra informatie</p>
                             <textarea name="message" id="messageArea" v-on:change="SaveMessage()" :value="this.messageAreaText" placeholder="Speciale notities met betrekking tot de bestelling." rows="9"></textarea>
-                            <label><input type="checkbox" id="checkbox" v-model="checked" @click="checkboxToggle('alternative')"> Gebruik het alternatief adres als bezorg adres.</label>
+                            <label><input type="checkbox" id="checkbox" v-model="checked"> Gebruik het alternatief adres als bezorg adres.</label>
                         </div>  
                     </div>                  
                 </div>
@@ -71,16 +71,26 @@
     export default {
         mounted() {
             eventHub.$on('user-detected', this.setUser);
+
             if(localStorage["messageArea"]){
                 this.messageAreaText = JSON.parse(localStorage["messageArea"]);
             }
+
             if(localStorage["cart"]){
                 this.cart.push(JSON.parse(localStorage["cart"]));
             }
+
             if(sessionStorage['AlternativeAddress']){
                 sessionStorage.setItem('AlternativeAddress', false);
             }
         },
+
+        watch: {
+            checked(value) {
+                sessionStorage.setItem('AlternativeAddress', value);
+            }
+        },
+
         data() {
             return {
                 user: null,
@@ -89,10 +99,12 @@
                 checked: false
             }
         },
-        methods:{
+
+        methods: {
             setUser(user) {
                 this.user = user;
             },
+
             UpdateShoppingUser(){
                 var self = this;
                 $.ajax({
@@ -110,6 +122,7 @@
                     }
                 });
             },
+
             SaveMessage(){
                 if(localStorage["messageArea"]){
                     var messageArea = JSON.parse(localStorage["messageArea"]);
@@ -118,13 +131,6 @@
                 }else{
                     var messageArea = document.getElementById("messageArea").value;
                     localStorage.setItem("messageArea", JSON.stringify(messageArea));
-                }
-            },
-            checkboxToggle(box){
-                if(this.checked){
-                    sessionStorage.setItem('AlternativeAddress', false);
-                }else{
-                    sessionStorage.setItem('AlternativeAddress', true);
                 }
             }
         }

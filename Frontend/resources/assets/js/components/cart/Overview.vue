@@ -68,7 +68,7 @@
                             <td>&nbsp;</td>
                             <td><h4>Bezorg kosten</h4></td>
                             <td colspan="2">&nbsp;</td>
-                            <td>Free</td>                                       
+                            <td>Gratis</td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>

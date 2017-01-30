@@ -10,7 +10,7 @@
                 </ul>
             </div>
             <div class="tab-content col-sm-12">
-                <div class="tab-pane fade actve in" id="categorieChartTab" >
+                <div class="tab-pane fade active in" id="categorieChartTab" >
                     <vue-chart v-if="charts.categories.ajaxLoaded" type="radar" ref="categories" :data="charts.categories" :option="charts.Options"></vue-chart>
                     <div v-else class="text-center">
                         <img src="/images/loading.gif" alt="">

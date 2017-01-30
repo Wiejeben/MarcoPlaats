@@ -100,13 +100,24 @@
             eventHub.$on('user-detected', this.setUser);
             var self = this;
             console.info('Shopping cart ready.');
-            if(localStorage["cart"] !== undefined){
-                this.amount = JSON.parse(localStorage["cart"]);
-                var keys = Object.keys(this.amount)
+
+            var products = localStorage.getItem('cart');
+            if(products !== undefined){
+                products = JSON.parse(products);
+                this.amount = products;
+                var keys = Object.keys(products);
+
                 for(var i = 0; i < keys.length; i++){
-                    $.get(apiUrl + '/products/' + keys[i], function(data) {
-                        self.cart.push(data);
-                    });
+                    var productId = keys[i];
+
+                    $.get(apiUrl + '/products/' + productId)
+                        .then(data => {
+                            self.cart.push(data);
+                        })
+                        .catch(() => {
+                            delete products[productId];
+                            localStorage.setItem('cart', JSON.stringify(products))
+                        });
                 }
             }
         },

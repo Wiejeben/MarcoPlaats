@@ -41,10 +41,7 @@
             
             eventHub.$once('user-undefined', function() {
                 self.wishlist = window.User.WishlistProductIds;
-            });
-/*            HasRole('user', function(){
-                self.wishlist = window.User.WishlistProductIds;
-            })*/
+            })
         },
         data() {
             return {
@@ -66,10 +63,10 @@
                         minPrice: localStorage.getItem('minProductPrice'),
                         maxPrice: localStorage.getItem('maxProductPrice')
                     },
-                    success: function(products){
-                        if(products.Products){
+                    success(products) {
+                        if (products.Products) {
                             self.products = products.Products
-                        }else{
+                        } else {
                             self.products = products
                         }
                     },
@@ -82,7 +79,7 @@
                 var self = this;
                 this.category = category;
                 self.url = '/categories/' + category._id
-                this.initProducts();
+                this.initProducts()
             },
             AddToCart(productId) {
                 if(localStorage["cart"] !== undefined) {

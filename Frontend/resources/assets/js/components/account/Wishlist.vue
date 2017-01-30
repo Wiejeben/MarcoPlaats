@@ -16,7 +16,8 @@
                 <tbody>
                     <tr v-if="wishlist.length > 0" v-for="product in wishlist">
                         <td width="35%">
-                            <a href=""><img class="img-responsive" width="100%" :src="product.Images[0].Image" alt=""></a>
+                            <img v-if="product.Images.length > 0" :src="product.Images[0].Image" alt="">
+                            <img v-else src="/images/product-placeholder.jpg" :alt="product.Name" />
                         </td>
                         <td>
                             <a href="">{{product.Name}}</a>
@@ -45,12 +46,14 @@
                         self.wishlist = data;
                     });
              })
-        }, 
+        },
+
         data() {
             return {
                 wishlist: []
             }
         },
+
         methods:{
             deleteWishlistItem(product) {
                 var self = this;

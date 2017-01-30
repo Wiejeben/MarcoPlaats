@@ -85,6 +85,8 @@ module.exports = class Model extends BaseModel {
      * @return {Promise}
      */
     update() {
+        this.sanitize();
+
         let id = this.params.id;
         if (!this.validateId(id)) return Promise.reject(new Error('Invalid ObjectId'));
 

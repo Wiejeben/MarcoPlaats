@@ -101,4 +101,4 @@ module.exports = class Product extends Model {
             return Promise.reject(err)
         })
     }
-}
+};

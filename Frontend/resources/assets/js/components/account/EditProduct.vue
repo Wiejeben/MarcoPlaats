@@ -8,8 +8,8 @@
                 <input class="form-control" placeholder="Prijs"  v-model="product.Price">
                 <input class="form-control" placeholder="Quantiteit"  v-model="product.Amount">
                 <textarea class="form-control" name="message" v-model="product.Description" placeholder="Omschrijving" rows="9"></textarea>
-                <select id="CategorySelect">
-                    <option v-for="(category, index) in categories" :selected="hasProduct(category, product._id)" :value="category._id">{{ category.Name }}</option>
+                <select v-model="product.Category" id="CategorySelect">
+                    <option v-for="category in categories" :selected="category._id == product.Category" :value="category._id">{{ category.Name }}</option>
                 </select>
 
                 <ul>
@@ -40,20 +40,31 @@
         mixins: [ require('./../../mixins/auth') ],
         created() {
             var self = this;
-            eventHub.$on('user-detected', function(data) {
+            eventHub.$on('user-detected', data => {
+                var productId = location.search.split('id=')[1];
                 self.user = data;
-                self.product._id = location.search.split('id=')[1];
-                $.get(apiUrl + '/products/' + self.product._id, function(product) {
-                    self.product = product
-                    self.files = product.Images
-                });
 
-                $.get(apiUrl + '/categories', function(categories) {
-                    self.categories = categories;
-                    if (categories.length != 0) {
-                        self.product.Category = categories[0]._id;
-                    }
-                });
+                // Get product
+                $.get(apiUrl + '/products/' + productId)
+                    .then(product => {
+                        self.product = product;
+                        self.files = product.Images;
+
+                        // Get categories
+                        return $.get(apiUrl + '/categories')
+                    })
+                    .then(categories => {
+                        self.categories = categories;
+
+                        categories.forEach(category => {
+                            // Define current category
+                            category.ProductIds.forEach(value => {
+                                if (self.product._id == value) {
+                                    self.product.Category = category._id;
+                                }
+                            });
+                        });
+                    });
             });
 
         },
@@ -83,11 +94,13 @@
                     document.getElementById(inputId).click();
                 });  
             },
+
             removeImage: function(index) {
                 var self = this
                 delete self.product.Images[index];
                 document.getElementById("image-"+index).remove();
             },
+
             upload: function(file, e){
                 var self = this;
                 var f = e.target.files[0];
@@ -99,6 +112,7 @@
                 };
                 reader.readAsDataURL(f);
             },
+
             submit() {
                 var self = this;
                 this.product.Price = parseInt(this.product.Price)
@@ -118,18 +132,6 @@
                         }
                     }
                 });
-            },
-
-            hasProduct(category, productId) {
-                var found = false;
-                category.ProductIds.forEach(value => {
-                    if (value == productId) {
-                        found = true;
-                    }
-                });
-
-                //console.log(category.Name + ': ' + found);
-                return found
             }
         }
     }

@@ -53,7 +53,7 @@
                         <div class="order-message">
                             <p>Extra informatie</p>
                             <textarea name="message" id="messageArea" v-on:change="SaveMessage()" :value="this.messageAreaText" placeholder="Speciale notities met betrekking tot de bestelling." rows="9"></textarea>
-                            <label><input type="checkbox" id="checkbox" v-model="checked" @click="checkboxToggle('alternative')"> Gebruik het alternatief adres als bezorg adres.</label>
+                            <label><input type="checkbox" id="checkbox" v-model="checked" @click="checkboxToggle()"> Gebruik het alternatief adres als bezorg adres.</label>
                         </div>  
                     </div>                  
                 </div>
@@ -120,7 +120,7 @@
                     localStorage.setItem("messageArea", JSON.stringify(messageArea));
                 }
             },
-            checkboxToggle(box){
+            checkboxToggle(){
                 if(this.checked){
                     sessionStorage.setItem('AlternativeAddress', false);
                 }else{

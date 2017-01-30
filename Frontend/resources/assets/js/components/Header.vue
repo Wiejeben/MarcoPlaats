@@ -40,7 +40,7 @@
                             <ul class="nav navbar-nav">
                                 <li><a href="/cart"><i class="fa fa-shopping-cart"></i> Winkelwagentje</a></li>
 
-                                <li v-if="isAdmin"><a href="/admin/users"><i class="fa fa-pencil-square"></i> Beheer</a></li>
+                                <li v-if="isAdmin"><a href="/admin/"><i class="fa fa-pencil-square"></i> Beheer</a></li>
 
                                 <li v-if="loggedIn"><a href="/account"><i class="fa fa-user"></i> Account</a></li>
                                 <li v-if="loggedIn"><a href="/account/wishlist.html"><i class="fa fa-star"></i> Verlanglijstje</a></li>

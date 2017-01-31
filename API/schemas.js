@@ -16,7 +16,7 @@ schemas = {
             Address: null,
             City: null,
             Zipcode: null,
-        }
+        },
         CreatedAt: null,
         DeletedAt: null
     },

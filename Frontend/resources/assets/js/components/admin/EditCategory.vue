@@ -45,8 +45,8 @@
                     contentType: 'application/json',
                     data: JSON.stringify(self.categorie),
                     dataType: 'json',
-                    success: function(data){
-                        if(data){
+                    success: function(data, status, jqXHR){
+                        if(jqXHR.status == 204){
                             NewAlert('success', 'De categorie is succesvol aangemaakt!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');

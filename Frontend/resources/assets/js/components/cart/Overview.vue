@@ -104,7 +104,7 @@
             eventHub.$on('user-detected', this.setUser);
 
             var products = localStorage.getItem('cart');
-            if(products !== undefined) {
+            if(products !== null) {
                 products = JSON.parse(products);
                 var keys = Object.keys(products);
 

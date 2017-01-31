@@ -9,12 +9,8 @@ module.exports = class OrderController extends RestfulController {
     index() {
         this.model.getAllOrders()
         .then(result => {
-            console.log(result)
             this.res.send(result)
         })
         .catch(this.next)
-    }  
-    
-
-
+    }
 };

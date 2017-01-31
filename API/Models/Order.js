@@ -27,7 +27,7 @@ module.exports = class Order extends Model {
             return item
         });
 
-        if (loggedInUser !== undefined) {
+        if (typeof loggedInUser !== 'undefined') {
             this.document.userId = loggedInUser.document._id
         }
 
@@ -41,7 +41,7 @@ module.exports = class Order extends Model {
 
         promise.then(() => {
             // Apply to logged in user
-            if (loggedInUser !== undefined) {
+            if (typeof loggedInUser !== 'undefined') {
                 loggedInUser.insertOrder(this.document._id)
             }
 

@@ -141,4 +141,45 @@ module.exports = class User extends Authenticatable {
             })
             .catch(Promise.reject)
     }
+    
+    getSoldProducts(userId)
+    {
+        return this.findById(userId)
+            .then(user => {
+                let objectIds = user.ProductIds.map(item => {
+                    item = new ObjectId(item);
+                    return item
+                })
+
+                return new Order().collection.aggregate([
+                    {
+                        $match:{}
+                    },
+                    {
+                        $unwind: {
+                            path: '$OrderLines'
+                        }
+                    },
+                    {
+                        $match: { 'OrderLines.ProductId': { $in: objectIds } }
+                    },
+                    {
+                        $lookup: {
+                            from: 'Users',
+                            localField: 'userId',
+                            foreignField: '_id',
+                            as: 'User'
+                        }
+                    },
+                    {
+                        $unwind: '$User'
+                    }
+                ]).toArray().then(soldProducts => {
+                    // console.log(soldProducts)
+                    return Promise.resolve(soldProducts)
+                })
+                .catch(Promise.reject)
+            })
+    }
+
 };

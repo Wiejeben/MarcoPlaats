@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "laravel-elixir-env": "^0.1.1",
+    "moment": "^2.17.1",
     "vue-chart": "^2.0.0",
     "vue-slider-component": "^2.1.2"
   }

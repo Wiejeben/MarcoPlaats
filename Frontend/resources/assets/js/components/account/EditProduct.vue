@@ -6,7 +6,7 @@
                 <h4>Product</h4>
                 <input class="form-control" placeholder="Naam"  v-model="product.Name" autofocus>
                 <input class="form-control" placeholder="Prijs"  v-model="product.Price">
-                <input class="form-control" placeholder="Quantiteit"  v-model="product.Amount">
+                <input type="number" class="form-control" placeholder="Quantiteit"  v-model="product.Amount">
                 <textarea class="form-control" name="message" v-model="product.Description" placeholder="Omschrijving" rows="9"></textarea>
                 <select v-model="product.Category" id="CategorySelect">
                     <option v-for="category in categories" :selected="category._id == product.Category" :value="category._id">{{ category.Name }}</option>

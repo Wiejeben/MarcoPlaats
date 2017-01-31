@@ -2,7 +2,7 @@ const Model = require('./../Helpers/Model'),
     _ = require('lodash'),
     User = require('./User'),
     schemas = require('./../schemas.js'),
-    Product = require('./Product')
+    Product = require('./Product');
 
 module.exports = class Order extends Model {
     constructor() {
@@ -20,35 +20,89 @@ module.exports = class Order extends Model {
      * @return {Promise}
      */
     insert() {
-
+        // Sanitize order lines
         this.document.OrderLines = this.document.OrderLines.map(item => this.sanitize(item, schemas.OrderLines))
         this.document.OrderLines = this.document.OrderLines.map(item => {
             item.ProductId = new ObjectId(item.ProductId);
             return item
-        })
+        });
 
         if (typeof loggedInUser !== 'undefined') {
             this.document.userId = loggedInUser.document._id
         }
-        this.document.OrderDate = new Date();
+
+        this.document.OrderDate = Math.floor(new Date() / 1000);
         this.document = this.sanitize(this.document, schemas.Order)
 
-        // loggedInUser
+        // Sanitise order
+        this.document = this.sanitize(this.document, schemas.Order);
+
         const promise = this.collection.insertOne(this.document);
-
-        // // Validate category id before inserting product
-        // const categoryId = this.document.Category
-        // if (!this.validateId(categoryId)) return Promise.reject(new restify.BadRequestError('Invalid or missing category ObjectId'))
-
-        // const proimse =  this.collection.inserOne(this.document)
 
         promise.then(() => {
             // Apply to logged in user
             if (typeof loggedInUser !== 'undefined') {
                 loggedInUser.insertOrder(this.document._id)
             }
-        })
+
+            // Update product stock
+            this.document.OrderLines.forEach(value => {
+                const product = new Model('Products', schemas.Product);
+
+                product.findById(value.ProductId)
+                    .then(() => {
+                        let amount = product.document.Amount - value.Amount;
+
+                        // Prevent negative stock
+                        if (amount <= 0) {
+                            amount = 0;
+                        }
+
+                        product.document.Amount = amount;
+
+                        product.update()
+                    })
+            });
+        });
 
         return promise
+    }
+    getAllOrders() {
+        return new Order().collection.aggregate([
+            {
+                $unwind: {
+                    path: '$OrderLines',
+                }
+            },
+            {
+                $lookup: {
+                    from: 'Products',
+                    localField: 'OrderLines.ProductId',
+                    foreignField: '_id',
+                    as: 'Products'
+                }
+            },
+            {
+                $unwind: {
+                    path: '$Products',
+                }
+            },
+            {
+                $group: {
+                    _id: '$_id',
+                    Amount: { $sum: '$OrderLines.Amount' },
+                    TotalPrice: { $sum: { $multiply: ['$Products.Price', '$OrderLines.Amount'] } },
+                    Products: {
+                        $push: {
+                            'product': '$Products',
+                            'amount': '$OrderLines.Amount',
+                            'basePrice': '$Products.Price',
+                            'totalPrice': { $multiply: ['$Products.Price', '$OrderLines.Amount'] }
+                        }
+                    },
+                }
+            },
+
+        ]).toArray()
     }
 };

@@ -25,6 +25,11 @@ app.get('/users/:userId/orders', (req, res, next) => {
     return new UserController(req, res, next).getOrders()
 });
 
+// Sold products
+app.get('/users/:userId/sold', (req, res, next) => {
+    return new UserController(req, res, next).getSoldProducts()
+});
+
 // Favorites
 app.get('/users/:userId/favorites', (req, res, next) => {
     return new UserController(req, res, next).getFavorites()

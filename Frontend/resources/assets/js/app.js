@@ -1,5 +1,6 @@
 require('./bootstrap');
 require('./components/bootstrap');
+global.moment = require('moment');
 
 const app = new Vue({
     el: '#app',

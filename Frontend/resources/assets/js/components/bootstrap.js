@@ -17,6 +17,7 @@ Vue.component('account-products-component', require('./account/Products.vue'));
 Vue.component('account-addproduct-component', require('./account/AddProduct.vue'));
 Vue.component('account-editproduct-component', require('./account/EditProduct.vue'));
 Vue.component('account-orders-component', require('./account/Orders.vue'));
+Vue.component('account-soldorders-component', require('./account/SoldOrders.vue'));
 
 // Cart
 Vue.component('cart-overview-component', require('./cart/Overview.vue'));
@@ -37,4 +38,6 @@ Vue.component('admin-users-component', require('./admin/Users.vue'));
 Vue.component('admin-users-edit-component', require('./admin/UsersEdit.vue'));
 
 Vue.component('admin-statistics-component', require('./admin/Statistics.vue'));
+
+Vue.component('admin-orders-overview-component', require('./admin/Orders.vue'));
 

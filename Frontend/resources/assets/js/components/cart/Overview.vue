@@ -104,7 +104,7 @@
             eventHub.$on('user-detected', this.setUser);
 
             var products = localStorage.getItem('cart');
-            if(products !== undefined) {
+            if(products !== null) {
                 products = JSON.parse(products);
                 var keys = Object.keys(products);
 
@@ -151,7 +151,7 @@
             products: {
                 handler(products) {
                     // Update localStorage
-                    localStorage.setItem("cart", JSON.stringify(products))
+                    this.updateStorage(products);
                 },
                 deep: true
             }
@@ -160,6 +160,10 @@
         methods: {
             setUser(user) {
                 this.user = user;
+            },
+
+            updateStorage(products) {
+                localStorage.setItem("cart", JSON.stringify(products))
             },
 
             updateQuantityInput(product){
@@ -181,6 +185,8 @@
 
                     // Delete from localStorage
                     delete this.products[productId];
+
+                    this.updateStorage(this.products);
 
                     NewAlert('success', 'Product succesvol verwijderd van winkelwagen!');
                 }

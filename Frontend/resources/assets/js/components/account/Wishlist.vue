@@ -20,7 +20,7 @@
                             <img v-else src="/images/product-placeholder.jpg" :alt="product.Name" />
                         </td>
                         <td>
-                            <a href="">{{product.Name}}</a>
+                            <a :href="'/product.html?id=' + product._id">{{product.Name}}</a>
                         </td>
                         <td>
                             <p>€{{product.Price}}</p>

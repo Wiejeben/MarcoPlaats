@@ -46,6 +46,5 @@ module.exports = class ProductController extends RestfulController {
                 this.res.send(this.model.document)
             })
             .catch(this.next)
-
     }
 };

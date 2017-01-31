@@ -67,4 +67,42 @@ module.exports = class Order extends Model {
 
         return promise
     }
+    getAllOrders() {
+        return new Order().collection.aggregate([
+            {
+                $unwind: {
+                    path: '$OrderLines',
+                }
+            },
+            {
+                $lookup: {
+                    from: 'Products',
+                    localField: 'OrderLines.ProductId',
+                    foreignField: '_id',
+                    as: 'Products'
+                }
+            },
+            {
+                $unwind: {
+                    path: '$Products',
+                }
+            },
+            {
+                $group: {
+                    _id: '$_id',
+                    Amount: { $sum: '$OrderLines.Amount' },
+                    TotalPrice: { $sum: { $multiply: ['$Products.Price', '$OrderLines.Amount'] } },
+                    Products: {
+                        $push: {
+                            'product': '$Products',
+                            'amount': '$OrderLines.Amount',
+                            'basePrice': '$Products.Price',
+                            'totalPrice': { $multiply: ['$Products.Price', '$OrderLines.Amount'] }
+                        }
+                    },
+                }
+            },
+
+        ]).toArray()
+    }
 };

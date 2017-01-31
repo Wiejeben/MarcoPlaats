@@ -8,7 +8,7 @@
                 <thead>
                     <tr>
                         <th>Naam</th>
-                        <th>Aantal</th>
+                        <th>Quantiteit</th>
                         <th>Prijs</th>
                     </tr>
                 </thead>
@@ -16,7 +16,8 @@
                     <tr v-for="product in products">
                         <td>{{ product.Name }}</td>
                         <td>{{ product.Amount }}</td>
-                        <td>{{ product.Price }}</td>
+                        <td>&euro; {{ product.Price }}</td>
+                        <td class="table_button"><a :href="'/product.html?id=' + product._id"><i class="fa fa-search"></i></a></td>
                         <td class="table_button"><a :href="'edit.html?id=' + product._id"><i class="fa fa-pencil"></i></a></td>
                         <td class="table_button"><a href="javascript:;" class="cart_quantity_delete" @click.prevent="deleteProduct(product)"><i class="fa fa-times"></i></a></td>
                     </tr>

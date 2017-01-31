@@ -15,9 +15,14 @@
                         <a :href="'/profile.html?id=' + product.SellerID"><p>Verkoper</p></a>
                         <span>
                             <span>&euro; {{ product.Price }},-</span>
-                            <button type="button" @click.prevent="AddToCart()" class="btn btn-fefault cart">
+
+                            <button v-if="product.Amount > 0" type="button" @click.prevent="AddToCart()" class="btn btn-fefault cart">
                                 <i class="fa fa-shopping-cart"></i>
                                 In winkelwagen
+                            </button>
+                            <button v-else type="button" onclick="return false" class="btn btn-fefault cart">
+                                <i class="fa fa-close"></i>
+                                Uitverkocht
                             </button>
                         </span>
                     </div><!--/product-information-->

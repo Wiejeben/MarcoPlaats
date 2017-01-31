@@ -22,7 +22,7 @@
                     { name: 'Statistieken', url: '/', active: false },
                     { name: 'Gebruikers', url: '/users/', active: false },
                     { name: 'Producten', url: '/products/', active: false },
-                    { name: 'Orders', url: '/orders/', active: false },
+                    { name: 'Bestellingen', url: '/orders/', active: false },
                     { name: 'Categorieën', url: '/categories/', active: false },
                 ],
             }

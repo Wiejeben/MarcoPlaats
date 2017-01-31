@@ -3,7 +3,7 @@
         <h2 class="title text-center">Beheer</h2>
         <div class="row">
             <div class="col-sm-9">
-                <h3>All Orders</h3>
+                <h3>Alle bestellingen</h3>
             </div>
         </div>
         <div v-if="orders.length > 0" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -72,8 +72,8 @@
                 </div>
             </div>
         </div>
-        <p>
-            U heeft geen orders.
+        <p v-else>
+            U heeft geen bestellingen.
         </p>
     </div>
 </template>

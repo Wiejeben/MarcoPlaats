@@ -11,7 +11,7 @@
                         </a>
                         <h2>€ {{ product.Price }}</h2>
                         <p>{{ product.Name }}</p>
-                        <a href="#" @click.prevent="AddToCart(product._id)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
+                        <a href="#" @click.prevent="AddToCart(product)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
                     </div>
                 </div>
                 <div class="choose">
@@ -81,17 +81,29 @@
                 self.url = '/categories/' + category._id
                 this.initProducts()
             },
-            AddToCart(productId) {
+            AddToCart(product) {
+                var productId = product._id;
+
                 if(localStorage["cart"] !== undefined) {
                     var cart = JSON.parse(localStorage["cart"]);
+
                     if(cart[productId] === undefined){
                         cart[productId] = 1;
                         localStorage.setItem("cart", JSON.stringify(cart));
                         NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
                     } else {
-                        cart[productId] += 1;
-                        localStorage.setItem("cart", JSON.stringify(cart));
-                        NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
+
+                        var amount = cart[productId];
+
+                        // Do not increment over the limit
+                        if (product.Amount >= amount + 1) {
+                            cart[productId]++;
+
+                            localStorage.setItem("cart", JSON.stringify(cart));
+                            NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
+                        } else {
+                            NewAlert('warning', 'Er zijn niet meer producten voorradig.');
+                        }
                     }
                 } else {
                     var cart = {};

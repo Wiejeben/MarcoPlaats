@@ -78,8 +78,15 @@
                         self.cart[productId] = 1;
                         NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
                     } else {
-                        self.cart[productId] += 1;
-                        NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
+                        var amount = self.cart[productId];
+
+                        // Do not increment over the limit
+                        if (self.product.Amount >= amount + 1) {
+                            self.cart[productId]++;
+                            NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
+                        } else {
+                            NewAlert('warning', 'Er zijn niet meer producten voorradig.');
+                        }
                     }
                 } else {
                     self.cart[productId] = 1;

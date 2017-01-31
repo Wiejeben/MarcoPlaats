@@ -37,10 +37,10 @@
                                         <a v-else href="#" @click.prevent="DeleteFavorites(product.product._id)"><i class="fa fa-star"></i></a>
                                     </td>
                                     <td class="cart_product">
-                                        <a href=""><img src="/images/cart/one.png" alt=""></a>
+                                        <a :href="'/product.html?id=' + product.product._id"><img src="/images/cart/one.png" alt=""></a>
                                     </td>
                                     <td class="cart_description">
-                                        <h4><a href="">{{product.product.Name}}</a></h4>
+                                        <h4><a :href="'/product.html?id=' + product.product._id">{{product.product.Name}}</a></h4>
                                     </td>
                                     <td class="cart_price">
                                         <p>{{product.basePrice}}</p>

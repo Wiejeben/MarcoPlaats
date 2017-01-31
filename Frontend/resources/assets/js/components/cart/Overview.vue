@@ -204,6 +204,8 @@
                 // Do not increment over the limit
                 if (product.Amount >= amount + 1) {
                     this.products[productId]++;
+                } else {
+                    NewAlert('warning', 'Er zijn niet meer producten voorradig.');
                 }
             }
         }

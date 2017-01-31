@@ -29,7 +29,9 @@
                             <a class="cart_quantity_delete" @click.prevent="deleteWishlistItem(product)" href=""><i class="fa fa-times"></i></a>
                         </td>
                     </tr>
-                    <tr><td>Geen producten in uw verlanglijstje.</td></tr>
+                    <tr v-else>
+                        <td>Geen producten in uw verlanglijstje.</td>
+                    </tr>
                 </tbody>
             </table>
         </div>

@@ -32,7 +32,8 @@
             </div>
 
             <div class="col-xs-12">
-                <button href="#" class="btn btn-primary" @click.prevent="submit()">Opslaan</button><br><br>
+                <button type="submit" class="btn btn-primary" @click.prevent="submit()">Opslaan</button>
+                <br><br>
             </div>
 
         </form>

@@ -102,7 +102,15 @@ module.exports = class Model extends BaseModel {
      * @return {Promise}
      */
     destroy() {
-        if (!this.validateId()) return Promise.reject(new Error('Invalid ObjectId'));
+        this.sanitize();
+
+        let id = this.params.id;
+        if (!this.validateId(id)) return Promise.reject(new Error('Invalid ObjectId'));
+
+        if(this.hasDeletedAt) { 
+            this.document.DeletedAt = Math.floor(new Date() / 1000)
+            return this.update()
+        }
 
         return super.destroy({ _id: new ObjectId(this.document._id) })
     }

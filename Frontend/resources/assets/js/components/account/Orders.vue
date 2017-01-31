@@ -129,6 +129,9 @@
                 $.ajax({
                     url: window.apiUrl+'/users/'+window.User._id + '/favorites/' + id,
                     type: 'DELETE',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ ProductId: id }),
+                    dataType: 'Json',
                     success: function(data) {
                         if(data){
                             self.favorites.splice(self.favorites.indexOf(id), 1);

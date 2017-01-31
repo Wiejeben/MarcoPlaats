@@ -77,9 +77,11 @@
                 </div>
             </div>
         </div>
-        <p>
-            U heeft geen orders.
-        </p>
+        <div v-else>
+            <p>
+                U heeft geen orders.
+            </p>
+        </div>
     </div>
 </template>
 <script>

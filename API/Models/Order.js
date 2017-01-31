@@ -97,7 +97,8 @@ module.exports = class Order extends Model {
                             'product': '$Products',
                             'amount': '$OrderLines.Amount',
                             'basePrice': '$Products.Price',
-                            'totalPrice': { $multiply: ['$Products.Price', '$OrderLines.Amount'] }
+                            'totalPrice': { $multiply: ['$Products.Price', '$OrderLines.Amount'] },
+                            'OrderDate': '$OrderDate'
                         }
                     },
                 }

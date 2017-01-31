@@ -16,6 +16,7 @@
     "dotenv": "^4.0.0",
     "hippie": "^0.5.1",
     "lodash": "^4.16.6",
+    "moment": "^2.17.1",
     "mongodb": "^2.2.11",
     "morgan": "^1.7.0",
     "passport-google-oauth": "^1.0.0",

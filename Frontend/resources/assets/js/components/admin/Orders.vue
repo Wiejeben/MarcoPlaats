@@ -11,7 +11,7 @@
                 <div class="panel-heading" role="tab" :id="'heading-' + index">
                 <h4 class="panel-title">
                     <a role="button" data-toggle="collapse" data-parent="#accordion" :href="'#collapse-' + index" aria-expanded="true" :aria-controls="'#collapse-' + index">
-                    Order #{{orders.length - index }}
+                    Order #{{orders.length - index }} {{ date(order.Products[0].OrderDate) }}
                     </a>
                     <span class="pull-right">€ {{ order.TotalPrice }}</span>
                 </h4>
@@ -72,9 +72,11 @@
                 </div>
             </div>
         </div>
-        <p v-else>
-            U heeft geen bestellingen.
-        </p>
+        <div v-else>
+            <p>
+                Er zijn geen bestellingen geplaatst.
+            </p>
+        </div>
     </div>
 </template>
 
@@ -96,7 +98,9 @@
             }
         },
         methods:{
-            
+            date: function (date) {
+                return moment((date*1000)).format('MMMM Do YYYY, h:mm:ss a');
+            }
         }
     }
 </script>

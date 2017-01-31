@@ -9,9 +9,11 @@
                             <img v-if="product.Images.length > 0" :src="product.Images[0].Image" alt="">
                             <img v-else src="/images/product-placeholder.jpg" :alt="product.Name" />
                         </a>
-                        <h2>€ {{ product.Price }}</h2>
+                        <h2>&euro; {{ product.Price }}</h2>
                         <p>{{ product.Name }}</p>
-                        <a href="#" @click.prevent="AddToCart(product)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
+
+                        <a v-if="product.Amount > 0" href="#" @click.prevent="AddToCart(product)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
+                        <a v-else href="#" onclick="return false" class="btn btn-default add-to-cart"><i class="fa fa-close"></i>Uitverkocht</a>
                     </div>
                 </div>
                 <div class="choose">
@@ -20,10 +22,6 @@
                             <a v-if="!inWishlist(product._id)" href="#" @click.prevent="InsertWishlist(product._id)" class="change-icon"><i class="fa fa-heart-o"></i><i class="fa fa-heart"></i>Op verlanglijstje</a>
                             <a v-else href="#" @click.prevent="DeleteWishlist(product._id)" class="change-icon"><i class="fa fa-heart"></i><i class="fa fa-heart-o"></i>Van verlanglijstje</a>
                         </li>
-                        <!-- <li>
-                            <a v-if="!inFavorites(product._id)" href="#" @click.prevent="InsertFavorites(product._id)"><i class="fa fa-star-o"></i>In favorieten</a>
-                            <a v-else href="#" @click.prevent="DeleteFavorites(product._id)"><i class="fa fa-star"></i>Uit favorieten</a>
-                        </li> -->
                     </ul>
                 </div>
             </div>

@@ -15,9 +15,14 @@
                         <a :href="'/profile.html?id=' + product.SellerID"><p>Verkoper</p></a>
                         <span>
                             <span>&euro; {{ product.Price }},-</span>
-                            <button type="button" @click.prevent="AddToCart()" class="btn btn-fefault cart">
+
+                            <button v-if="product.Amount > 0" type="button" @click.prevent="AddToCart()" class="btn btn-fefault cart">
                                 <i class="fa fa-shopping-cart"></i>
                                 In winkelwagen
+                            </button>
+                            <button v-else type="button" onclick="return false" class="btn btn-fefault cart">
+                                <i class="fa fa-close"></i>
+                                Uitverkocht
                             </button>
                         </span>
                     </div><!--/product-information-->
@@ -78,8 +83,15 @@
                         self.cart[productId] = 1;
                         NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
                     } else {
-                        self.cart[productId] += 1;
-                        NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
+                        var amount = self.cart[productId];
+
+                        // Do not increment over the limit
+                        if (self.product.Amount >= amount + 1) {
+                            self.cart[productId]++;
+                            NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
+                        } else {
+                            NewAlert('warning', 'Er zijn niet meer producten voorradig.');
+                        }
                     }
                 } else {
                     self.cart[productId] = 1;

@@ -5,9 +5,10 @@
         <div class="category-tab shop-details-tab"><!--category-tab-->
             <div class="col-sm-12">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#categorieChartTab" data-toggle="tab" @click.prevent="callChart()">Producten per categorie</a></li>
+                    <li class="active"><a href="#categorieChartTab" data-toggle="tab">Producten per categorie</a></li>
                     <li><a href="#productOrderChartTab" data-toggle="tab">Orders per product</a></li>
                     <li><a href="#categoryOrderChartTab" data-toggle="tab">Orders per categorie</a></li>
+                    <li><a href="#productChartTab" data-toggle="tab">Producten aantal</a></li>
                 </ul>
             </div>
             <div class="tab-content col-sm-12">
@@ -29,6 +30,12 @@
                         <img src="/images/loading.gif" alt="">
                     </div>
                 </div>            
+                <div class="tab-pane" id="productChartTab">
+                    <vue-chart v-if="charts.products.ajaxLoaded" type="bar" ref="products" :data="charts.products" :option="charts.Options"></vue-chart>
+                    <div v-else class="text-center">
+                        <img src="/images/loading.gif" alt="">
+                    </div>
+                </div>
             </div>
         </div>
         <br><br>
@@ -70,6 +77,17 @@ import VueChart from 'vue-chart';
                 });
                 ChartData.ajaxLoaded = true;
             });
+
+            /*$.get(apiUrl + '/statistics/products', function(data) {
+                var ChartData = self.$data.charts.products;
+                console.log(data);
+                data.forEach(function(product) {
+                    ChartData.labels.push(product.count)
+                    ChartData.datasets[0].backgroundColor.push(self.randomColor())
+                    ChartData.datasets[0].data.push(product.count);
+                });
+                ChartData.ajaxLoaded = true;
+            });*/
         },
         components: {
             VueChart
@@ -80,6 +98,9 @@ import VueChart from 'vue-chart';
                     Options: {
                         scales: {
                             yAxes: [{
+                                ticks: {
+                                    beginAtZero:true
+                                },
                                 scaleLabel: {
                                     display: true,
                                     labelString: 'probability'
@@ -103,7 +124,7 @@ import VueChart from 'vue-chart';
                         labels: [],
                         datasets: [
                             {
-                                label: "Aantal verkochte producten",
+                                label: "Aantal keer verkocht",
                                 backgroundColor: [],
                                 data: []
                             }
@@ -115,6 +136,17 @@ import VueChart from 'vue-chart';
                         datasets: [
                             {
                                 label: "Aantal verkochte producten",
+                                backgroundColor: [],
+                                data: []
+                            }
+                        ]
+                    },
+                    products: {
+                        ajaxLoaded: false,
+                        labels: [],
+                        datasets: [
+                            {
+                                label: "Aantal producten",
                                 backgroundColor: [],
                                 data: []
                             }

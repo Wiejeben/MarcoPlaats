@@ -46,16 +46,16 @@
                             </td>
                             <td class="cart_quantity">
                                 <div class="cart_quantity_button">
-                                    <a class="cart_quantity_down" href="" v-on:click.prevent="RemoveOne(product._id)"> - </a>
-                                    <input class="cart_quantity_input" type="text" name="quantity" v-model="amount[product._id]" v-on:change="updateQuantityInput(product._id)" autocomplete="off" size="2" id="quantity" number>
-                                    <a class="cart_quantity_up" href="" v-on:click.prevent="AddOne(product._id)"> + </a>
+                                    <a class="cart_quantity_down" href="" v-on:click.prevent="RemoveOne(product)"> - </a>
+                                    <input class="cart_quantity_input" type="text" name="quantity" v-model="products[product._id]" v-on:change="updateQuantityInput(product)" autocomplete="off" size="2" number>
+                                    <a class="cart_quantity_up" href="" v-on:click.prevent="AddOne(product)"> + </a>
                                 </div>
                             </td>
                             <td class="cart_total">
-                                <p class="cart_total_price">&euro;{{product.Price * amount[product._id]}}</p>
+                                <p class="cart_total_price">&euro;{{product.Price * products[product._id]}}</p>
                             </td>
                             <td class="cart_delete">
-                                <a class="cart_quantity_delete" href="" @click.prevent="DeleteFromCart(product._id)"><i class="fa fa-times"></i></a>
+                                <a class="cart_quantity_delete" href="" @click.prevent="deleteLine(product._id)"><i class="fa fa-times"></i></a>
                             </td>
                         </tr>
                         <tr>
@@ -97,32 +97,47 @@
 <script>
     export default {
         mounted() {
-            eventHub.$on('user-detected', this.setUser);
-            var self = this;
             console.info('Shopping cart ready.');
-            if(localStorage["cart"] !== undefined){
-                this.amount = JSON.parse(localStorage["cart"]);
-                var keys = Object.keys(this.amount)
+            var self = this;
+
+            // Get current user
+            eventHub.$on('user-detected', this.setUser);
+
+            var products = localStorage.getItem('cart');
+            if(products !== undefined) {
+                products = JSON.parse(products);
+                var keys = Object.keys(products);
+
                 for(var i = 0; i < keys.length; i++){
-                    $.get(apiUrl + '/products/' + keys[i], function(data) {
-                        self.cart.push(data);
-                    });
+                    var productId = keys[i];
+
+                    $.get(apiUrl + '/products/' + productId)
+                        .then(data => {
+                            self.products = products;
+                            self.cart.push(data);
+                        })
+                        .catch(() => {
+                            delete products[productId];
+                            localStorage.setItem('cart', JSON.stringify(products))
+                        });
                 }
             }
         },
+
         data() {
             return {
                 cart: [],
-                amount: [],
+                products: [],
                 user: null
             }
         },
-        computed:{
-            sum(){
+
+        computed: {
+            sum() {
                 var self = this;
                 var subTotal = 0;
                     this.cart.forEach(function(product){
-                        var price = self.amount[product._id] * parseInt(product.Price);
+                        var price = self.products[product._id] * parseInt(product.Price);
                         subTotal += price;
                     });
                 return subTotal;
@@ -131,44 +146,67 @@
                 return this.user != null;
             }
         },
-        methods:{
+
+        watch: {
+            products: {
+                handler(products) {
+                    // Update localStorage
+                    localStorage.setItem("cart", JSON.stringify(products))
+                },
+                deep: true
+            }
+        },
+
+        methods: {
             setUser(user) {
                 this.user = user;
             },
-            updateStorage(){
-                localStorage.setItem("cart", JSON.stringify(this.amount));
-            },
-            updateQuantityInput(productId){
-                if(document.getElementById("quantity").value <= 0){
-                    delete this.amount[productId];
-                    this.cart.splice(this.cart.findIndex(x => x._id==productId), 1);
-                    NewAlert('success', 'Product succesvol verwijderd van winkelwagen!');
-                }else{
-                    this.amount[productId] = document.getElementById("quantity").value
+
+            updateQuantityInput(product){
+                var productId = product._id;
+                var line = this.products[productId];
+
+                if (line <= 0) {
+                    this.deleteLine(productId);
+                } else {
+                    this.products[productId] = 1;
                 }
-                this.updateStorage();
             },
-            DeleteFromCart(productId){
-                delete this.amount[productId];
-                this.cart.splice(this.cart.findIndex(x => x._id==productId), 1);
-                this.updateStorage()
-                NewAlert('success', 'Product succesvol verwijderd van winkelwagen!');
-            },
-            RemoveOne(productId){
-                if(this.amount[productId] <= 1){
-                    delete this.amount[productId];
+
+            deleteLine(productId) {
+                if (confirm("Weet u zeker dat u dit product uit uw winkelmandje wil verwijderen?")) {
+
+                    // Delete from cart list
                     this.cart.splice(this.cart.findIndex(x => x._id==productId), 1);
+
+                    // Delete from localStorage
+                    delete this.products[productId];
+
                     NewAlert('success', 'Product succesvol verwijderd van winkelwagen!');
-                }else{
-                    this.amount[productId]--;
-                    document.getElementById("quantity").value = this.amount[productId];
                 }
-                this.updateStorage();
             },
-            AddOne(productId){
-                this.amount[productId]++;
-                document.getElementById("quantity").value = this.amount[productId];
-                this.updateStorage();
+
+            RemoveOne(product){
+                var productId = product._id;
+
+                if(this.products[productId] <= 1) {
+                    this.deleteLine(productId);
+                } else {
+                    this.products[productId]--;
+                }
+
+            },
+
+            AddOne(product){
+                var productId = product._id;
+                var amount = this.products[productId];
+
+                // Do not increment over the limit
+                if (product.Amount >= amount + 1) {
+                    this.products[productId]++;
+                } else {
+                    NewAlert('warning', 'Er zijn niet meer producten voorradig.');
+                }
             }
         }
     }

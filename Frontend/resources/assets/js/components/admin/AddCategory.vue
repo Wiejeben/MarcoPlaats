@@ -7,9 +7,9 @@
             <div class="col-sm-12 clearfix">
                 <div class="form-one">
                     <form>
-                        <input type="text" placeholder="Naam" v-model="categorie.Name">
+                        <input type="text" placeholder="Naam" v-model="categorie.Name" autofocus>
                         <div id="do_action">
-                            <a href="#" class="btn btn-primary" @click.prevent="submit()">Opslaan</a>
+                            <button type="submit" class="btn btn-primary" @click.prevent="submit()">Opslaan</button>
                         </div>
                     </form>
                 </div>

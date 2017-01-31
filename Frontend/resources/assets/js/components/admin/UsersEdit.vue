@@ -5,7 +5,7 @@
         <form v-if="user != null" class="row">
             <div class="col-sm-6 col-xs-12 shopper-info">
                 <h4>Account</h4>
-                <input class="form-control" placeholder="Voornaam"  v-model="user.FirstName">
+                <input class="form-control" placeholder="Voornaam"  v-model="user.FirstName" autofocus>
                 <input class="form-control" placeholder="Achternaam" v-model="user.LastName">
                 <input type="email" class="form-control" placeholder="Email" v-model="user.Email">
                 <input class="form-control" placeholder="Telefoonnummer" v-model="user.PhoneNumber">
@@ -33,7 +33,8 @@
             </div>
 
             <div class="col-xs-12">
-                <button href="#" class="btn btn-primary" @click.prevent="submit()">Opslaan</button><br><br>
+                <button type="submit" class="btn btn-primary" @click.prevent="submit()">Opslaan</button>
+                <br><br>
             </div>
         </form>
     </div>

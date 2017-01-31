@@ -28,8 +28,6 @@
             }
         },
         created() {
-            console.log(this.url);
-
             var self = this;
             self.menu.forEach(item => {
                 item.active = (item.url == ((self.url == '/undefined/') ? '/' : self.url));

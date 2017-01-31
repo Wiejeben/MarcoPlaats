@@ -16,10 +16,11 @@
                 <tbody>
                     <tr v-if="wishlist.length > 0" v-for="product in wishlist">
                         <td width="35%">
-                            <a href=""><img class="img-responsive" width="100%" :src="product.Images[0].Image" alt=""></a>
+                            <img v-if="product.Images.length > 0" :src="product.Images[0].Image" alt="">
+                            <img v-else src="/images/product-placeholder.jpg" :alt="product.Name" />
                         </td>
                         <td>
-                            <a href="">{{product.Name}}</a>
+                            <a :href="'/product.html?id=' + product._id">{{product.Name}}</a>
                         </td>
                         <td>
                             <p>€{{product.Price}}</p>
@@ -28,7 +29,9 @@
                             <a class="cart_quantity_delete" @click.prevent="deleteWishlistItem(product)" href=""><i class="fa fa-times"></i></a>
                         </td>
                     </tr>
-                    <tr><td>Geen producten in uw verlanglijstje.</td></tr>
+                    <tr v-else>
+                        <td>Geen producten in uw verlanglijstje.</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -45,12 +48,14 @@
                         self.wishlist = data;
                     });
              })
-        }, 
+        },
+
         data() {
             return {
                 wishlist: []
             }
         },
+
         methods:{
             deleteWishlistItem(product) {
                 var self = this;

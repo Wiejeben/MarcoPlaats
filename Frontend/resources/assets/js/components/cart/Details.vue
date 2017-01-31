@@ -40,7 +40,7 @@
                                     <input type="text" placeholder="Adres" v-model="user.MainAddress.Address">
                                     <input type="text" placeholder="Postcode" v-model="user.MainAddress.Zipcode">
                                     <input type="text" placeholder="Plaats" v-model="user.MainAddress.City">
-                                    <div id="alternative" style="display:none">
+                                    <div v-if="checked">
                                         <input type="text" placeholder="Alternatief Adres" v-model="user.DeliveryAddress.Address">
                                         <input type="text" placeholder="Alternatieve Postcode" v-model="user.DeliveryAddress.Zipcode">
                                         <input type="text" placeholder="Alternatieve Plaats" v-model="user.DeliveryAddress.City">
@@ -53,7 +53,7 @@
                         <div class="order-message">
                             <p>Extra informatie</p>
                             <textarea name="message" id="messageArea" v-on:change="SaveMessage()" :value="this.messageAreaText" placeholder="Speciale notities met betrekking tot de bestelling." rows="9"></textarea>
-                            <label><input type="checkbox" id="checkbox" v-model="checked" @click="checkboxToggle('alternative')"> Gebruik het alternatief adres als bezorg adres.</label>
+                            <label><input type="checkbox" id="checkbox" v-model="checked"> Gebruik het alternatief adres als bezorg adres.</label>
                         </div>  
                     </div>                  
                 </div>
@@ -71,18 +71,26 @@
     export default {
         mounted() {
             eventHub.$on('user-detected', this.setUser);
+
             if(localStorage["messageArea"]){
                 this.messageAreaText = JSON.parse(localStorage["messageArea"]);
             }
+
             if(localStorage["cart"]){
                 this.cart.push(JSON.parse(localStorage["cart"]));
             }
-            if(!localStorage["AlternativeAddress"]){
-                localStorage.setItem("AlternativeAddress", false);
-            }else{
-                this.checked = JSON.parse(localStorage["AlternativeAddress"]);
+
+            if(sessionStorage['AlternativeAddress']){
+                sessionStorage.setItem('AlternativeAddress', false);
             }
         },
+
+        watch: {
+            checked(value) {
+                sessionStorage.setItem('AlternativeAddress', value);
+            }
+        },
+
         data() {
             return {
                 user: null,
@@ -91,10 +99,12 @@
                 checked: false
             }
         },
-        methods:{
+
+        methods: {
             setUser(user) {
                 this.user = user;
             },
+
             UpdateShoppingUser(){
                 var self = this;
                 $.ajax({
@@ -112,6 +122,7 @@
                     }
                 });
             },
+
             SaveMessage(){
                 if(localStorage["messageArea"]){
                     var messageArea = JSON.parse(localStorage["messageArea"]);
@@ -120,15 +131,6 @@
                 }else{
                     var messageArea = document.getElementById("messageArea").value;
                     localStorage.setItem("messageArea", JSON.stringify(messageArea));
-                }
-            },
-            checkboxToggle(box){
-                if(this.checked){
-                    localStorage.setItem("AlternativeAddress", false);
-                    document.getElementById(box).style.display = "none";
-                }else{
-                    localStorage.setItem("AlternativeAddress", true);
-                    document.getElementById(box).style.display = "block";
                 }
             }
         }

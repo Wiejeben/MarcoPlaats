@@ -15,11 +15,13 @@
                 <thead>
                     <tr>
                         <th>Naam</th>
+                        <th>Producten</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="categorie in categories">
                         <td>{{ categorie.Name }}</td>
+                        <td>{{ categorie.ProductIds.length }}</td>
                         <td class="table_button"><a :href="'edit.html?id=' + categorie._id"><i class="fa fa-pencil"></i></a></td>
                         <td class="table_button"><a class="cart_quantity_delete" @click.prevent="deleteCategorie(categorie)"><i class="fa fa-times"></i></a></td>
                     </tr>

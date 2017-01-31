@@ -29,7 +29,7 @@
                     <dd>{{ userProfile.MainAddress.Zipcode }}</dd>
                 </dl>
             </div>
-            <div class="col-sm-6 col-xs-12">
+            <div v-if="hasAlternativeAddress()" class="col-sm-6 col-xs-12">
                 <h4>Alternatief adres</h4>
                 <dl class="dl-horizontal">
                     <dt>Adres:</dt>
@@ -44,7 +44,7 @@
         <div v-if="userProfile.PublicWishlist" class="category-tab shop-details-tab"><!--category-tab-->
             <div class="col-sm-12">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#details" data-toggle="tab">Wishlist</a></li>
+                    <li class="active"><a href="#details" data-toggle="tab">Verlanglijstje</a></li>
                 </ul>
                 <table class="table table-condensed">
                     <thead>
@@ -109,6 +109,14 @@
                 userProfile: false,
                 found: null,
                 wishlist: []
+            }
+        },
+
+        methods: {
+            hasAlternativeAddress() {
+                return (this.userProfile.DeliveryAddress.Address != '' &&
+                    this.userProfile.DeliveryAddress.City != '' &&
+                    this.userProfile.DeliveryAddress.Zipcode != '')
             }
         }
     }

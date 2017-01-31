@@ -6,18 +6,32 @@
             <div class="col-sm-12">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#categorieChartTab" data-toggle="tab">Producten per categorie</a></li>
-                    <li><a href="#productOrderChartTab" data-toggle="tab">Orders per categorie</a></li>
+                    <li><a href="#productOrderChartTab" data-toggle="tab">Orders per product</a></li>
+                    <li><a href="#categoryOrderChartTab" data-toggle="tab">Orders per categorie</a></li>
+                    <li><a href="#productChartTab" data-toggle="tab">Producten aantal</a></li>
                 </ul>
             </div>
             <div class="tab-content col-sm-12">
-                <div class="tab-pane fade actve in" id="categorieChartTab" >
-                    <vue-chart v-if="charts.categories.ajaxLoaded" type="radar" ref="categories" :data="charts.categories" :option="charts.Options"></vue-chart>
+                <div class="tab-pane fade active in" id="categorieChartTab" >
+                    <vue-chart v-if="charts.categories.ajaxLoaded" type="pie" ref="categories" :data="charts.categories" :option="charts.Options"></vue-chart>
                     <div v-else class="text-center">
                         <img src="/images/loading.gif" alt="">
                     </div>
                 </div>
                 <div class="tab-pane" id="productOrderChartTab">
                     <vue-chart v-if="charts.productOrder.ajaxLoaded" type="bar" ref="productOrder" :data="charts.productOrder" :option="charts.Options"></vue-chart>
+                    <div v-else class="text-center">
+                        <img src="/images/loading.gif" alt="">
+                    </div>
+                </div>
+                <div class="tab-pane" id="categoryOrderChartTab">
+                    <vue-chart v-if="charts.categoryOrder.ajaxLoaded" type="bar" ref="categoryOrder" :data="charts.categoryOrder" :option="charts.Options"></vue-chart>
+                    <div v-else class="text-center">
+                        <img src="/images/loading.gif" alt="">
+                    </div>
+                </div>            
+                <div class="tab-pane" id="productChartTab">
+                    <vue-chart v-if="charts.products.ajaxLoaded" type="bar" ref="products" :data="charts.products" :option="charts.Options"></vue-chart>
                     <div v-else class="text-center">
                         <img src="/images/loading.gif" alt="">
                     </div>
@@ -38,19 +52,42 @@ import VueChart from 'vue-chart';
                 var ChartData = self.$data.charts.categories;
                 data.forEach(function(category) {
                     ChartData.labels.push(category._id)
+                    ChartData.datasets[0].backgroundColor.push(self.randomColor())
                     ChartData.datasets[0].data.push(category.count);
                 });
                 ChartData.ajaxLoaded = true;
             });
+
             $.get(apiUrl + '/statistics/productordercount', function(data) {
                 var ChartData = self.$data.charts.productOrder;
+                data.forEach(function(product) {
+                    ChartData.labels.push(product._id.Name)
+                    ChartData.datasets[0].backgroundColor.push(self.randomColor())
+                    ChartData.datasets[0].data.push(product.Amount);
+                });
+                ChartData.ajaxLoaded = true;
+            });
+
+            $.get(apiUrl + '/statistics/categoryordercount', function(data) {
+                var ChartData = self.$data.charts.categoryOrder;
                 data.forEach(function(category) {
-                    ChartData.labels.push(category._id.Name)
+                    ChartData.labels.push(category.Name)
                     ChartData.datasets[0].backgroundColor.push(self.randomColor())
                     ChartData.datasets[0].data.push(category.Amount);
                 });
                 ChartData.ajaxLoaded = true;
             });
+
+            /*$.get(apiUrl + '/statistics/products', function(data) {
+                var ChartData = self.$data.charts.products;
+                console.log(data);
+                data.forEach(function(product) {
+                    ChartData.labels.push(product.count)
+                    ChartData.datasets[0].backgroundColor.push(self.randomColor())
+                    ChartData.datasets[0].data.push(product.count);
+                });
+                ChartData.ajaxLoaded = true;
+            });*/
         },
         components: {
             VueChart
@@ -61,6 +98,9 @@ import VueChart from 'vue-chart';
                     Options: {
                         scales: {
                             yAxes: [{
+                                ticks: {
+                                    beginAtZero:true
+                                },
                                 scaleLabel: {
                                     display: true,
                                     labelString: 'probability'
@@ -74,25 +114,8 @@ import VueChart from 'vue-chart';
                         datasets: [
                             {
                                 label: "Aantal producten",
-                                fill: false,
-                                lineTension: 0.1,
-                                backgroundColor: "rgba(75,192,192,0.4)",
-                                borderColor: "rgba(75,192,192,1)",
-                                borderCapStyle: 'butt',
-                                borderDash: [],
-                                borderDashOffset: 0.0,
-                                borderJoinStyle: 'miter',
-                                pointBorderColor: "rgba(75,192,192,1)",
-                                pointBackgroundColor: "#fff",
-                                pointBorderWidth: 1,
-                                pointHoverRadius: 5,
-                                pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                                pointHoverBorderColor: "rgba(220,220,220,1)",
-                                pointHoverBorderWidth: 2,
-                                pointRadius: 1,
-                                pointHitRadius: 10,
-                                data: [],
-                                spanGaps: false,
+                                backgroundColor: [],
+                                data: []
                             }
                         ]
                     },
@@ -101,7 +124,29 @@ import VueChart from 'vue-chart';
                         labels: [],
                         datasets: [
                             {
+                                label: "Aantal keer verkocht",
+                                backgroundColor: [],
+                                data: []
+                            }
+                        ]
+                    },
+                    categoryOrder: {
+                        ajaxLoaded: false,
+                        labels: [],
+                        datasets: [
+                            {
                                 label: "Aantal verkochte producten",
+                                backgroundColor: [],
+                                data: []
+                            }
+                        ]
+                    },
+                    products: {
+                        ajaxLoaded: false,
+                        labels: [],
+                        datasets: [
+                            {
+                                label: "Aantal producten",
                                 backgroundColor: [],
                                 data: []
                             }

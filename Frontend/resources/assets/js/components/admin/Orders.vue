@@ -1,17 +1,17 @@
 <template>
     <div class="items"><!--features_items-->
-        <h2 class="title text-center">Orders</h2>
+        <h2 class="title text-center">Beheer</h2>
         <div class="row">
             <div class="col-sm-9">
-                <h3>Orders</h3>
+                <h3>All Orders</h3>
             </div>
         </div>
-        <div v-if="Orders.length > 0" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-default" v-for="(order, index) in Orders">
+        <div v-if="orders.length > 0" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default" v-for="(order, index) in orders">
                 <div class="panel-heading" role="tab" :id="'heading-' + index">
                 <h4 class="panel-title">
                     <a role="button" data-toggle="collapse" data-parent="#accordion" :href="'#collapse-' + index" aria-expanded="true" :aria-controls="'#collapse-' + index">
-                    Order #{{Orders.length - index }}
+                    Order #{{orders.length - index }}
                     </a>
                     <span class="pull-right">€ {{ order.TotalPrice }}</span>
                 </h4>
@@ -22,7 +22,6 @@
                         <table class="table table-condensed">
                             <thead>
                                 <tr class="cart_menu">
-                                    <td></td>
                                     <td class="image">Afbeelding</td>
                                     <td class="description">Product</td>
                                     <td class="price">Prijs</td>
@@ -32,15 +31,11 @@
                             </thead>
                             <tbody>
                                 <tr v-for="product in order.Products">
-                                    <td>
-                                        <a v-if="!inFavorites(product.product._id)" href="#" @click.prevent="InsertFavorites(product.product._id)"><i class="fa fa-star-o"></i></a>
-                                        <a v-else href="#" @click.prevent="DeleteFavorites(product.product._id)"><i class="fa fa-star"></i></a>
-                                    </td>
                                     <td class="cart_product">
-                                        <a :href="'/product.html?id=' + product.product._id"><img src="/images/cart/one.png" alt=""></a>
+                                        <a href=""><img src="/images/cart/one.png" alt=""></a>
                                     </td>
                                     <td class="cart_description">
-                                        <h4><a :href="'/product.html?id=' + product.product._id">{{product.product.Name}}</a></h4>
+                                        <h4><a href="">{{product.product.Name}}</a></h4>
                                     </td>
                                     <td class="cart_price">
                                         <p>{{product.basePrice}}</p>
@@ -82,63 +77,26 @@
         </p>
     </div>
 </template>
+
 <script>
     export default {
-        created() {
-            self = this;
-            HasRole('user', function(){
-                $.get(apiUrl + '/users/' + User._id + '/orders', function(orders) {
-                    self.Orders = orders;
-                });
+        mounted() {
+            console.info('Orders overview admin ready.');
+            var self = this;
 
-                self.favorites = User.FavoriteProductIds;
+            HasRole('admin', function() {
+                $.get(apiUrl + '/orders', function(orders) {
+                    self.orders = orders;
+                });
             })
         },
         data() {
             return {
-                Orders: [],
-                favorites: []
-
+                orders: []
             }
         },
         methods:{
-            inFavorites(id){
-                var self = this;
-                return self.favorites.indexOf(id) > -1 ? true : false;
-            },
-            InsertFavorites(id) {
-                var self = this;
-                $.ajax({
-                    url: window.apiUrl+'/users/' + window.User._id + '/favorites',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ ProductId: id }),
-                    dataType: 'Json',
-                    success: function(data) {
-                        if(data){
-                            self.favorites.push(id);
-                            NewAlert('success', 'Product succesvol toegevoegd aan favorieten!');
-                        } else {
-                            NewAlert('error', 'Er is iets fout gegaan');
-                        }
-                    }
-                });
-            },
-            DeleteFavorites(id) {
-                var self = this;
-                $.ajax({
-                    url: window.apiUrl+'/users/'+window.User._id + '/favorites/' + id,
-                    type: 'DELETE',
-                    success: function(data) {
-                        if(data){
-                            self.favorites.splice(self.favorites.indexOf(id), 1);
-                            NewAlert('success', 'Product succesvol verwijdert uit favorieten!');
-                        } else {
-                            NewAlert('error', 'Er is iets fout gegaan');
-                        }
-                    }
-                });
-            }
+            
         }
     }
 </script>

@@ -4,12 +4,12 @@
         <form v-if="user !== null && product.Name !== null" class="row">
             <div class="col-sm-6 col-xs-12 shopper-info">
                 <h4>Product</h4>
-                <input class="form-control" placeholder="Name"  v-model="product.Name">
+                <input class="form-control" placeholder="Naam"  v-model="product.Name" autofocus>
                 <input class="form-control" placeholder="Prijs"  v-model="product.Price">
-                <input class="form-control" placeholder="Amount"  v-model="product.Amount">
-                <textarea name="message" v-model="product.Description" placeholder="Description." rows="9"></textarea>
+                <input class="form-control" placeholder="Quantiteit"  v-model="product.Amount">
+                <textarea class="form-control" name="message" v-model="product.Description" placeholder="Omschrijving" rows="9"></textarea>
                 <select v-model="product.Category" id="CategorySelect">
-                    <option v-for="(category, index) in categories" :selected="index === product.Category" :value="category._id">{{ category.Name }}</option>
+                    <option v-for="category in categories" :selected="category._id == product.Category" :value="category._id">{{ category.Name }}</option>
                 </select>
 
                 <ul>
@@ -25,12 +25,13 @@
                 </ul>
                 <div class="value_btn">
                     <a href="#" v-on:click="addImage" class="add">
-                        <span>Add Image</span>
+                        <span>Afbeelding toevoegen</span>
                     </a>
                 </div>
             </div>
             <div class="col-xs-12">
-                <button href="#" class="btn btn-primary" @click.prevent="submit()">Opslaan</button><br><br>
+                <button type="submit" class="btn btn-primary" @click.prevent="submit()">Opslaan</button>
+                <br><br>
             </div>
         </form>
     </div>
@@ -40,20 +41,31 @@
         mixins: [ require('./../../mixins/auth') ],
         created() {
             var self = this;
-            eventHub.$on('user-detected', function(data) {
+            eventHub.$on('user-detected', data => {
+                var productId = location.search.split('id=')[1];
                 self.user = data;
-                self.product._id = location.search.split('id=')[1];
-                $.get(apiUrl + '/products/' + self.product._id, function(product) {
-                    self.product = product
-                    self.files = product.Images
-                });
 
-                $.get(apiUrl + '/categories', function(categories) {
-                    self.categories = categories;
-                    if (categories.length != 0) {
-                        self.product.Category = categories[0]._id;
-                    }
-                });
+                // Get product
+                $.get(apiUrl + '/products/' + productId)
+                    .then(product => {
+                        self.product = product;
+                        self.files = product.Images;
+
+                        // Get categories
+                        return $.get(apiUrl + '/categories')
+                    })
+                    .then(categories => {
+                        self.categories = categories;
+
+                        categories.forEach(category => {
+                            // Define current category
+                            category.ProductIds.forEach(value => {
+                                if (self.product._id == value) {
+                                    self.product.Category = category._id;
+                                }
+                            });
+                        });
+                    });
             });
 
         },
@@ -83,11 +95,13 @@
                     document.getElementById(inputId).click();
                 });  
             },
+
             removeImage: function(index) {
                 var self = this
                 delete self.product.Images[index];
                 document.getElementById("image-"+index).remove();
             },
+
             upload: function(file, e){
                 var self = this;
                 var f = e.target.files[0];
@@ -99,6 +113,7 @@
                 };
                 reader.readAsDataURL(f);
             },
+
             submit() {
                 var self = this;
                 this.product.Price = parseInt(this.product.Price)

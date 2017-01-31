@@ -39,3 +39,5 @@ Vue.component('admin-users-edit-component', require('./admin/UsersEdit.vue'));
 
 Vue.component('admin-statistics-component', require('./admin/Statistics.vue'));
 
+Vue.component('admin-orders-overview-component', require('./admin/Orders.vue'));
+

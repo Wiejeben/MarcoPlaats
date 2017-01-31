@@ -208,8 +208,8 @@
                 this.messageAreaText = "Geen";
             }
 
-            if(localStorage["AlternativeAddress"]){
-                this.alternativeAddress = JSON.parse(localStorage["AlternativeAddress"]);
+            if(sessionStorage["AlternativeAddress"]){
+                this.alternativeAddress = sessionStorage["AlternativeAddress"];
             }
         },
         data() {
@@ -261,7 +261,6 @@
                         if(data){
                             localStorage.removeItem("cart");
                             localStorage.removeItem("messageArea");
-                            localStorage.removeItem("AlternativeAddress");
                             window.location.replace('/?feedback=successOrder');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');

@@ -56,6 +56,9 @@
                 $.ajax({
                     url: window.apiUrl + '/users/' + user._id,
                     type: 'DELETE',
+                    contentType: 'application/json',
+                    data: JSON.stringify(user),
+                    dataType: 'json',
                     success: function(data){
                         if(data){
                             self.users.splice(self.users.indexOf(user), 1);

@@ -51,8 +51,11 @@
                 $.ajax({
                     url: window.apiUrl + '/products/' + product._id,
                     type: 'DELETE',
-                    success: function(data){
-                        if(data){
+                    contentType: 'application/json',
+                    data: JSON.stringify(product),
+                    dataType: 'json',
+                    success: function(data, status, jqXHR){
+                        if(jqXHR.status == 204){
                             self.products.splice(self.products.indexOf(product), 1);
                             NewAlert('success', 'Product succesvol verwijdert!');
                         } else {

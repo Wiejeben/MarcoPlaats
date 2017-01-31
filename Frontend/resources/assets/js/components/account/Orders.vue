@@ -1,9 +1,9 @@
 <template>
     <div class="items"><!--features_items-->
-        <h2 class="title text-center">Orders</h2>
+        <h2 class="title text-center">Bestellingen</h2>
         <div class="row">
             <div class="col-sm-9">
-                <h3>Orders</h3>
+                <h3>Bestellingen</h3>
             </div>
         </div>
         <div v-if="Orders.length > 0" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -131,6 +131,9 @@
                 $.ajax({
                     url: window.apiUrl+'/users/'+window.User._id + '/favorites/' + id,
                     type: 'DELETE',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ ProductId: id }),
+                    dataType: 'Json',
                     success: function(data) {
                         if(data){
                             self.favorites.splice(self.favorites.indexOf(id), 1);

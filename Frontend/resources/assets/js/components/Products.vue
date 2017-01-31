@@ -137,6 +137,9 @@
                 $.ajax({
                     url: window.apiUrl + '/users/' + window.User._id + '/wishlist/' + id,
                     type: 'DELETE',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ ProductId: id }),
+                    dataType: 'json',
                     success: function(data) {
                         if(data){
                             self.wishlist.splice(self.wishlist.indexOf(id), 1);

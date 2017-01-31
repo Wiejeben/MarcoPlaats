@@ -55,6 +55,9 @@
                 $.ajax({
                     url: window.apiUrl + '/categories/' + categorie._id,
                     type: 'DELETE',
+                    contentType: 'application/json',
+                    data: JSON.stringify(categorie),
+                    dataType: 'json',                    
                     success: function(data){
                         if(data){
                             self.categories.splice(self.categories.indexOf(categorie), 1);

@@ -85,9 +85,15 @@ module.exports = class Model extends BaseModel {
      * @return {Promise}
      */
     update() {
+        let id = this.params.id;
+
+        // Fallback to document _id
+        if (typeof id === 'undefined') {
+            id = this.document._id;
+        }
+
         this.sanitize();
 
-        let id = this.params.id;
         if (!this.validateId(id)) return Promise.reject(new Error('Invalid ObjectId'));
 
         // Remove _id to prevent it from being altered

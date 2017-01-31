@@ -11,21 +11,21 @@ module.exports = class Product extends Model {
 
     findGreatestPrice(){
         return this.collection.aggregate([
-            { 
-                $group: { 
+            {
+                $group: {
                     '_id':'$_id',
-                    'Price': { 
-                        $max: '$Price' 
-                    } 
-                } 
-            }, 
-            { 
-                $sort: { 
+                    'Price': {
+                        $max: '$Price'
+                    }
+                }
+            },
+            {
+                $sort: {
                     'Price': -1
-                } 
-            }, 
-            { 
-                $limit:1 
+                }
+            },
+            {
+                $limit:1
             }
         ]).toArray().then(results => {
             console.log(results[0]);
@@ -73,14 +73,15 @@ module.exports = class Product extends Model {
 
     update() {
         const categoryId = this.document.Category,
-              productId = this.params.id
-        if (!this.validateId(categoryId)) return Promise.reject(new restify.BadRequestError('Invalid or missing category ObjectId'))
-        
+              productId = this.params.id;
+
+        if (!this.validateId(categoryId)) return Promise.reject(new restify.BadRequestError('Invalid category ObjectId'))
+
         const promise = super.update();
 
         return promise.then(() => {
             // apply to category
-            return new Category().deleteProduct(productId)
+            return Promise.resolve();
         }).then(() => {
             return new Category().insertProduct(categoryId, productId)
         }).then(() => {

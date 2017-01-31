@@ -4,7 +4,7 @@
         <form v-if="user !== null && product.Name !== null" class="row">
             <div class="col-sm-6 col-xs-12 shopper-info">
                 <h4>Product</h4>
-                <input class="form-control" placeholder="Naam"  v-model="product.Name">
+                <input class="form-control" placeholder="Naam"  v-model="product.Name" autofocus>
                 <input class="form-control" placeholder="Prijs"  v-model="product.Price">
                 <input class="form-control" placeholder="Quantiteit"  v-model="product.Amount">
                 <textarea class="form-control" name="message" v-model="product.Description" placeholder="Omschrijving" rows="9"></textarea>

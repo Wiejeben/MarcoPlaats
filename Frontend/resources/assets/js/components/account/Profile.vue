@@ -16,7 +16,6 @@
                 </dl>
             </div>
         </div>
-
         <div v-if="user != null" class="row">
             <div class="col-sm-6 col-xs-12">
                 <h4>Adres</h4>

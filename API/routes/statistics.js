@@ -15,3 +15,12 @@ app.get('/statistics/productordercount', (req, res, next) => {
 app.get('/statistics/categoryordercount', (req, res, next) => {
     return new StatisticController(req, res, next).getCategoryOrderCount();
 });
+
+app.get('/statistics/orders', (req, res, next) => {
+    return new StatisticController(req, res, next).getOrderCount();
+});
+
+app.get('/statistics/users', (req, res, next) => {
+    return new StatisticController(req, res, next).getOrderCount();
+});
+

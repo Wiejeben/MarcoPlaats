@@ -30,7 +30,7 @@ module.exports = class Order extends Model {
         if (typeof loggedInUser !== 'undefined') {
             this.document.userId = loggedInUser.document._id
         }
-        this.document.OrderDate = new Date();
+        this.document.OrderDate = Math.floor(new Date() / 1000);
         this.document = this.sanitize(this.document, schemas.Order)
 
         // loggedInUser

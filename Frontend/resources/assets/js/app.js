@@ -1,5 +1,6 @@
 require('./bootstrap');
 require('./components/bootstrap');
+global.moment = require('moment');
 
 const app = new Vue({
     el: '#app',
@@ -34,6 +35,8 @@ const app = new Vue({
 });
 
 var feedback = location.search.split('feedback=')[1];
+
+
 
 if (typeof feedback != "undefined") {
 

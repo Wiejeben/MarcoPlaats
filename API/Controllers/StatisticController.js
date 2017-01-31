@@ -97,6 +97,32 @@ module.exports = class StatisticController extends Controller {
             }).catch(this.next())
     }
 
+    getOrderCount() {
+        let start = this.req.params.start ? parseInt(this.req.params.start) : 0
+        let end = this.req.params.end ? parseInt(this.req.params.end) : Number.MAX_SAFE_INTEGER
+
+
+        new Order().collection.aggregate([
+            {
+                $match: {
+                        OrderDate: {
+                            $gte: start,
+                            $lte: end
+                        }
+                    }
+            },
+            {
+                $group: {
+                    _id: '$_id',
+                    Amount: { $sum: '' },
+                }
+            },
+        ]).toArray()
+            .then(result => {
+                this.res.send(result)
+            }).catch(this.next())
+    }
+
     getCategoryOrderCount() {
         new Order().collection.aggregate([
             {

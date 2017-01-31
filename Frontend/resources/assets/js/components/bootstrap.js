@@ -17,6 +17,7 @@ Vue.component('account-products-component', require('./account/Products.vue'));
 Vue.component('account-addproduct-component', require('./account/AddProduct.vue'));
 Vue.component('account-editproduct-component', require('./account/EditProduct.vue'));
 Vue.component('account-orders-component', require('./account/Orders.vue'));
+Vue.component('account-soldorders-component', require('./account/SoldOrders.vue'));
 
 // Cart
 Vue.component('cart-overview-component', require('./cart/Overview.vue'));

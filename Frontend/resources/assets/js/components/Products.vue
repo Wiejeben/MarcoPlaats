@@ -37,7 +37,7 @@
             eventHub.$on('filter-price', this.initProducts);
             this.initProducts()
             
-            eventHub.$once('user-undefined', function() {
+            eventHub.$once('user-detected', function() {
                 self.wishlist = window.User.WishlistProductIds;
             })
         },
@@ -88,7 +88,7 @@
                     if(cart[productId] === undefined){
                         cart[productId] = 1;
                         localStorage.setItem("cart", JSON.stringify(cart));
-                        NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
+                        NewAlert('success', 'Het product is succesvol toegevoegd aan de winkelwagen!');
                     } else {
 
                         var amount = cart[productId];
@@ -98,21 +98,20 @@
                             cart[productId]++;
 
                             localStorage.setItem("cart", JSON.stringify(cart));
-                            NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
+                            NewAlert('success', 'Het product is succesvol toegevoegd aan de winkelwagen!');
                         } else {
-                            NewAlert('warning', 'Er zijn niet meer producten voorradig.');
+                            NewAlert('warning', 'Er zijn niet meer producten beschikbaar.');
                         }
                     }
                 } else {
                     var cart = {};
                     cart[productId] = 1;
                     localStorage.setItem("cart", JSON.stringify(cart));
-                    NewAlert('success', 'Product succesvol toegevoegd aan winkelwagen!');
+                    NewAlert('success', 'Het product is succesvol toegevoegd aan de winkelwagen!');
                 }
             },
             inWishlist(id){
-                var self = this;
-                return self.wishlist.indexOf(id) > -1 ? true : false;
+                return this.wishlist.indexOf(id) > -1 ? true : false;
             },
             InsertWishlist(id) {
                 var self = this;
@@ -125,9 +124,9 @@
                     success: function(data) {
                         if(data){
                             self.wishlist.push(id);
-                            NewAlert('success', 'Product succesvol toegevoegd aan verlanglijstje!');
+                            NewAlert('success', 'Product succesvol toegevoegd aan jouw verlanglijstje!');
                         } else {
-                            NewAlert('error', 'Er is iets fout gegaan');
+                            NewAlert('error', 'Er is iets mis gegaan.');
                         }
                     }
                 });
@@ -143,7 +142,7 @@
                     success: function(data) {
                         if(data){
                             self.wishlist.splice(self.wishlist.indexOf(id), 1);
-                            NewAlert('success', 'Product succesvol verwijdert van verlanglijstje!');
+                            NewAlert('success', 'Product succesvol verwijderd van jouw verlanglijstje!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');
                         }

@@ -11,19 +11,22 @@
                 <div class="col-sm-9">
                     <div class="product-information"><!--/product-information-->
                         <h2>{{ product.Name }}</h2>
-                        <p><b>Aantal:</b> {{ product.Amount }}</p>
-                        <a :href="'/profile.html?id=' + product.SellerID"><p>Verkoper</p></a>
+                        <div v-if="product.DeletedAt == null">
+                            <p><b>Aantal:</b> {{ product.Amount }}</p>
+                            <a :href="'/profile.html?id=' + product.SellerID"><p>Verkoper</p></a>
+                        </div>
                         <span>
                             <span>&euro; {{ product.Price }},-</span>
-
-                            <button v-if="product.Amount > 0" type="button" @click.prevent="AddToCart()" class="btn btn-fefault cart">
-                                <i class="fa fa-shopping-cart"></i>
-                                In winkelwagen
-                            </button>
-                            <button v-else type="button" onclick="return false" class="btn btn-fefault cart">
-                                <i class="fa fa-close"></i>
-                                Uitverkocht
-                            </button>
+                            <div v-if="product.DeletedAt == null">
+                                <button v-if="product.Amount > 0" type="button" @click.prevent="AddToCart()" class="btn btn-fefault cart">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    In winkelwagen
+                                </button>
+                                <button v-else type="button" onclick="return false" class="btn btn-fefault cart">
+                                    <i class="fa fa-close"></i>
+                                    Uitverkocht
+                                </button>
+                            </div>
                         </span>
                     </div><!--/product-information-->
                 </div>

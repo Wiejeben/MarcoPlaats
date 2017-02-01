@@ -13,7 +13,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="product in products">
+                    <tr v-for="product in products" v-if="product.DeletedAt == null">
                         <td>{{ product.Name }}</td>
                         <td>{{ product.Amount }}</td>
                         <td>&euro; {{ product.Price }}</td>

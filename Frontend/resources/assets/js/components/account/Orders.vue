@@ -11,7 +11,7 @@
                 <div class="panel-heading" role="tab" :id="'heading-' + index">
                 <h4 class="panel-title">
                     <a role="button" data-toggle="collapse" data-parent="#accordion" :href="'#collapse-' + index" aria-expanded="true" :aria-controls="'#collapse-' + index">
-                    Order #{{Orders.length - index }}
+                    Bestelling #{{Orders.length - index }}
                     </a>
                     <span class="pull-right">€ {{ order.TotalPrice }}</span>
                 </h4>
@@ -43,32 +43,32 @@
                                         <h4><a :href="'/product.html?id=' + product.product._id">{{product.product.Name}}</a></h4>
                                     </td>
                                     <td class="cart_price">
-                                        <p>{{product.basePrice}}</p>
+                                        <p>&euro; {{product.basePrice}}</p>
                                     </td>
                                     <td class="cart_quantity">
                                         <p>{{product.amount}}</p>
                                     </td>
                                     <td class="cart_total">
-                                        <p class="cart_total_price">{{product.totalPrice}}</p>
+                                        <p class="cart_total_price">&euro; {{product.totalPrice}}</p>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>&nbsp;</td>
-                                    <td><h4>Cart Sub Total</h4></td>
+                                    <td><h4>Sub totaal</h4></td>
                                     <td colspan="2">&nbsp;</td>
-                                    <td>{{order.TotalPrice}}</td>
+                                    <td>&euro; {{order.TotalPrice}}</td>
                                 </tr>
                                 <tr class="shipping-cost">
                                     <td>&nbsp;</td>
-                                    <td><h4>Shipping Cost</h4></td>
+                                    <td><h4>Bezorg kosten</h4></td>
                                     <td colspan="2">&nbsp;</td>
-                                    <td>Free</td>										
+                                    <td>Gratis</td>
                                 </tr>
                                 <tr>
                                     <td>&nbsp;</td>
-                                    <td><h4>Total</h4></td>
+                                    <td><h4>Totaal</h4></td>
                                     <td colspan="2">&nbsp;</td>
-                                    <td><span>{{order.TotalPrice}}</span></td>
+                                    <td><span>&euro; {{order.TotalPrice}}</span></td>
                                 </tr>					
                             </tbody>
                         </table>

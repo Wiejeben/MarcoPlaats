@@ -29,7 +29,6 @@ module.exports = class Product extends Model {
                 $limit:1
             }
         ]).toArray().then(results => {
-            console.log(results[0]);
             return Promise.resolve(results[0])
         }).catch(Promise.reject)
     }
@@ -93,6 +92,7 @@ module.exports = class Product extends Model {
     }
 
     destroy() {
+        this.document.Amount = 0;
         return super.destroy();
 
         // Remove from categories and users

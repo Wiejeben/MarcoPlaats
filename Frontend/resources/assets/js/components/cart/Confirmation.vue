@@ -195,9 +195,13 @@
                 var keys = Object.keys(this.amount)
 
                 for(var i = 0; i < keys.length; i++){
-                    self.Order.OrderLines.push( { ProductId: keys[i],  Amount:self.amount[keys[i]] } );
-                    $.get(apiUrl + '/products/' + keys[i], function(data) {
-                        self.cart.push(data);
+
+                    self.Order.OrderLines.push( { ProductId: keys[i],  Amount: self.amount[keys[i]] } );
+
+                    $.get(apiUrl + '/products/' + keys[i], data => {
+                        if (data.DeletedAt == null) {
+                            self.cart.push(data)
+                        }
                     });
                 }
             }

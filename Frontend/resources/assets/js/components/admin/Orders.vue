@@ -11,7 +11,7 @@
                 <div class="panel-heading" role="tab" :id="'heading-' + index">
                 <h4 class="panel-title">
                     <a role="button" data-toggle="collapse" data-parent="#accordion" :href="'#collapse-' + index" aria-expanded="true" :aria-controls="'#collapse-' + index">
-                    Order #{{orders.length - index }} {{ date(order.Products[0].OrderDate) }}
+                    Bestelling #{{orders.length - index }} {{ date(order.Products[0].OrderDate) }}
                     </a>
                     <span class="pull-right">€ {{ order.TotalPrice }}</span>
                 </h4>

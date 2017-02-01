@@ -114,7 +114,10 @@
                     $.get(apiUrl + '/products/' + productId)
                         .then(data => {
                             self.products = products;
-                            self.cart.push(data);
+
+                            if (data.DeletedAt == null) {
+                                self.cart.push(data)
+                            }
                         })
                         .catch(() => {
                             delete products[productId];

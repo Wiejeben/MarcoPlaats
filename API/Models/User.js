@@ -136,7 +136,6 @@ module.exports = class User extends Authenticatable {
                 ]).toArray()
             })
             .then(orders => {
-                console.log(orders)
                 return Promise.resolve(orders)
             })
             .catch(Promise.reject)

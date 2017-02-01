@@ -1,7 +1,7 @@
 <template>
     <div class="items">
         <h2 class="title text-center">{{ category.Name }}</h2>
-        <div class="col-sm-4" v-for="product in products">
+        <div class="col-sm-4" v-for="product in products" v-if="product.DeletedAt == null">
             <div class="product-image-wrapper">
                 <div class="single-products">
                     <div class="productinfo text-center">

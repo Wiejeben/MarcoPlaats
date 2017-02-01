@@ -1,6 +1,7 @@
 require('./bootstrap');
 require('./components/bootstrap');
 global.moment = require('moment');
+global.moment.lang('nl');
 
 const app = new Vue({
     el: '#app',

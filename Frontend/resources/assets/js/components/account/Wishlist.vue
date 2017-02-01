@@ -13,8 +13,8 @@
                         <td>&nbsp;</td>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr v-if="wishlist.length > 0" v-for="product in wishlist">
+                <tbody v-if="wishlist.length > 0">
+                    <tr v-for="product in wishlist">
                         <td width="35%">
                             <img v-if="product.Images.length > 0" :src="product.Images[0].Image" alt="">
                             <img v-else src="/images/product-placeholder.jpg" :alt="product.Name" />
@@ -29,7 +29,9 @@
                             <a class="cart_quantity_delete" @click.prevent="deleteWishlistItem(product)" href=""><i class="fa fa-times"></i></a>
                         </td>
                     </tr>
-                    <tr v-else>
+                </tbody>
+                <tbody v-else>
+                    <tr>
                         <td>Geen producten in uw verlanglijstje.</td>
                     </tr>
                 </tbody>
@@ -63,7 +65,6 @@
                     url: window.apiUrl+'/users/'+window.User._id + '/wishlist/' + product._id,
                     type: 'DELETE',
                     contentType: 'application/json',
-                    data: JSON.stringify(product),
                     dataType: 'json',
                     success: function(data){
                         if(data){

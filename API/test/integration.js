@@ -101,7 +101,7 @@ describe('Integration tests', () => {
                 .then(() => {
                     done()
                 })
-                .catch(() => {
+                .catch(err => {
                     console.error('Unable to prepare database:');
                     throw new Error(err)
                 })

@@ -64,7 +64,7 @@ module.exports = class User extends Authenticatable {
             { _id: new ObjectId(userId) },
             {
                 $addToSet: {
-                    [property]: new ObjectId(productId)
+                    [property]: productId
                 }
             })
     }
@@ -80,7 +80,7 @@ module.exports = class User extends Authenticatable {
             { _id: new ObjectId(userId) },
             {
                 $pull: {
-                    [property]: new ObjectId(productId)
+                    [property]: productId
                 }
             })
     }
@@ -91,7 +91,7 @@ module.exports = class User extends Authenticatable {
                 let objectIds = user.Orders.map(item => {
                     item = new ObjectId(item);
                     return item
-                })
+                });
                 // return new Order().collection.find({_id: { "$in":objectIds }}).toArray();
 
                 return new Order().collection.aggregate([
@@ -141,9 +141,8 @@ module.exports = class User extends Authenticatable {
             })
             .catch(Promise.reject)
     }
-    
-    getSoldProducts(userId)
-    {
+
+    getSoldProducts(userId) {
         return this.findById(userId)
             .then(user => {
                 let objectIds = user.ProductIds.map(item => {
@@ -153,7 +152,7 @@ module.exports = class User extends Authenticatable {
 
                 return new Order().collection.aggregate([
                     {
-                        $match:{}
+                        $match: {}
                     },
                     {
                         $unwind: {
@@ -178,7 +177,7 @@ module.exports = class User extends Authenticatable {
                     // console.log(soldProducts)
                     return Promise.resolve(soldProducts)
                 })
-                .catch(Promise.reject)
+                    .catch(Promise.reject)
             })
     }
 

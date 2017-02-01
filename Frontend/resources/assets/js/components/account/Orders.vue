@@ -119,7 +119,7 @@
                     success: function(data) {
                         if(data){
                             self.favorites.push(id);
-                            NewAlert('success', 'Product succesvol toegevoegd aan favorieten!');
+                            NewAlert('success', 'Het product succesvol toegevoegd aan uw favorieten!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');
                         }
@@ -137,9 +137,9 @@
                     success: function(data) {
                         if(data){
                             self.favorites.splice(self.favorites.indexOf(id), 1);
-                            NewAlert('success', 'Product succesvol verwijdert uit favorieten!');
+                            NewAlert('success', 'Het product succesvol verwijderd uit uw favorieten!');
                         } else {
-                            NewAlert('error', 'Er is iets fout gegaan');
+                            NewAlert('error', 'Er is iets mis gegaan.');
                         }
                     }
                 });

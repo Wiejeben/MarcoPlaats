@@ -62,9 +62,9 @@
                     success: function(data){
                         if(data){
                             self.users.splice(self.users.indexOf(user), 1);
-                            NewAlert('success', 'Gebruiker succesvol verwijdert!');
+                            NewAlert('success', 'Gebruiker succesvol verwijderd!');
                         } else {
-                            NewAlert('error', 'Er is iets fout gegaan');
+                            NewAlert('error', 'Er is iets mis gegaan');
                         }
                     }
                 });

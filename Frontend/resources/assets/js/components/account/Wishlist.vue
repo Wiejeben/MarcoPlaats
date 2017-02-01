@@ -69,7 +69,7 @@
                     success: function(data){
                         if(data){
                             self.wishlist.splice(self.wishlist.indexOf(product), 1);
-                            NewAlert('success', 'Product succesvol verwijdert van verlanglijstje!');
+                            NewAlert('success', 'Het product succesvol verwijderd van uw verlanglijstje!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');
                         }

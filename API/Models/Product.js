@@ -5,8 +5,9 @@ const Model = require('./../Helpers/Model'),
 
 module.exports = class Product extends Model {
     constructor() {
-        super('Products', schemas.Product)
-        this.hasCreatedAt = true
+        super('Products', schemas.Product);
+        this.hasCreatedAt = true;
+        this.hasDeletedAt = true
     }
 
     findGreatestPrice(){
@@ -75,13 +76,13 @@ module.exports = class Product extends Model {
         const categoryId = this.document.Category,
               productId = this.params.id;
 
-        if (!this.validateId(categoryId)) return Promise.reject(new restify.BadRequestError('Invalid category ObjectId'))
+        if (!this.validateId(categoryId)) return Promise.reject(new restify.InvalidContentError('Invalid category ObjectId'))
 
         const promise = super.update();
 
         return promise.then(() => {
             // apply to category
-            return Promise.resolve();
+            return Promise.resolve()
         }).then(() => {
             return new Category().insertProduct(categoryId, productId)
         }).then(() => {
@@ -92,14 +93,16 @@ module.exports = class Product extends Model {
     }
 
     destroy() {
+        return super.destroy();
+
         // Remove from categories and users
-        return super.destroy().then(result => {
-            return new Category().deleteProduct(this.document._id)
-        }).then(() => {
-            const User = require('./User')
-            return new User().deleteProduct(this.document._id)
-        }).catch((err) => {
-            return Promise.reject(err)
-        })
+        //return super.destroy().then(result => {
+        //    return new Category().deleteProduct(this.document._id)
+        //}).then(() => {
+        //    const User = require('./User')
+        //    return new User().deleteProduct(this.document._id)
+        //}).catch((err) => {
+        //    return Promise.reject(err)
+        //})
     }
 };

@@ -35,7 +35,7 @@ module.exports = class Model extends BaseModel {
      * @return {Promise}
      */
     findById(id) {
-        if (!this.validateId(id)) return Promise.reject(new Error('Invalid ObjectId'));
+        if (!this.validateId(id)) return Promise.reject(new restify.InvalidContentError('Invalid ObjectId'));
 
         return this.findOne({ _id: new ObjectId(id) })
     }
@@ -94,7 +94,7 @@ module.exports = class Model extends BaseModel {
 
         this.sanitize();
 
-        if (!this.validateId(id)) return Promise.reject(new Error('Invalid ObjectId'));
+        if (!this.validateId(id)) return Promise.reject(new restify.InvalidContentError('Invalid ObjectId'));
 
         // Remove _id to prevent it from being altered
         delete this.document._id;
@@ -117,11 +117,16 @@ module.exports = class Model extends BaseModel {
             id = this.document._id;
         }
 
-        if (!this.validateId(id)) return Promise.reject(new Error('Invalid ObjectId'));
+        if (!this.validateId(id)) return Promise.reject(new restify.InvalidContentError('Invalid ObjectId'));
 
         if(this.hasDeletedAt) {
+            this.document._id = id;
             this.document.DeletedAt = Math.floor(new Date() / 1000);
-            return this.update()
+
+            let model = new Model(this.table, this.schema);
+            model.document = this.document;
+
+            return model.update()
         }
 
         return super.destroy({ _id: new ObjectId(id) })

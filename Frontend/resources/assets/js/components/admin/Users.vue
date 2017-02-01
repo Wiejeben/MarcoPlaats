@@ -15,7 +15,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="user in users">
+                    <tr v-for="user in users" v-if="user.DeletedAt == null">
                         <td>{{ user.FirstName }}</td>
                         <td>{{ user.LastName }}</td>
                         <td>{{ user.Email }}</td>
@@ -51,23 +51,25 @@
         },
         methods:{
             deleteUser(user){
-                var self = this;
+                if (confirm("Weet u zeker dat u deze gebruiker permanent wilt verwijderen?")) {
+                    var self = this;
 
-                $.ajax({
-                    url: window.apiUrl + '/users/' + user._id,
-                    type: 'DELETE',
-                    contentType: 'application/json',
-                    data: JSON.stringify(user),
-                    dataType: 'json',
-                    success: function(data){
-                        if(data){
-                            self.users.splice(self.users.indexOf(user), 1);
-                            NewAlert('success', 'Gebruiker succesvol verwijderd!');
-                        } else {
-                            NewAlert('error', 'Er is iets mis gegaan');
+                    $.ajax({
+                        url: window.apiUrl + '/users/' + user._id,
+                        type: 'DELETE',
+                        contentType: 'application/json',
+                        data: JSON.stringify(user),
+                        dataType: 'json',
+                        success(data, status, jqXHR) {
+                            if(jqXHR.status == 204){
+                                self.users.splice(self.users.indexOf(user), 1);
+                                NewAlert('success', 'Gebruiker is succesvol verwijderd!');
+                            } else {
+                                NewAlert('error', 'Er is iets mis gegaan!');
+                            }
                         }
-                    }
-                });
+                    })
+                }
             }
         }
     }

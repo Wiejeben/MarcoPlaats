@@ -1,21 +1,23 @@
 const Authenticatable = require('./Authenticatable'),
     Product = require('./Product'),
-    Order = require('./Order');
+    Order = require('./Order'),
+    Model = require('./../Helpers/Model');
 
 module.exports = class User extends Authenticatable {
     constructor() {
-        super('Users', schemas.User)
+        super('Users', schemas.User);
+        this.hasDeletedAt = true
     }
 
     insertProduct(productId) {
-        return this.collection.update(
+        return this.collection.updateOne(
             { _id: this.document._id },
             { $addToSet: { ProductIds: productId } }
         )
     }
 
     insertOrder(orderId) {
-        return this.collection.update(
+        return this.collection.updateOne(
             { _id: this.document._id },
             { $addToSet: { Orders: orderId } }
         )
@@ -147,7 +149,7 @@ module.exports = class User extends Authenticatable {
                 let objectIds = user.ProductIds.map(item => {
                     item = new ObjectId(item);
                     return item
-                })
+                });
 
                 return new Order().collection.aggregate([
                     {
@@ -200,11 +202,54 @@ module.exports = class User extends Authenticatable {
                     //     }
                     // },
                 ]).toArray().then(soldProducts => {
-                    // console.log(soldProducts)
                     return Promise.resolve(soldProducts)
-                })
-                    .catch(Promise.reject)
+                }).catch(Promise.reject)
             })
     }
 
+    destroy() {
+        this.sanitize();
+
+        let id = this.params.id;
+
+        // fallback
+        if (id == null) {
+            id = this.document._id;
+        }
+
+        if (!this.validateId(id)) return Promise.reject(new restify.InvalidContentError('Invalid ObjectId'));
+
+        if(this.hasDeletedAt) {
+            this.document._id = id;
+            this.document.DeletedAt = Math.floor(new Date() / 1000);
+
+            let model = new Model(this.table, this.schema);
+            model.document = this.document;
+
+            return model.update()
+                .then(() => {
+                    this.document.ProductIds.forEach(productId => {
+                        let product = new Product();
+                        product.findById(productId)
+                            .then(() => {
+                                if (product.document.DeletedAt == null) {
+                                    //console.log('Found: ' + product.document._id + ' deleted at ' + product.document.DeletedAt);
+                                    product.destroy()
+                                }
+                            })
+                            .catch(() => {
+                            });
+                            //.then(() => {
+                            //    if (product.document.DeletedAt == null) {
+                            //        product.destroy()
+                            //    }
+                            //}).catch(() => {
+                            //
+                            //})
+                    })
+                })
+        }
+
+        return super.destroy({ _id: new ObjectId(id) })
+    }
 };

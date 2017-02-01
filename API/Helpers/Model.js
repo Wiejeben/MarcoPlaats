@@ -85,11 +85,11 @@ module.exports = class Model extends BaseModel {
      * @return {Promise}
      */
     update() {
-        let id = this.params.id;
+        let id = this.document._id;
 
-        // Fallback to document _id
-        if (typeof id === 'undefined') {
-            id = this.document._id;
+        // fallback
+        if (id == null) {
+            id = this.params.id;
         }
 
         this.sanitize();
@@ -108,14 +108,14 @@ module.exports = class Model extends BaseModel {
      * @return {Promise}
      */
     destroy() {
-        this.sanitize();
-
-        let id = this.params.id;
+        let id = this.document._id;
 
         // fallback
         if (id == null) {
-            id = this.document._id;
+            id = this.params.id;
         }
+
+        this.sanitize();
 
         if (!this.validateId(id)) return Promise.reject(new restify.InvalidContentError('Invalid ObjectId'));
 

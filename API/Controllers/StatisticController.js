@@ -112,8 +112,19 @@ module.exports = class StatisticController extends Controller {
                     }
             },
             {
+                $lookup: {
+                    from: 'Users',
+                    localField: 'userId',
+                    foreignField: '_id',
+                    as: 'User'
+                }
+            },
+            {
+                $unwind: '$User'
+            },
+            {
                 $group: {
-                    _id: '$userId',
+                    _id: '$User',
                     Amount: { $sum: 1 },
                 }
             },

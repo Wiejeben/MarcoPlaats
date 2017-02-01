@@ -3,7 +3,7 @@
         <h2 class="title text-center">{{ category.Name }}</h2>
         <div class="col-sm-4" v-for="product in products" v-if="product.DeletedAt == null">
             <div class="product-image-wrapper">
-                <div class="single-products">
+                <div class="bgimg">
                     <div class="productinfo text-center">
                         <a :href="'/product.html?id=' + product._id">
                             <img v-if="product.Images.length > 0" :src="product.Images[0].Image" alt="">

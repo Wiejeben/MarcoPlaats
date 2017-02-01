@@ -136,8 +136,7 @@
                 $.ajax({
                     url: window.apiUrl + '/users/' + window.User._id + '/wishlist/' + id,
                     type: 'DELETE',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ ProductId: id }),
+                    contentType: 'appslication/json',
                     dataType: 'json',
                     success: function(data) {
                         if(data){

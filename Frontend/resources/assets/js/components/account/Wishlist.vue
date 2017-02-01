@@ -46,7 +46,7 @@
         created() {
             var self = this;
              HasRole('user', function(){
-                    $.get(apiUrl + '/users/' + User._id + '/wishlist', function(data) {
+                    $.get(apiUrl + '/users/' + User._id + '/wishlist', data => {
                         self.wishlist = data;
                     });
              })
@@ -60,21 +60,23 @@
 
         methods:{
             deleteWishlistItem(product) {
-                var self = this;
-                $.ajax({
-                    url: window.apiUrl+'/users/'+window.User._id + '/wishlist/' + product._id,
-                    type: 'DELETE',
-                    contentType: 'application/json',
-                    dataType: 'json',
-                    success: function(data){
-                        if(data){
-                            self.wishlist.splice(self.wishlist.indexOf(product), 1);
-                            NewAlert('success', 'Het product succesvol verwijderd van uw verlanglijstje!');
-                        } else {
-                            NewAlert('error', 'Er is iets fout gegaan');
+                if (confirm("Weet u zeker dat u dit product wilt verwijderen van uw verlanglijstje?")) {
+                    var self = this;
+                    $.ajax({
+                        url: window.apiUrl+'/users/'+window.User._id + '/wishlist/' + product._id,
+                        type: 'DELETE',
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        success: function(data){
+                            if(data){
+                                self.wishlist.splice(self.wishlist.indexOf(product), 1);
+                                NewAlert('success', 'Het product succesvol verwijderd van uw verlanglijstje!')
+                            } else {
+                                NewAlert('error', 'Er is iets fout gegaan')
+                            }
                         }
-                    }
-                });
+                    })
+                }
             }
         }
     }

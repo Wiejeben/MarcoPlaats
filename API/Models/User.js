@@ -165,6 +165,19 @@ module.exports = class User extends Authenticatable {
                     },
                     {
                         $lookup: {
+                            from: 'Products',
+                            localField: 'OrderLines.ProductId',
+                            foreignField: '_id',
+                            as: 'Products'
+                        }
+                    },
+                    {
+                        $unwind: {
+                            path: '$Products',
+                        }
+                    },
+                    {
+                        $lookup: {
                             from: 'Users',
                             localField: 'userId',
                             foreignField: '_id',
@@ -173,7 +186,21 @@ module.exports = class User extends Authenticatable {
                     },
                     {
                         $unwind: '$User'
-                    }
+                    },
+                    // {
+                    //     $group: {
+                    //         _id: '$_id',
+                    //         OrderLines: {
+                    //             $push: {
+                    //                 'product': '$Products',
+                    //                 'Amount': '$OrderLines.Amount',
+                    //                 'OrderDate': '$OrderDate',
+                    //                 'Address': '$Address',
+                    //                 'User': '$User'
+                    //             }
+                    //         }
+                    //     }
+                    // },
                 ]).toArray().then(soldProducts => {
                     // console.log(soldProducts)
                     return Promise.resolve(soldProducts)

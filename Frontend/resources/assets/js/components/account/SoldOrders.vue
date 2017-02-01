@@ -22,30 +22,29 @@
                         <table class="table table-condensed">
                             <thead>
                                 <tr class="cart_menu">
-                                    <td></td>
                                     <td class="image">Afbeelding</td>
-                                    <td class="description">Product</td>
+                                    <td class="description">Naam</td>
                                     <td class="price">Prijs</td>
                                     <td class="quantity">Aantal</td>
                                     <td class="total">Totaal</td>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="product in order.Products">
+                                <tr>
                                     <td class="cart_product">
                                         <a href=""><img src="/images/cart/one.png" alt=""></a>
                                     </td>
                                     <td class="cart_description">
-                                        <h4><a href="">{{product.product.Name}}</a></h4>
+                                        <h4><a href="">{{product.Name}}</a></h4>
                                     </td>
                                     <td class="cart_price">
-                                        <p>{{product.basePrice}}</p>
+                                        <p>{product.Price}}</p>
                                     </td>
                                     <td class="cart_quantity">
-                                        <p>{{product.amount}}</p>
+                                        <p>{{product.Amount}}</p>
                                     </td>
                                     <td class="cart_total">
-                                        <p class="cart_total_price">{{product.totalPrice}}</p>
+                                        <p class="cart_total_price">{{product.product.Price * product.Amount}}</p>
                                     </td>
                                 </tr>
                                 <tr>

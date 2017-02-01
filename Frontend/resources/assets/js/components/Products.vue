@@ -1,30 +1,34 @@
 <template>
     <div class="items">
         <h2 class="title text-center">{{ category.Name }}</h2>
-        <div class="col-sm-4" v-for="product in products" v-if="product.DeletedAt == null">
-            <div class="product-image-wrapper">
-                <div class="bgimg">
-                    <div class="productinfo text-center">
-                        <a :href="'/product.html?id=' + product._id">
-                            <img v-if="product.Images.length > 0" :src="product.Images[0].Image" alt="">
-                            <img v-else src="/images/product-placeholder.jpg" :alt="product.Name" />
-                        </a>
-                        <h2>&euro; {{ product.Price }}</h2>
-                        <p>{{ product.Name }}</p>
-
-                        <a v-if="product.Amount > 0" href="#" @click.prevent="AddToCart(product)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
-                        <a v-else href="#" onclick="return false" class="btn btn-default add-to-cart"><i class="fa fa-close"></i>Uitverkocht</a>
+        <div v-if="ajaxLoaded">
+            <div class="col-sm-4" v-for="product in products" v-if="product.DeletedAt == null">
+                <div class="product-image-wrapper">
+                    <div class="bgimg">
+                        <div class="productinfo text-center">
+                            <a :href="'/product.html?id=' + product._id">
+                                <img v-if="product.Images.length > 0" :src="product.Images[0].Image" alt="">
+                                <img v-else src="/images/product-placeholder.jpg" :alt="product.Name" />
+                            </a>
+                            <h2>&euro; {{ product.Price }}</h2>
+                            <p>{{ product.Name }}</p>
+                            <a v-if="product.Amount > 0" href="#" @click.prevent="AddToCart(product)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>In winkelwagen</a>
+                            <a v-else href="#" onclick="return false" class="btn btn-default add-to-cart"><i class="fa fa-close"></i>Uitverkocht</a>
+                        </div>
+                    </div>
+                    <div class="choose">
+                        <ul class="nav nav-pills nav-justified">
+                            <li>
+                                <a v-if="!inWishlist(product._id)" href="#" @click.prevent="InsertWishlist(product._id)" class="change-icon"><i class="fa fa-heart-o"></i><i class="fa fa-heart"></i>Op verlanglijstje</a>
+                                <a v-else href="#" @click.prevent="DeleteWishlist(product._id)" class="change-icon"><i class="fa fa-heart"></i><i class="fa fa-heart-o"></i>Van verlanglijstje</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="choose">
-                    <ul class="nav nav-pills nav-justified">
-                        <li>
-                            <a v-if="!inWishlist(product._id)" href="#" @click.prevent="InsertWishlist(product._id)" class="change-icon"><i class="fa fa-heart-o"></i><i class="fa fa-heart"></i>Op verlanglijstje</a>
-                            <a v-else href="#" @click.prevent="DeleteWishlist(product._id)" class="change-icon"><i class="fa fa-heart"></i><i class="fa fa-heart-o"></i>Van verlanglijstje</a>
-                        </li>
-                    </ul>
-                </div>
             </div>
+        </div>
+        <div v-else class="text-center">
+            <img src="/images/loading.gif" alt="">
         </div>
     </div>
 </template>
@@ -47,6 +51,7 @@
                 products: [],
                 wishlist: [],
                 url: '/products',
+                ajaxLoaded: false,
             }
         },
         methods: {
@@ -67,9 +72,10 @@
                         } else {
                             self.products = products
                         }
+                        self.ajaxLoaded = true
                     },
                     error: () => {
-                        self.products = null
+                        self.products = []
                     }
                 });
             },

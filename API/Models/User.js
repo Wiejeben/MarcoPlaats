@@ -168,12 +168,12 @@ module.exports = class User extends Authenticatable {
                             from: 'Products',
                             localField: 'OrderLines.ProductId',
                             foreignField: '_id',
-                            as: 'Products'
+                            as: 'Product'
                         }
                     },
                     {
                         $unwind: {
-                            path: '$Products',
+                            path: '$Product',
                         }
                     },
                     {

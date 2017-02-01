@@ -13,6 +13,7 @@ global.restify = require('restify');
 global.passport = require('passport-restify');
 global.app = restify.createServer({ name: config.AppName + ' ' + config.AppVersion });
 
+
 // Allow custom authorization header
 restify.CORS.ALLOW_HEADERS.push('authorization');
 

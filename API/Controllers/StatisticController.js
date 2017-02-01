@@ -113,8 +113,8 @@ module.exports = class StatisticController extends Controller {
             },
             {
                 $group: {
-                    _id: '$_id',
-                    Amount: { $sum: '' },
+                    _id: '$userId',
+                    Amount: { $sum: 1 },
                 }
             },
         ]).toArray()

@@ -11,9 +11,12 @@
                 <div class="panel-heading" role="tab" :id="'heading-' + index">
                 <h4 class="panel-title">
                     <a role="button" data-toggle="collapse" data-parent="#accordion" :href="'#collapse-' + index" aria-expanded="true" :aria-controls="'#collapse-' + index">
-                    Bestelling #{{Orders.length - index }} {{ date(Orders.OrderDate) }}
+                    Bestelling #{{Orders.length - index }} {{ date(order.OrderDate) }}
                     </a>
-                    <span class="pull-right">€ {{ order.TotalPrice }}</span>
+                    <span >
+                        --- {{order.Product.Name}} ---
+                    </span>
+                    <span class="pull-right">€ {{ order.Product.Price * order.Product.Amount }}</span>
                 </h4>
                 </div>
                 <div :id="'collapse-' + index" class="panel-collapse collapse panel-heading" role="tabpanel" aria-labelledby="headingOne">
@@ -35,16 +38,16 @@
                                         <a href=""><img src="/images/cart/one.png" alt=""></a>
                                     </td>
                                     <td class="cart_description">
-                                        <h4><a href="">{{product.Name}}</a></h4>
+                                        <h4><a href="">{{order.Product.Name}}</a></h4>
                                     </td>
                                     <td class="cart_price">
-                                        <p>{product.Price}}</p>
+                                        <p>{{order.Product.Price}}</p>
                                     </td>
                                     <td class="cart_quantity">
-                                        <p>{{product.Amount}}</p>
+                                        <p>{{order.OrderLines.Amount}}</p>
                                     </td>
                                     <td class="cart_total">
-                                        <p class="cart_total_price">{{product.product.Price * product.Amount}}</p>
+                                        <p class="cart_total_price">{{order.Product.Price * order.Product.Amount}}</p>
                                     </td>
                                 </tr>
                                 <tr>
@@ -99,7 +102,7 @@
                 return moment(date);
             },
             date: function (date) {
-                return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+                return moment((date*1000)).format('dD-M, h:mm:ss a');
             }
         },
         filters: {

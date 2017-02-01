@@ -99,7 +99,8 @@
         },
         methods:{
             date: function (date) {
-                return moment((date*1000)).format('MMMM Do YYYY, h:mm:ss a');
+            
+                return moment(date*1000).format('MMMM Do YYYY, h:mm:ss a');
             }
         }
     }

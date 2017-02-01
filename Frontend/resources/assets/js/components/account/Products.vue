@@ -42,7 +42,7 @@
         created() {
             self = this;
             HasRole('user', function(){
-                $.get(apiUrl + '/users/' + User._id + '/products', function(_products) {
+                $.get(apiUrl + '/users/' + User._id + '/products', _products => {
                     self.products = _products;
                 });
             })
@@ -54,22 +54,24 @@
         },
         methods:{
             deleteProduct(product){
-                var self = this;
-                $.ajax({
-                    url: window.apiUrl + '/products/' + product._id,
-                    type: 'DELETE',
-                    contentType: 'application/json',
-                    data: JSON.stringify(product),
-                    dataType: 'json',
-                    success: function(data, status, jqXHR){
-                        if(jqXHR.status == 204){
-                            self.products.splice(self.products.indexOf(product), 1);
-                            NewAlert('success', 'Product succesvol verwijdert!');
-                        } else {
-                            NewAlert('error', 'Er is iets fout gegaan');
+                if (confirm("Weet u zeker dat u dit product permanent wilt verwijderen?")) {
+                    var self = this;
+                    $.ajax({
+                        url: window.apiUrl + '/products/' + product._id,
+                        type: 'DELETE',
+                        contentType: 'application/json',
+                        data: JSON.stringify(product),
+                        dataType: 'json',
+                        success: function(data, status, jqXHR){
+                            if(jqXHR.status == 204){
+                                self.products.splice(self.products.indexOf(product), 1);
+                                NewAlert('success', 'Uw product is succesvol verwijderd!')
+                            } else {
+                                NewAlert('error', 'Er is iets fout gegaan')
+                            }
                         }
-                    }
-                });
+                    })
+                }
             }
         }
     }

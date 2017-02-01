@@ -35,7 +35,7 @@
             var self = this;
 
             HasRole('admin', function() {
-                $.get(apiUrl + '/products', function(data) {
+                $.get(apiUrl + '/products', data => {
                     self.products = data;
                 });
             })
@@ -47,22 +47,24 @@
         },
         methods:{
             deleteProduct(product){
-                var self = this;
-                $.ajax({
-                    url: window.apiUrl + '/products/' + product._id,
-                    type: 'DELETE',
-                    contentType: 'application/json',
-                    data: JSON.stringify(product),
-                    dataType: 'json',
-                    success: function(data, status, jqXHR){
-                        if(jqXHR.status == 204){
-                            self.products.splice(self.products.indexOf(product), 1);
-                            NewAlert('success', 'Product succesvol verwijdert!');
-                        } else {
-                            NewAlert('error', 'Er is iets fout gegaan');
+                if (confirm("Weet u zeker dat u dit product permanent wilt verwijderen?")) {
+                    var self = this;
+                    $.ajax({
+                        url: window.apiUrl + '/products/' + product._id,
+                        type: 'DELETE',
+                        contentType: 'application/json',
+                        data: JSON.stringify(product),
+                        dataType: 'json',
+                        success: function(data, status, jqXHR){
+                            if(jqXHR.status == 204){
+                                self.products.splice(self.products.indexOf(product), 1);
+                                NewAlert('success', 'Product succesvol verwijdert!');
+                            } else {
+                                NewAlert('error', 'Er is iets fout gegaan');
+                            }
                         }
-                    }
-                });
+                    })
+                }
             }
         }
     }

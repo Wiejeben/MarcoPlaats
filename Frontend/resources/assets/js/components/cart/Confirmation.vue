@@ -143,35 +143,35 @@
                                 </div>
                             </td>
                             <td class="cart_description">
-                                <h4><a href="">{{product.Name}}</a></h4>
+                                <h4><a :href="'/product.html?id=' + product._id">{{ product.Name }}</a></h4>
                             </td>
                             <td class="cart_price">
-                                <p>{{product.Price}}</p>
+                                <p>&euro; {{ product.Price }}</p>
                             </td>
 							<td class="cart_quantity">
-                                <p>{{amount[product._id]}}</p>
+                                <p>{{ amount[product._id] }}</p>
                             </td>
 							<td class="cart_total">
-								<p class="cart_total_price">{{product.Price * amount[product._id]}}</p>
+								<p class="cart_total_price">&euro; {{ product.Price * amount[product._id] }}</p>
 							</td>
 						</tr>
 						<tr>
 							<td>&nbsp;</td>
-							<td><h4>Cart Sub Total</h4></td>
+							<td><h4>Sub totaal</h4></td>
 							<td colspan="2">&nbsp;</td>
-                            <td>{{sum}}</td>
+                            <td>&euro; {{ sum }}</td>
 						</tr>
 						<tr class="shipping-cost">
 							<td>&nbsp;</td>
-							<td><h4>Shipping Cost</h4></td>
+							<td><h4>Bezorg kosten</h4></td>
 							<td colspan="2">&nbsp;</td>
-							<td>Free</td>										
+							<td>Gratis</td>
 						</tr>
 						<tr>
 							<td>&nbsp;</td>
-							<td><h4>Total</h4></td>
+							<td><h4>Totaal</h4></td>
 							<td colspan="2">&nbsp;</td>
-                            <td><span>{{sum}}</span></td>
+                            <td><span>&euro; {{ sum }}</span></td>
 						</tr>					
 					</tbody>
 				</table>
@@ -179,7 +179,7 @@
 		</div>
         <div id="do_action">
             <div class="container">
-                <a class="btn btn-primary" href="">Terug</a>
+                <a class="btn btn-primary" href="/cart">Terug</a>
                 <a class="btn btn-primary pull-right" @click.prevent="PlaceOrder()" href="#">Plaats bestelling</a>
             </div><!--/#do_action-->
         </div>

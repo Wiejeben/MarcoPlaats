@@ -13,25 +13,25 @@
             </div>
             <div class="tab-content col-sm-12">
                 <div class="tab-pane fade active in" id="categorieChartTab" >
-                    <vue-chart v-if="charts.categories.ajaxLoaded" type="pie" ref="categories" :data="charts.categories" :option="charts.Options"></vue-chart>
+                    <vue-chart v-if="charts.categories.ajaxLoaded" type="pie" ref="categories" :data="charts.categories"></vue-chart>
                     <div v-else class="text-center">
                         <img src="/images/loading.gif" alt="">
                     </div>
                 </div>
                 <div class="tab-pane" id="productOrderChartTab">
-                    <vue-chart v-if="charts.productOrder.ajaxLoaded" type="bar" ref="productOrder" :data="charts.productOrder" :option="charts.Options"></vue-chart>
+                    <vue-chart v-if="charts.productOrder.ajaxLoaded" type="bar" ref="productOrder" :data="charts.productOrder" :options="charts.Options"></vue-chart>
                     <div v-else class="text-center">
                         <img src="/images/loading.gif" alt="">
                     </div>
                 </div>
                 <div class="tab-pane" id="categoryOrderChartTab">
-                    <vue-chart v-if="charts.categoryOrder.ajaxLoaded" type="bar" ref="categoryOrder" :data="charts.categoryOrder" :option="charts.Options"></vue-chart>
+                    <vue-chart v-if="charts.categoryOrder.ajaxLoaded" type="bar" ref="categoryOrder" :data="charts.categoryOrder" :options="charts.Options"></vue-chart>
                     <div v-else class="text-center">
                         <img src="/images/loading.gif" alt="">
                     </div>
                 </div>            
                 <div class="tab-pane" id="productChartTab">
-                    <vue-chart v-if="charts.products.ajaxLoaded" type="bar" ref="products" :data="charts.products" :option="charts.Options"></vue-chart>
+                    <vue-chart v-if="charts.products.ajaxLoaded" type="bar" ref="products" :data="charts.products" :options="charts.Options"></vue-chart>
                     <div v-else class="text-center">
                         <img src="/images/loading.gif" alt="">
                     </div>
@@ -99,7 +99,8 @@ import VueChart from 'vue-chart';
                         scales: {
                             yAxes: [{
                                 ticks: {
-                                    beginAtZero:true
+                                    beginAtZero:true,
+                                    stepSize: 1
                                 },
                                 scaleLabel: {
                                     display: true,

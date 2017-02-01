@@ -58,6 +58,9 @@
                 $.ajax({
                     url: window.apiUrl + '/products/' + product._id,
                     type: 'DELETE',
+                    contentType: 'application/json',
+                    data: JSON.stringify(product),
+                    dataType: 'json',
                     success: function(data, status, jqXHR){
                         if(jqXHR.status == 204){
                             self.products.splice(self.products.indexOf(product), 1);

@@ -16,7 +16,7 @@ module.exports = class Model extends BaseModel {
         this.schema = schema;
 
         this.hasCreatedAt = false;
-        this.hasDeletedAt = false; // TODO: Figure out if we still need to implement soft deletes
+        this.hasDeletedAt = false;
     }
 
     /**
@@ -108,8 +108,22 @@ module.exports = class Model extends BaseModel {
      * @return {Promise}
      */
     destroy() {
-        if (!this.validateId()) return Promise.reject(new Error('Invalid ObjectId'));
+        this.sanitize();
 
-        return super.destroy({ _id: new ObjectId(this.document._id) })
+        let id = this.params.id;
+
+        // fallback
+        if (id == null) {
+            id = this.document._id;
+        }
+
+        if (!this.validateId(id)) return Promise.reject(new Error('Invalid ObjectId'));
+
+        if(this.hasDeletedAt) {
+            this.document.DeletedAt = Math.floor(new Date() / 1000);
+            return this.update()
+        }
+
+        return super.destroy({ _id: new ObjectId(id) })
     }
 };

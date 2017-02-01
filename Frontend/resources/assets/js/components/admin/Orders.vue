@@ -3,7 +3,7 @@
         <h2 class="title text-center">Beheer</h2>
         <div class="row">
             <div class="col-sm-9">
-                <h3>All Orders</h3>
+                <h3>Alle bestellingen</h3>
             </div>
         </div>
         <div v-if="orders.length > 0" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -11,7 +11,7 @@
                 <div class="panel-heading" role="tab" :id="'heading-' + index">
                 <h4 class="panel-title">
                     <a role="button" data-toggle="collapse" data-parent="#accordion" :href="'#collapse-' + index" aria-expanded="true" :aria-controls="'#collapse-' + index">
-                    Order #{{orders.length - index }}
+                    Order #{{orders.length - index }} {{ date(order.Products[0].OrderDate) }}
                     </a>
                     <span class="pull-right">€ {{ order.TotalPrice }}</span>
                 </h4>
@@ -72,9 +72,11 @@
                 </div>
             </div>
         </div>
-        <p>
-            U heeft geen orders.
-        </p>
+        <div v-else>
+            <p>
+                Er zijn geen bestellingen geplaatst.
+            </p>
+        </div>
     </div>
 </template>
 
@@ -96,7 +98,9 @@
             }
         },
         methods:{
-            
+            date: function (date) {
+                return moment((date*1000)).format('MMMM Do YYYY, h:mm:ss a');
+            }
         }
     }
 </script>

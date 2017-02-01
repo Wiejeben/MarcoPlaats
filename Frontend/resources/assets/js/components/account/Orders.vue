@@ -1,9 +1,9 @@
 <template>
     <div class="items"><!--features_items-->
-        <h2 class="title text-center">Orders</h2>
+        <h2 class="title text-center">Bestellingen</h2>
         <div class="row">
             <div class="col-sm-9">
-                <h3>Orders</h3>
+                <h3>Bestellingen</h3>
             </div>
         </div>
         <div v-if="Orders.length > 0" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -77,9 +77,11 @@
                 </div>
             </div>
         </div>
-        <p>
-            U heeft geen orders.
-        </p>
+        <div v-else>
+            <p>
+                U heeft geen orders.
+            </p>
+        </div>
     </div>
 </template>
 <script>
@@ -117,7 +119,7 @@
                     success: function(data) {
                         if(data){
                             self.favorites.push(id);
-                            NewAlert('success', 'Product succesvol toegevoegd aan favorieten!');
+                            NewAlert('success', 'Het product succesvol toegevoegd aan uw favorieten!');
                         } else {
                             NewAlert('error', 'Er is iets fout gegaan');
                         }
@@ -129,12 +131,15 @@
                 $.ajax({
                     url: window.apiUrl+'/users/'+window.User._id + '/favorites/' + id,
                     type: 'DELETE',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ ProductId: id }),
+                    dataType: 'Json',
                     success: function(data) {
                         if(data){
                             self.favorites.splice(self.favorites.indexOf(id), 1);
-                            NewAlert('success', 'Product succesvol verwijdert uit favorieten!');
+                            NewAlert('success', 'Het product succesvol verwijderd uit uw favorieten!');
                         } else {
-                            NewAlert('error', 'Er is iets fout gegaan');
+                            NewAlert('error', 'Er is iets mis gegaan.');
                         }
                     }
                 });

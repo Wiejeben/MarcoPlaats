@@ -55,12 +55,15 @@
                 $.ajax({
                     url: window.apiUrl + '/categories/' + categorie._id,
                     type: 'DELETE',
-                    success: function(data){
-                        if(data){
+                    contentType: 'application/json',
+                    data: JSON.stringify(categorie),
+                    dataType: 'json',                    
+                    success: function(data, status, jqXHR){
+                        if(jqXHR.status == 204){
                             self.categories.splice(self.categories.indexOf(categorie), 1);
-                            NewAlert('success', 'Categorie succesvol verwijdert!');
+                            NewAlert('success', 'Categorie succesvol verwijderd!');
                         } else {
-                            NewAlert('error', 'Er is iets fout gegaan');
+                            NewAlert('error', 'Er is iets mis gegaan!');
                         }
                     }
                 });

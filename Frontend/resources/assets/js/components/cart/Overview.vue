@@ -37,12 +37,12 @@
                             <td class="cart_description">
                                 <h4>
                                     <a :href="'/product.html?id=' + product._id">
-                                        {{product.Name}}
+                                        {{ product.Name }}
                                     </a>
                                 </h4>
                             </td>
                             <td class="cart_price">
-                                <p>&euro;{{product.Price}}</p>
+                                <p>&euro; {{ product.Price }}</p>
                             </td>
                             <td class="cart_quantity">
                                 <div class="cart_quantity_button">
@@ -52,7 +52,7 @@
                                 </div>
                             </td>
                             <td class="cart_total">
-                                <p class="cart_total_price">&euro;{{product.Price * products[product._id]}}</p>
+                                <p class="cart_total_price">&euro; {{ product.Price * products[product._id] }}</p>
                             </td>
                             <td class="cart_delete">
                                 <a class="cart_quantity_delete" href="" @click.prevent="deleteLine(product._id)"><i class="fa fa-times"></i></a>
@@ -62,7 +62,7 @@
                             <td>&nbsp;</td>
                             <td><h4>Sub totaal</h4></td>
                             <td colspan="2">&nbsp;</td>
-                            <td>&euro;{{sum}}</td>
+                            <td>&euro; {{ sum }}</td>
                         </tr>
                         <tr class="shipping-cost">
                             <td>&nbsp;</td>
@@ -74,7 +74,7 @@
                             <td>&nbsp;</td>
                             <td><h4>Totaal</h4></td>
                             <td colspan="2">&nbsp;</td>
-                            <td><span>&euro;{{sum}}</span></td>
+                            <td><span>&euro; {{ sum }}</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -87,7 +87,7 @@
                 <a class="btn btn-primary" href="/">Terug</a>
                 <div v-if="cart.length > 0">
                     <a v-if="loggedIn" class="btn btn-primary pull-right" href="details.html">Bestellen</a>
-                    <a v-else class="btn btn-primary pull-right" href="http://localhost:8080/auth">Bestellen</a>
+                    <a v-else class="btn btn-primary pull-right" :href="apiUrl + '/auth'">Bestellen</a>
                 </div>
             </div>
         </div><!--/#do_action-->
@@ -104,7 +104,7 @@
             eventHub.$on('user-detected', this.setUser);
 
             var products = localStorage.getItem('cart');
-            if(products !== undefined) {
+            if(products !== null) {
                 products = JSON.parse(products);
                 var keys = Object.keys(products);
 
@@ -128,7 +128,8 @@
             return {
                 cart: [],
                 products: [],
-                user: null
+                user: null,
+                apiUrl: window.apiUrl
             }
         },
 
@@ -151,7 +152,7 @@
             products: {
                 handler(products) {
                     // Update localStorage
-                    localStorage.setItem("cart", JSON.stringify(products))
+                    this.updateStorage(products);
                 },
                 deep: true
             }
@@ -160,6 +161,10 @@
         methods: {
             setUser(user) {
                 this.user = user;
+            },
+
+            updateStorage(products) {
+                localStorage.setItem("cart", JSON.stringify(products))
             },
 
             updateQuantityInput(product){
@@ -181,6 +186,8 @@
 
                     // Delete from localStorage
                     delete this.products[productId];
+
+                    this.updateStorage(this.products);
 
                     NewAlert('success', 'Product succesvol verwijderd van winkelwagen!');
                 }

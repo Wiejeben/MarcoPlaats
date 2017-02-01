@@ -1,9 +1,9 @@
 <template>
     <div class="items"><!--features_items-->
-        <h2 class="title text-center">Orders</h2>
+        <h2 class="title text-center">Verkochte producten</h2>
         <div class="row">
             <div class="col-sm-9">
-                <h3>Orders</h3>
+                <h3>Verkochte producten</h3>
             </div>
         </div>
         <div v-if="Orders.length > 0" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -72,7 +72,7 @@
                 </div>
             </div>
         </div>
-        <p>
+        <p v-else>
             U heeft geen orders.
         </p>
     </div>

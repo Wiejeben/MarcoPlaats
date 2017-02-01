@@ -69,7 +69,7 @@
                                 <a :href="'/product.html?id=' + product._id">{{product.Name}}</a>
                             </td>
                             <td>
-                                <p>€{{product.Price}}</p>
+                                <p>€ {{ product.Price }}</p>
                             </td>
                         </tr>
                     </tbody>

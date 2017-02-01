@@ -16,7 +16,9 @@ schemas = {
             Address: null,
             City: null,
             Zipcode: null,
-        }
+        },
+        CreatedAt: null,
+        DeletedAt: null
     },
     User: {
         FirstName: null,
@@ -36,6 +38,8 @@ schemas = {
             City: null,
             Zipcode: null,
         },
+        CreatedAt: null,
+        DeletedAt: null,
         Orders: [],
         ProductIds: [],
         WishlistProductIds: [],

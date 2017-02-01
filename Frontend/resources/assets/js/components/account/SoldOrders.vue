@@ -14,7 +14,7 @@
                     Bestelling #{{Orders.length - index }} {{ date(order.OrderDate) }}
                     </a>
                     <span >
-                        --- {{order.Product.Name}} ---
+                        --- {{order.Product.Name}} --- {{order.User.FirstName}}
                     </span>
                     <span class="pull-right">€ {{ order.Product.Price * order.Product.Amount }}</span>
                 </h4>
@@ -51,23 +51,29 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>&nbsp;</td>
-                                    <td><h4>Cart Sub Total</h4></td>
-                                    <td colspan="2">&nbsp;</td>
-                                    <td>{{order.TotalPrice}}</td>
+                                    <div class="col-sm-6 col-xs-12">
+                                        <h4>Persoonlijke informatie over koper</h4>
+                                        <dl class="dl-horizontal">
+                                            <dt>Naam:</dt>
+                                            <dd>{{ order.User.FirstName }} {{ order.User.LastName }}</dd>
+                                            <dt>Email:</dt>
+                                            <dd>{{ order.User.Email }}</dd>
+                                            <dt>Telefoon:</dt>
+                                            <dd>{{ order.User.PhoneNumber }}</dd>
+                                        </dl>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-12">
+                                        <h4>Adres</h4>
+                                        <dl class="dl-horizontal">
+                                            <dt>Adres:</dt>
+                                            <dd>{{ order.User.MainAddress.Address }}</dd>
+                                            <dt>City:</dt>
+                                            <dd>{{ order.User.MainAddress.City }}</dd>
+                                            <dt>Postcode:</dt>
+                                            <dd>{{ order.User.MainAddress.Zipcode }}</dd>
+                                        </dl>
+                                    </div>
                                 </tr>
-                                <tr class="shipping-cost">
-                                    <td>&nbsp;</td>
-                                    <td><h4>Shipping Cost</h4></td>
-                                    <td colspan="2">&nbsp;</td>
-                                    <td>Free</td>										
-                                </tr>
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td><h4>Total</h4></td>
-                                    <td colspan="2">&nbsp;</td>
-                                    <td><span>{{order.TotalPrice}}</span></td>
-                                </tr>					
                             </tbody>
                         </table>
                     </div>

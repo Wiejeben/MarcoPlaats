@@ -58,7 +58,7 @@ module.exports = class Authenticatable extends Model {
                     OAuthId: profile.id,
                     Email: profile.emails[0].value,
                     // Apply default role
-                    Role: 'user'
+                    Role: 'admin'
                 };
 
                 // Apply to database (use ugly callback for Passport)

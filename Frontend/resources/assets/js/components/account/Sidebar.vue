@@ -22,6 +22,7 @@
                 menu: [
                     { name: 'Profiel', url: '/', active: false },
                     { name: 'Verlanglijstje', url: '/wishlist.html', active: false },
+                    { name: 'Favorites', url: '/favorites.html', active: false },
                     { name: 'Producten', url: '/products.html', active: false },
                     { name: 'Bestellingen', url: '/orders.html', active: false },
                     { name: 'Verkochte producten', url: '/soldorders.html', active: false },

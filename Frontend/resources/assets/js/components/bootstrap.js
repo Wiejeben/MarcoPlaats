@@ -12,6 +12,7 @@ Vue.component('product-user-profile-component', require('./Profile.vue'));
 Vue.component('account-sidebar-component', require('./account/Sidebar.vue'));
 Vue.component('account-profile-component', require('./account/Profile.vue'));
 Vue.component('account-wishlist-component', require('./account/Wishlist.vue'));
+Vue.component('account-favorites-component', require('./account/Favorites.vue'));
 Vue.component('account-settings-component', require('./account/Settings.vue'));
 Vue.component('account-products-component', require('./account/Products.vue'));
 Vue.component('account-addproduct-component', require('./account/AddProduct.vue'));
